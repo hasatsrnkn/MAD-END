@@ -4,13 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
+import scenes.MainMenu;
 
 /**
  * Main Menu Buttons
@@ -47,6 +50,7 @@ public class MainMenuButtons {
         stage.addActor( creditsButton );
         stage.addActor( exitButton );
 
+        addListener();
     }
 
     public void createAndPositionButtons() {
@@ -74,6 +78,16 @@ public class MainMenuButtons {
         settingsButton.setPosition( 0, 360);
         creditsButton.setPosition( 0, 175);
         exitButton.setPosition( 0, 0);
+    }
+
+    public void addListener(){
+        exitButton.addListener( new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
     }
 
     public Stage getStage() {
