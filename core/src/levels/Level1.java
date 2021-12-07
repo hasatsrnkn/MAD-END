@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
@@ -28,8 +29,9 @@ public class Level1 implements Screen {
         this.game = game;
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
         world = new World( new Vector2(0 , 0), true );
-        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, "Player/Player.png");
-        mainCamera = new OrthographicCamera( player.getX() * 4f, player.getY() * 4f );
+        player = new Player( world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, "Player/Player.png");
+        mainCamera = new OrthographicCamera( player.getX() * 1.5f , player.getY() * 1.5f );
+        gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
 
     }
 
@@ -37,6 +39,8 @@ public class Level1 implements Screen {
     public void update( float dt ) {
         handleInput( dt );
         moveCamera();
+        player.updateCharacter();
+        mainCamera.update();
     }
 
     public void moveCamera() {
@@ -44,12 +48,29 @@ public class Level1 implements Screen {
         mainCamera.position.y = player.getY();
     }
 
-    public void handleInput( float dt) {
+    public void handleInput( float dt ) {
 
-        if (Gdx.input.isKeyPressed( Input.Keys.W ) ) {
-            player.moveCharacter( player.getBody().getLinearVelocity().x , 5 );
+
+       if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
+               Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
+
+           if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+               player.moveCharacter(player.getBody().getLinearVelocity().x, 3);
+           }
+           if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+               player.moveCharacter(player.getBody().getLinearVelocity().x, -3);
+           }
+           if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+               player.moveCharacter(-3, player.getBody().getLinearVelocity().y);
+           }
+
+           if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+               player.moveCharacter(3, player.getBody().getLinearVelocity().y);
+           }
+       }
+        else {
+            player.moveCharacter( 0 ,0 );
         }
-
 
     }
 
@@ -74,8 +95,8 @@ public class Level1 implements Screen {
         game.getBatch().end(); //End for drawing
 
         game.getBatch().setProjectionMatrix( mainCamera.combined );
-        mainCamera.update();
 
+        world.step( delta, 6 ,2 );
     }
 
     @Override
