@@ -20,6 +20,7 @@ public class Player extends Sprite {
         this.world = world;
         setPosition( x , y );
         createBody();
+        //
     }
 
     public void createBody() {
