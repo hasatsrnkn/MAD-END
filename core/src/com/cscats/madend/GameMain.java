@@ -8,7 +8,6 @@ import scenes.WelcomeScreen;
 
 public class GameMain extends Game {
 	SpriteBatch batch;
-	Texture img;
 	
 	@Override
 	public void create () {

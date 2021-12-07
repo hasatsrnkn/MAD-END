@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
+import levels.Level1;
 import scenes.MainMenu;
 
 /**
@@ -81,6 +82,17 @@ public class MainMenuButtons {
     }
 
     public void addListener(){
+
+
+        startButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen( new Level1( game ) );
+            }
+        });
+
+
+
         exitButton.addListener( new ChangeListener() {
 
             @Override
