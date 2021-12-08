@@ -37,7 +37,7 @@ public class Level1 implements Screen {
 
 
     public void update( float dt ) {
-        handleInput( dt );
+        ((Player)player).handleInput( dt );
         moveCamera();
         player.updateCharacter();
         mainCamera.update();
@@ -57,17 +57,17 @@ public class Level1 implements Screen {
                Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
 
            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-               player.moveCharacter(player.getBody().getLinearVelocity().x, 2.2f);
+               player.moveCharacter(player.getBody().getLinearVelocity().x, GameInfo.MOVESPEED);
            }
            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-               player.moveCharacter(player.getBody().getLinearVelocity().x, -2.2f);
+               player.moveCharacter(player.getBody().getLinearVelocity().x, -GameInfo.MOVESPEED);
            }
            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-               player.moveCharacter(-2.2f, player.getBody().getLinearVelocity().y);
+               player.moveCharacter(-GameInfo.MOVESPEED, player.getBody().getLinearVelocity().y);
            }
 
            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-               player.moveCharacter(2.2f, player.getBody().getLinearVelocity().y);
+               player.moveCharacter(GameInfo.MOVESPEED, player.getBody().getLinearVelocity().y);
            }
        }
 
