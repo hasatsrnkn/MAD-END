@@ -50,27 +50,27 @@ public class Level1 implements Screen {
 
     public void handleInput( float dt ) {
 
-
+    	player.moveCharacter( 0 ,0 );
+    	
+    	
        if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
                Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
 
            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-               player.moveCharacter(player.getBody().getLinearVelocity().x, 3);
+               player.moveCharacter(player.getBody().getLinearVelocity().x, 2.2f);
            }
            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-               player.moveCharacter(player.getBody().getLinearVelocity().x, -3);
+               player.moveCharacter(player.getBody().getLinearVelocity().x, -2.2f);
            }
            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-               player.moveCharacter(-3, player.getBody().getLinearVelocity().y);
+               player.moveCharacter(-2.2f, player.getBody().getLinearVelocity().y);
            }
 
            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-               player.moveCharacter(3, player.getBody().getLinearVelocity().y);
+               player.moveCharacter(2.2f, player.getBody().getLinearVelocity().y);
            }
        }
-        else {
-            player.moveCharacter( 0 ,0 );
-        }
+
 
     }
 
