@@ -1,7 +1,8 @@
 package levels;
 
+import characters.*;
 import characters.Character;
-import characters.Player;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -37,8 +38,8 @@ public class Level1 implements Screen {
         
         world = new World( new Vector2(0 , 0), true );
         
-        player = new Player( GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
-        playerView = new PlayerView( "Player/Player.png", (Player) player, world);
+        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
+        playerView = new PlayerView( "Player/Player.png", (Player) player);
         
         mainCamera = new OrthographicCamera( player.getXPosition() * 1.5f , player.getYPosition() * 1.5f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
@@ -47,9 +48,9 @@ public class Level1 implements Screen {
 
 
     public void update( float dt ) {
-        playerView.handleInput( dt );
+        ((Player)player).handleInput( dt );
         moveCamera();
-        playerView.updateCharacter();
+        ((Player)player).updateCharacter();
         mainCamera.update();
     }
 

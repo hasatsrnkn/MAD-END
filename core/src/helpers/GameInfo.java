@@ -1,7 +1,7 @@
 package helpers;
 
 /**
- * Game width, height, pixel per meter
+ * Necessary informations about the game.
  * @author Mehmet Hasat Serinkan
  * @date 06.12.2021
  */
