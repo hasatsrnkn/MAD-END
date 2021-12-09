@@ -1,8 +1,8 @@
 package helpers;
 
 /**
- * Game width, height, pixel per meter
- * @author Mehmet Hasat Serinkan
+ * Necessary informations about the game.
+ * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
  * @date 06.12.2021
  */
 public class GameInfo {
