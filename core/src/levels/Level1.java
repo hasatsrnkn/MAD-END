@@ -4,7 +4,6 @@ import characters.*;
 import characters.Character;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,6 +17,12 @@ import helpers.GameInfo;
 import viewers.CharacterView;
 import viewers.PlayerView;
 
+
+/**
+ * Level1 class
+ * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
+ * @date 07.12.2021
+ */
 public class Level1 implements Screen {
 
     //Properties
@@ -48,7 +53,9 @@ public class Level1 implements Screen {
 
 
     public void update( float dt ) {
-        ((Player)player).handleInput( dt );
+    	
+        ((Player)player).handleMoveInput( dt );
+        ((Player)player).handleMouseInput( dt );
         moveCamera();
         ((Player)player).updateCharacter();
         mainCamera.update();
@@ -77,6 +84,7 @@ public class Level1 implements Screen {
         game.getBatch().begin(); //Begin for drawing
 
         game.getBatch().draw( bg, 0, 0);
+        
         playerView.drawCharacter( game.getBatch() );
 
         game.getBatch().end(); //End for drawing
