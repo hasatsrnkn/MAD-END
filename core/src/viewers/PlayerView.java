@@ -28,6 +28,7 @@ public class PlayerView extends CharacterView {
 		
 		this.setRotation((float) ((Player)this.getCharacter()).rotation);
 		this.draw(spriteBatch);
+
 		
 	}
 		

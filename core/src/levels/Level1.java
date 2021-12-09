@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -34,7 +35,7 @@ public class Level1 implements Screen {
     private World world;
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
-    
+    private Vector3 vector3;
 
     public Level1( GameMain game ) {
     	
@@ -46,18 +47,18 @@ public class Level1 implements Screen {
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
-        mainCamera = new OrthographicCamera( player.getXPosition() * 1.5f , player.getYPosition() * 1.5f );
+        mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
-
+        vector3 = new Vector3( 0, 0, 0);
     }
 
 
     public void update( float dt ) {
     	
         ((Player)player).handleMoveInput( dt );
-        ((Player)player).handleMouseInput( dt );
+        ((Player)player).handleMouseInput( dt, vector3.x, vector3.y);
+        player.updateCharacter();
         moveCamera();
-        ((Player)player).updateCharacter();
         mainCamera.update();
     }
 
@@ -67,6 +68,13 @@ public class Level1 implements Screen {
         
     }
 
+    public OrthographicCamera getMainCamera() {
+        return mainCamera;
+    }
+
+    public Viewport getGameViewport() {
+        return gameViewport;
+    }
 
     @Override
     public void show() {
@@ -90,6 +98,9 @@ public class Level1 implements Screen {
         game.getBatch().end(); //End for drawing
 
         game.getBatch().setProjectionMatrix( mainCamera.combined );
+
+        vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
+        mainCamera.unproject(vector3);
 
         world.step( delta, 6 ,2 );
     }

@@ -27,7 +27,6 @@ public class CharacterView extends Sprite{
 				
 		character.setHeight(getHeight());
 		character.setWidth(getWidth());
-	
 
 	}
 	
