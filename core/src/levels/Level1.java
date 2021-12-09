@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
+import viewers.CharacterView;
+import viewers.PlayerView;
 
 public class Level1 implements Screen {
 
@@ -21,58 +23,42 @@ public class Level1 implements Screen {
     private GameMain game;
     private Texture bg;
     private Character player;
+    private CharacterView characterView;
+    private PlayerView playerView;
     private World world;
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
+    
 
     public Level1( GameMain game ) {
+    	
         this.game = game;
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
+        
         world = new World( new Vector2(0 , 0), true );
-        player = new Player( world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, "Player/Player.png");
-        mainCamera = new OrthographicCamera( player.getX() * 1.5f , player.getY() * 1.5f );
+        
+        player = new Player( GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
+        playerView = new PlayerView( "Player/Player.png", (Player) player, world);
+        
+        mainCamera = new OrthographicCamera( player.getXPosition() * 1.5f , player.getYPosition() * 1.5f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
 
     }
 
 
     public void update( float dt ) {
-        handleInput( dt );
+        playerView.handleInput( dt );
         moveCamera();
-        player.updateCharacter();
+        playerView.updateCharacter();
         mainCamera.update();
     }
 
     public void moveCamera() {
-        mainCamera.position.x = player.getX();
-        mainCamera.position.y = player.getY();
+        mainCamera.position.x = player.getXPosition();
+        mainCamera.position.y = player.getYPosition();
+        
     }
 
-    public void handleInput( float dt ) {
-
-
-       if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
-               Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
-
-           if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-               player.moveCharacter(player.getBody().getLinearVelocity().x, 3);
-           }
-           if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-               player.moveCharacter(player.getBody().getLinearVelocity().x, -3);
-           }
-           if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-               player.moveCharacter(-3, player.getBody().getLinearVelocity().y);
-           }
-
-           if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-               player.moveCharacter(3, player.getBody().getLinearVelocity().y);
-           }
-       }
-        else {
-            player.moveCharacter( 0 ,0 );
-        }
-
-    }
 
     @Override
     public void show() {
@@ -90,7 +76,7 @@ public class Level1 implements Screen {
         game.getBatch().begin(); //Begin for drawing
 
         game.getBatch().draw( bg, 0, 0);
-        player.drawCharacter( game.getBatch() );
+        playerView.drawCharacter( game.getBatch() );
 
         game.getBatch().end(); //End for drawing
 
