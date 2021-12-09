@@ -19,7 +19,7 @@ import characters.Character;
 import helpers.GameInfo;
 
 /**
- * @author yusufbalasar
+ * @author Mehmet Eren Balasar
  *
  */
 public class CharacterView extends Sprite{

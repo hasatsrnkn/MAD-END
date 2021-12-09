@@ -27,12 +27,12 @@ public class Character {
 	}
 
     public float getXPosition() {
-		// TODO Auto-generated method stub
+		
 		return this.xPosition;
 	}
 
     public float getYPosition() {
-		// TODO Auto-generated method stub
+		
 		return this.yPosition;
 	}
     
