@@ -13,9 +13,41 @@ import helpers.GameInfo;
 public class Player extends Character {
 
 
-    public Player(  float x, float y) {
-        super( x, y);
+    public Player(World w, float x, float y) {
+    	
+        super(w, x, y);
     }
+    
+	public void handleInput(float dt) {
+
+    	moveCharacter( 0 ,0 );
+    	
+        if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
+                Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
+
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            	
+            	moveCharacter(this.getBody().getLinearVelocity().x, GameInfo.MOVESPEED);
+            }
+            
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            	
+            	moveCharacter(this.getBody().getLinearVelocity().x, -GameInfo.MOVESPEED);
+            }
+            
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            	
+            	moveCharacter(-GameInfo.MOVESPEED, this.getBody().getLinearVelocity().y);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            	
+            	moveCharacter(GameInfo.MOVESPEED, this.getBody().getLinearVelocity().y);
+            }
+        }
+
+    }
+
     
    
 }
