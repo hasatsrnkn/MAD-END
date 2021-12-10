@@ -3,8 +3,18 @@ package characters;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
+
+
+
+/**
+ * A class for characters
+ * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
+ * @date 07.12.2021
+ */
 
 public class Character {
     
@@ -14,6 +24,8 @@ public class Character {
 	private float yPosition;
 	private float height;
 	private float width;
+	private Vector2 directionVector;
+	private boolean isWalking;
     
     
     public Character(World world, float initialX, float initialY) {
@@ -24,9 +36,11 @@ public class Character {
     	
     	this.setPosition(initialX, initialY);
     	
+    	directionVector = new Vector2();
+		isWalking = false;
     	createBody();
     	updateCharacter();
-    	
+    	directionVector.setAngleDeg(45f);
     }
     
     
@@ -55,6 +69,8 @@ public class Character {
 	public void moveCharacter( float x, float y ) {
 		
 	    body.setLinearVelocity( x , y );
+		isWalking = true;
+
 	}
 	
 	public void updateCharacter() {
@@ -103,4 +119,11 @@ public class Character {
     	return this.width;
     }
 
+	public boolean isWalking() {
+		return isWalking;
+	}
+
+	public void setWalking( boolean isWalking ) {
+		this.isWalking = isWalking;
+	}
 }

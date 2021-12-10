@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import levels.Level1;
+import scenes.CreditsScreen;
 import scenes.MainMenu;
 
 /**
@@ -91,6 +92,12 @@ public class MainMenuButtons {
             }
         });
 
+        creditsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen( new CreditsScreen( game ) );
+            }
+        });
 
 
         exitButton.addListener( new ChangeListener() {
