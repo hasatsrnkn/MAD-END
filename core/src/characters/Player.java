@@ -29,12 +29,14 @@ public class Player extends Character {
 	public void handleMoveInput(float dt) {
 
     	moveCharacter( 0 ,0 );
+        setWalking(false );
     	
         if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
                 Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
 
+
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            	
+
             	moveCharacter(this.getBody().getLinearVelocity().x, GameInfo.MOVESPEED);
 
             }

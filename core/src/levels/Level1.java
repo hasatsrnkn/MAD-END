@@ -68,14 +68,6 @@ public class Level1 implements Screen {
         
     }
 
-    public OrthographicCamera getMainCamera() {
-        return mainCamera;
-    }
-
-    public Viewport getGameViewport() {
-        return gameViewport;
-    }
-
     @Override
     public void show() {
 
@@ -93,7 +85,8 @@ public class Level1 implements Screen {
 
         game.getBatch().draw( bg, 0, 0);
         
-        playerView.drawCharacter( game.getBatch() );
+        playerView.drawPlayer( game.getBatch() );
+        playerView.drawPlayerAnimation(game.getBatch());
 
         game.getBatch().end(); //End for drawing
 

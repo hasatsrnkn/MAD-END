@@ -25,7 +25,7 @@ public class Character {
 	private float height;
 	private float width;
 	private Vector2 directionVector;
-
+	private boolean isWalking;
     
     
     public Character(World world, float initialX, float initialY) {
@@ -37,7 +37,7 @@ public class Character {
     	this.setPosition(initialX, initialY);
     	
     	directionVector = new Vector2();
-
+		isWalking = false;
     	createBody();
     	updateCharacter();
     	directionVector.setAngleDeg(45f);
@@ -69,6 +69,7 @@ public class Character {
 	public void moveCharacter( float x, float y ) {
 		
 	    body.setLinearVelocity( x , y );
+		isWalking = true;
 
 	}
 	
@@ -118,16 +119,11 @@ public class Character {
     	return this.width;
     }
 
-
-	public Vector2 getDirectionVector() {
-		
-		return directionVector;
+	public boolean isWalking() {
+		return isWalking;
 	}
 
-
-	public void setDirectionVector(Vector2 vector) {
-		
-		directionVector.set(vector);
+	public void setWalking( boolean isWalking ) {
+		this.isWalking = isWalking;
 	}
-
 }
