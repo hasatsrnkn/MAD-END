@@ -11,6 +11,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 import levels.Level1;
 
+
+import java.util.ArrayList;
+
 /**
  * A class for player
  * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
@@ -23,10 +26,10 @@ public class Player extends Character {
     public Player(World w, float x, float y) {
     	
         super(w, x, y);
-
     }
     
 	public void handleMoveInput(float dt) {
+
 
     	moveCharacter( 0 ,0 );
         setWalking(false );
@@ -69,5 +72,5 @@ public class Player extends Character {
 
 		
 	}
-	
-}
+
+} //End

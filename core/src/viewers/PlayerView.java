@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import characters.*;
 import helpers.GameInfo;
 
+
 /**
  * PlayerView Class
  * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
@@ -31,8 +32,6 @@ public class PlayerView extends CharacterView {
 		
 		this.setRotation((float) ((Player)this.getCharacter()).rotation);
 
-
-		
 	}
 
 

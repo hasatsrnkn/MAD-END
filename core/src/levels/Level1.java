@@ -120,6 +120,7 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
+        bg.dispose();
 
     }
 }

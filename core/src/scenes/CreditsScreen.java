@@ -80,5 +80,6 @@ public class CreditsScreen implements Screen {
     @Override
     public void dispose() {
         bg.dispose();
+        button.getStage().dispose();
     }
 }
