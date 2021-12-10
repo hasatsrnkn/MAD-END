@@ -9,23 +9,19 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
-import huds.MainMenuButtons;
+import huds.BackButton;
+import huds.WelcomeScreenButtons;
 
-/**
- * Main Menu
- * @author Mehmet Hasat Serinkan
- * @date 07.12.2021
- */
-public class MainMenu implements Screen {
+public class CreditsScreen implements Screen {
 
     //Properties
     private GameMain game;
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
     private Texture bg;
-    private MainMenuButtons buttons;
+    private BackButton button;
 
-    public MainMenu( GameMain game) {
+    public CreditsScreen( GameMain game ) {
         this.game = game;
 
         mainCamera = new OrthographicCamera();
@@ -34,11 +30,10 @@ public class MainMenu implements Screen {
 
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
 
-        bg = new Texture( "Backgrounds/Main Menu.png" );
-        buttons = new MainMenuButtons( game );
+        bg = new Texture( "Backgrounds/Credits.png" );
+        button = new BackButton( game );
 
     }
-
 
 
 
@@ -58,8 +53,8 @@ public class MainMenu implements Screen {
 
         game.getBatch().end(); //End for drawing
 
-        game.getBatch().setProjectionMatrix( buttons.getStage().getCamera().combined);
-        buttons.getStage().draw();
+        game.getBatch().setProjectionMatrix( button.getStage().getCamera().combined);
+        button.getStage().draw();
     }
 
     @Override
@@ -79,15 +74,12 @@ public class MainMenu implements Screen {
 
     @Override
     public void hide() {
-    	
-        bg.dispose();
-        buttons.getStage().dispose();
+
     }
 
     @Override
     public void dispose() {
         bg.dispose();
-        buttons.getStage().dispose();
+        button.getStage().dispose();
     }
-
-} //End of Main Menu
+}

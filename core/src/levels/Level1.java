@@ -40,6 +40,7 @@ public class Level1 implements Screen {
     public Level1( GameMain game ) {
     	
         this.game = game;
+        
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
         
         world = new World( new Vector2(0 , 0), true );
@@ -68,14 +69,6 @@ public class Level1 implements Screen {
         
     }
 
-    public OrthographicCamera getMainCamera() {
-        return mainCamera;
-    }
-
-    public Viewport getGameViewport() {
-        return gameViewport;
-    }
-
     @Override
     public void show() {
 
@@ -89,18 +82,21 @@ public class Level1 implements Screen {
         Gdx.gl.glClearColor( 1, 0, 0, 1 );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
+        mainCamera.unproject(vector3);
+        
         game.getBatch().begin(); //Begin for drawing
 
         game.getBatch().draw( bg, 0, 0);
         
-        playerView.drawCharacter( game.getBatch() );
+        playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
+        playerView.drawCharacterAnimation(game.getBatch());
 
         game.getBatch().end(); //End for drawing
 
         game.getBatch().setProjectionMatrix( mainCamera.combined );
 
-        vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
-        mainCamera.unproject(vector3);
+
 
         world.step( delta, 6 ,2 );
     }
@@ -127,6 +123,7 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
-
+        
+    	bg.dispose();
     }
 }

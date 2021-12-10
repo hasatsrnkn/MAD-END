@@ -1,13 +1,7 @@
 package characters;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
-
 
 
 /**
@@ -18,14 +12,14 @@ import helpers.GameInfo;
 
 public class Character {
     
-	private World world;
+	private final World world;
 	private Body body;
 	private float xPosition;
 	private float yPosition;
 	private float height;
 	private float width;
-	private Vector2 directionVector;
-
+	private float rotationDeg;
+	private boolean isMoving;
     
     
     public Character(World world, float initialX, float initialY) {
@@ -35,12 +29,10 @@ public class Character {
     	this.setWidth(10 /* just an initialization */ );
     	
     	this.setPosition(initialX, initialY);
-    	
-    	directionVector = new Vector2();
 
+		isMoving = false;
     	createBody();
     	updateCharacter();
-    	directionVector.setAngleDeg(45f);
     }
     
     
@@ -69,6 +61,8 @@ public class Character {
 	public void moveCharacter( float x, float y ) {
 		
 	    body.setLinearVelocity( x , y );
+		isMoving = true;
+		updateCharacter();
 
 	}
 	
@@ -79,7 +73,7 @@ public class Character {
     
 	public Body getBody() {
 		
-		return body;
+		return this.body;
 	}
 
     public void setPosition(float x, float y) {
@@ -118,16 +112,23 @@ public class Character {
     	return this.width;
     }
 
-
-	public Vector2 getDirectionVector() {
+	public boolean isMoving() {
 		
-		return directionVector;
+		return isMoving;
 	}
 
-
-	public void setDirectionVector(Vector2 vector) {
+	public void setMoving( boolean isWalking ) {
 		
-		directionVector.set(vector);
+		this.isMoving = isWalking;
 	}
-
+	
+    public float getRotationDeg() {
+    	
+    	return this.rotationDeg;
+    }
+    
+    public void setRotationDeg(float degrees) {
+    	
+    	this.rotationDeg = degrees;
+    }
 }
