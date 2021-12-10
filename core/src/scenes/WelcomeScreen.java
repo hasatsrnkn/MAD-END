@@ -58,6 +58,7 @@ public class WelcomeScreen implements Screen {
         game.getBatch().setProjectionMatrix( button.getStage().getCamera().combined);
         button.getStage().draw();
 
+
     }
 
     @Override
@@ -77,13 +78,13 @@ public class WelcomeScreen implements Screen {
 
     @Override
     public void hide() {
-
+        bg.dispose();
+        button.getStage().dispose();
     }
 
     @Override
     public void dispose() {
-        bg.dispose();
-        button.getStage().dispose();
+
     }
 
 

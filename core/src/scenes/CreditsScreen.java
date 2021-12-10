@@ -74,12 +74,12 @@ public class CreditsScreen implements Screen {
 
     @Override
     public void hide() {
-
+        bg.dispose();
+        button.getStage().dispose();
     }
 
     @Override
     public void dispose() {
-        bg.dispose();
-        button.getStage().dispose();
+
     }
 }

@@ -41,9 +41,10 @@ public class MainMenuButtons {
 
         stage = new Stage( gameViewport, game.getBatch() );
 
-        Gdx.input.setInputProcessor( stage );
 
         createAndPositionButtons();
+
+        Gdx.input.setInputProcessor( stage );
 
         stage.addActor( startButton );
         stage.addActor( loadButton );
@@ -80,6 +81,7 @@ public class MainMenuButtons {
         settingsButton.setPosition( 0, 360);
         creditsButton.setPosition( 0, 175);
         exitButton.setPosition( 0, 0);
+
     }
 
     public void addListener(){

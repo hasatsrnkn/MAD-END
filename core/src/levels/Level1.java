@@ -38,7 +38,8 @@ public class Level1 implements Screen {
     private Vector3 vector3;
 
     public Level1( GameMain game ) {
-    	
+
+
         this.game = game;
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
         
