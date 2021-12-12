@@ -116,7 +116,7 @@ public class Level1 implements Screen {
 
     @Override
     public void hide() {
-
+        bg.dispose();
     }
 
     @Override

@@ -30,7 +30,6 @@ public class Player extends Character {
     
 	public void handleMoveInput(float dt) {
 
-
     	moveCharacter( 0 ,0 );
         setWalking(false );
     	
@@ -69,7 +68,6 @@ public class Player extends Character {
 	public void handleMouseInput(float dt, float mouseX, float mouseY ) {
 
 		rotation =  MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition() + (getHeight() / 2)  , mouseX - this.getXPosition() + (getWidth() / 2)   );
-
 		
 	}
 
