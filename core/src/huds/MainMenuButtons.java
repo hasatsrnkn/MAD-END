@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import levels.Level1;
+import scenes.CreditsScreen;
 import scenes.MainMenu;
 
 /**
@@ -40,9 +41,10 @@ public class MainMenuButtons {
 
         stage = new Stage( gameViewport, game.getBatch() );
 
-        Gdx.input.setInputProcessor( stage );
 
         createAndPositionButtons();
+
+        Gdx.input.setInputProcessor( stage );
 
         stage.addActor( startButton );
         stage.addActor( loadButton );
@@ -55,6 +57,7 @@ public class MainMenuButtons {
     }
 
     public void createAndPositionButtons() {
+    	
         startButton = new ImageButton( new SpriteDrawable( new Sprite(
                 new Texture("Buttons/Main Menu/Start Game Button.png" ))));
 
@@ -79,6 +82,7 @@ public class MainMenuButtons {
         settingsButton.setPosition( 0, 360);
         creditsButton.setPosition( 0, 175);
         exitButton.setPosition( 0, 0);
+
     }
 
     public void addListener(){
@@ -91,6 +95,12 @@ public class MainMenuButtons {
             }
         });
 
+        creditsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen( new CreditsScreen( game ) );
+            }
+        });
 
 
         exitButton.addListener( new ChangeListener() {
