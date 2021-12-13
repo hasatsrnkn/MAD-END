@@ -8,12 +8,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-
 import characters.Character;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-
-
 /**
  * Character View Class
  * @author Mehmet Eren Balasar/Mehmet Hasat Serinkan
@@ -27,8 +24,8 @@ public class CharacterView extends Sprite{
 	private TextureRegion currentFrame;
 	private Sprite currentSprite;
 	private float elapsedTime;
+  private Box2DDebugRenderer bodyRenderer;
 
-    private Box2DDebugRenderer bodyRenderer;
 	
 	public CharacterView(String textureFileName, Character ch, String atlasFileName) {
 		
@@ -56,13 +53,15 @@ public class CharacterView extends Sprite{
 		character.updateCharacter();
 
 		if ( !character.isMoving() ) {
+
 			this.setPosition(character.getXPosition() - character.getWidth() / 2f,
 					character.getYPosition() - character.getHeight() / 2f);
 
 			this.draw( spriteBatch );
 		}
-		
+	
 		this.setRotation((float) this.getCharacter().getRotationDeg());
+
 
     }
 
@@ -72,9 +71,8 @@ public class CharacterView extends Sprite{
 	public void drawCharacterAnimation( SpriteBatch spriteBatch ) {
 		character.updateCharacter();
 
-
 		if (character.isMoving()) {
-			
+
 			elapsedTime = elapsedTime + Gdx.graphics.getDeltaTime();
 			animation = new Animation(1f / 15f, characterAtlas.getRegions());
 			currentFrame = (TextureRegion) animation.getKeyFrame( elapsedTime, true);
@@ -84,8 +82,8 @@ public class CharacterView extends Sprite{
 					character.getYPosition() - getHeight() / 2f );
 
 			currentSprite.setRotation( (float) ((Player)this.getCharacter() ).getRotationDeg() );
-			currentSprite.draw( spriteBatch );
 
+			currentSprite.draw( spriteBatch );
 		}
 	}
 	
@@ -95,7 +93,7 @@ public class CharacterView extends Sprite{
 		bodyRenderer = new Box2DDebugRenderer();
 		bodyRenderer.render(character.getWorld(), camera.combined);
 	}
-	
+
 
 	public Character getCharacter() {
 		

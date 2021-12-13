@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import characters.*;
 
-
 /**
  * PlayerView Class
  * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
@@ -26,7 +25,6 @@ public class PlayerView extends CharacterView {
 	public void drawPlayer(SpriteBatch spriteBatch) {
 
 		super.drawCharacter(spriteBatch);
-		
 		//TODO additional player drawings?
 	}
 
@@ -37,6 +35,7 @@ public class PlayerView extends CharacterView {
 
 		if (this.getCharacter().isMoving()) {
 			
+
 			setElapsedTime( getElapsedTime() + Gdx.graphics.getDeltaTime() );
 			setAnimation( new Animation(1f / 15f, getCharacterAtlas().getRegions() ) );
 			setCurrentFrame( (TextureRegion) getAnimation().getKeyFrame( getElapsedTime(), true) );
@@ -46,7 +45,9 @@ public class PlayerView extends CharacterView {
 			getCurrentSprite().setPosition( this.getCharacter().getXPosition() - getWidth() / 2f,
 					this.getCharacter().getYPosition() - getHeight() / 2f );
 
+
 			getCurrentSprite().setRotation( (float) ((Player)this.getCharacter() ).getRotationDeg() );
+
 			getCurrentSprite().draw( spriteBatch );
 
 		}

@@ -95,12 +95,10 @@ public class Level1 implements Screen {
         game.getBatch().begin(); //Begin for drawing
 
         game.getBatch().draw( bg, 0, 0);
-        
-        
+      
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
         playerView.drawCharacterAnimation(game.getBatch());
 
-        
         game.getBatch().end(); //End for drawing
 
         game.getBatch().setProjectionMatrix( mainCamera.combined );
@@ -132,7 +130,8 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
-        
+       
     	bg.dispose();
+
     }
 }

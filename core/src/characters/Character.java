@@ -20,6 +20,7 @@ public class Character {
 	private float width;
 	private float rotationDeg;
 	private boolean isMoving;
+
     
     
     public Character(World world, float initialX, float initialY) {
@@ -30,7 +31,7 @@ public class Character {
     	
     	this.setPosition(initialX, initialY);
 
-		isMoving = false;
+		  isMoving = false;
     	createBody();
     	updateCharacter();
     }
@@ -63,8 +64,8 @@ public class Character {
 	public void moveCharacter( float x, float y ) {
 		
 	    body.setLinearVelocity( x , y );
-		isMoving = true;
-		updateCharacter();
+		  isMoving = true;
+		  updateCharacter();
 
 	}
 	
@@ -114,14 +115,15 @@ public class Character {
     	return this.width;
     }
 
+
 	public boolean isMoving() {
 		
 		return isMoving;
 	}
 
-	public void setMoving( boolean isWalking ) {
+	public void setMoving( boolean isMoving ) {
 		
-		this.isMoving = isWalking;
+		this.isMoving = isMoving;
 	}
 	
     public float getRotationDeg() {
@@ -139,4 +141,5 @@ public class Character {
 
 		return this.world;
 	}
+
 }

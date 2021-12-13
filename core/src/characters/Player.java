@@ -7,13 +7,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 
 
+
+import java.util.ArrayList;
+
 /**
  * A class for player
  * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
  * @date 07.12.2021
  */
 public class Player extends Character {
-
 
     public Player(World w, float x, float y) {
     	
@@ -23,7 +25,8 @@ public class Player extends Character {
 	public void handleMoveInput(float dt) {
 
     	moveCharacter( 0 ,0 );
-        setMoving( false );
+      setMoving( false );
+
     	
         if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
                 Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
