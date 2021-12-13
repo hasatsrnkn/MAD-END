@@ -79,7 +79,9 @@ public class MainMenu implements Screen {
 
     @Override
     public void hide() {
-
+    	
+        bg.dispose();
+        buttons.getStage().dispose();
     }
 
     @Override

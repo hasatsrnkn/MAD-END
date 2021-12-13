@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -36,10 +37,12 @@ public class Level1 implements Screen {
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
     private Vector3 vector3;
-
+    
+    
     public Level1( GameMain game ) {
     	
         this.game = game;
+        
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
         
         world = new World( new Vector2(0 , 0), true );
@@ -50,13 +53,16 @@ public class Level1 implements Screen {
         mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
         vector3 = new Vector3( 0, 0, 0);
+
     }
 
-
+    int i = 0;
+    
     public void update( float dt ) {
     	
         ((Player)player).handleMoveInput( dt );
         ((Player)player).handleMouseInput( dt, vector3.x, vector3.y);
+        
         player.updateCharacter();
         moveCamera();
         mainCamera.update();
@@ -81,20 +87,24 @@ public class Level1 implements Screen {
         Gdx.gl.glClearColor( 1, 0, 0, 1 );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
+        mainCamera.unproject(vector3);
+        
+       
+        
         game.getBatch().begin(); //Begin for drawing
 
         game.getBatch().draw( bg, 0, 0);
-        
-        playerView.drawPlayer( game.getBatch() );
-        playerView.drawPlayerAnimation(game.getBatch());
+      
+        playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
+        playerView.drawCharacterAnimation(game.getBatch());
 
         game.getBatch().end(); //End for drawing
 
         game.getBatch().setProjectionMatrix( mainCamera.combined );
 
-        vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
-        mainCamera.unproject(vector3);
-
+        //playerView.drawBody(mainCamera); //debugrenderer does not work???
+        
         world.step( delta, 6 ,2 );
     }
 
@@ -120,7 +130,8 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
-        bg.dispose();
+       
+    	bg.dispose();
 
     }
 }

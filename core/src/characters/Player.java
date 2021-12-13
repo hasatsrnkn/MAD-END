@@ -2,14 +2,10 @@ package characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-
 import helpers.GameInfo;
-import levels.Level1;
+
 
 
 import java.util.ArrayList;
@@ -21,8 +17,6 @@ import java.util.ArrayList;
  */
 public class Player extends Character {
 
-	public double rotation;
-
     public Player(World w, float x, float y) {
     	
         super(w, x, y);
@@ -30,9 +24,9 @@ public class Player extends Character {
     
 	public void handleMoveInput(float dt) {
 
-
     	moveCharacter( 0 ,0 );
-        setWalking(false );
+      setMoving( false );
+
     	
         if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
                 Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
@@ -40,37 +34,39 @@ public class Player extends Character {
 
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 
-            	moveCharacter(this.getBody().getLinearVelocity().x, GameInfo.MOVESPEED);
+            	moveCharacter(this.getBody().getLinearVelocity().x, GameInfo.PLAYER_MOVESPEED);
 
             }
             
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             	
-            	moveCharacter(this.getBody().getLinearVelocity().x, -GameInfo.MOVESPEED);
+            	moveCharacter(this.getBody().getLinearVelocity().x, -GameInfo.PLAYER_MOVESPEED);
 
             }
             
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             	
-            	moveCharacter(-GameInfo.MOVESPEED, this.getBody().getLinearVelocity().y);
+            	moveCharacter(-GameInfo.PLAYER_MOVESPEED, this.getBody().getLinearVelocity().y);
 
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             	
-            	moveCharacter(GameInfo.MOVESPEED, this.getBody().getLinearVelocity().y);
+            	moveCharacter(GameInfo.PLAYER_MOVESPEED, this.getBody().getLinearVelocity().y);
 
             }
         } 
 
     }
 
-    
+
 	public void handleMouseInput(float dt, float mouseX, float mouseY ) {
 
-		rotation =  MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition() + (getHeight() / 2)  , mouseX - this.getXPosition() + (getWidth() / 2)   );
-
+		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition()  , 
+				mouseX - this.getXPosition()   )));
 		
+
+		//TODO other mouse actions
 	}
 
 } //End
