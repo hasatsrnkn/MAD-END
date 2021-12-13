@@ -64,6 +64,7 @@ public class Player extends Character {
 
 		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition()  , 
 				mouseX - this.getXPosition()   )));
+
 		
 
 		//TODO other mouse actions

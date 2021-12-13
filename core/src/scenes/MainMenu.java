@@ -60,6 +60,8 @@ public class MainMenu implements Screen {
 
         game.getBatch().setProjectionMatrix( buttons.getStage().getCamera().combined);
         buttons.getStage().draw();
+        buttons.getStage().act( delta );
+
     }
 
     @Override
@@ -79,15 +81,13 @@ public class MainMenu implements Screen {
 
     @Override
     public void hide() {
-    	
         bg.dispose();
         buttons.getStage().dispose();
     }
 
     @Override
     public void dispose() {
-        bg.dispose();
-        buttons.getStage().dispose();
+
     }
 
 } //End of Main Menu
