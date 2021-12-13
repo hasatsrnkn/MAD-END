@@ -38,9 +38,9 @@ public class WelcomeScreenButtons {
 
         stage = new Stage( gameViewport, game.getBatch() );
 
-        Gdx.input.setInputProcessor( stage );
-
         createAndPosition();
+
+        Gdx.input.setInputProcessor( this.stage );
 
         stage.addActor( playButton );
 
