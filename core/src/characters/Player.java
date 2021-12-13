@@ -56,11 +56,12 @@ public class Player extends Character {
 
     }
 
-    
+
 	public void handleMouseInput(float dt, float mouseX, float mouseY ) {
 
-		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition() + (getHeight() / 2)  , 
-				mouseX - this.getXPosition() + (getWidth() / 2)   )));
+		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition()  , 
+				mouseX - this.getXPosition()   )));
+		
 
 		//TODO other mouse actions
 	}

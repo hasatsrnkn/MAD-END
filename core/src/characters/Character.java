@@ -45,6 +45,7 @@ public class Character {
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox( (this.getWidth() / 2f) / GameInfo.PPM,(this.getHeight() / 2f) / GameInfo.PPM);
+        
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = 4f; //Mass of the body
@@ -52,6 +53,7 @@ public class Character {
         fixtureDef.shape = shape;
 
         Fixture fixture = body.createFixture( fixtureDef );
+
 
         shape.dispose();
     
@@ -131,4 +133,10 @@ public class Character {
     	
     	this.rotationDeg = degrees;
     }
+
+
+	public World getWorld() {
+
+		return this.world;
+	}
 }
