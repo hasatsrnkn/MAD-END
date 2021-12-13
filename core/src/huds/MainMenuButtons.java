@@ -57,6 +57,7 @@ public class MainMenuButtons {
     }
 
     public void createAndPositionButtons() {
+    	
         startButton = new ImageButton( new SpriteDrawable( new Sprite(
                 new Texture("Buttons/Main Menu/Start Game Button.png" ))));
 

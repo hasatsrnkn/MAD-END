@@ -1,13 +1,7 @@
 package characters;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
-
 
 
 /**
@@ -18,14 +12,15 @@ import helpers.GameInfo;
 
 public class Character {
     
-	private World world;
+	private final World world;
 	private Body body;
 	private float xPosition;
 	private float yPosition;
 	private float height;
 	private float width;
-	private Vector2 directionVector;
-	private boolean isWalking;
+	private float rotationDeg;
+	private boolean isMoving;
+
     
     
     public Character(World world, float initialX, float initialY) {
@@ -35,12 +30,10 @@ public class Character {
     	this.setWidth(10 /* just an initialization */ );
     	
     	this.setPosition(initialX, initialY);
-    	
-    	directionVector = new Vector2();
-		isWalking = false;
+
+		  isMoving = false;
     	createBody();
     	updateCharacter();
-    	directionVector.setAngleDeg(45f);
     }
     
     
@@ -53,6 +46,7 @@ public class Character {
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox( (this.getWidth() / 2f) / GameInfo.PPM,(this.getHeight() / 2f) / GameInfo.PPM);
+        
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = 4f; //Mass of the body
@@ -60,6 +54,7 @@ public class Character {
         fixtureDef.shape = shape;
 
         Fixture fixture = body.createFixture( fixtureDef );
+
 
         shape.dispose();
     
@@ -69,7 +64,8 @@ public class Character {
 	public void moveCharacter( float x, float y ) {
 		
 	    body.setLinearVelocity( x , y );
-		isWalking = true;
+		  isMoving = true;
+		  updateCharacter();
 
 	}
 	
@@ -80,7 +76,7 @@ public class Character {
     
 	public Body getBody() {
 		
-		return body;
+		return this.body;
 	}
 
     public void setPosition(float x, float y) {
@@ -119,11 +115,31 @@ public class Character {
     	return this.width;
     }
 
-	public boolean isWalking() {
-		return isWalking;
+
+	public boolean isMoving() {
+		
+		return isMoving;
 	}
 
-	public void setWalking( boolean isWalking ) {
-		this.isWalking = isWalking;
+	public void setMoving( boolean isMoving ) {
+		
+		this.isMoving = isMoving;
 	}
+	
+    public float getRotationDeg() {
+    	
+    	return this.rotationDeg;
+    }
+    
+    public void setRotationDeg(float degrees) {
+    	
+    	this.rotationDeg = degrees;
+    }
+
+
+	public World getWorld() {
+
+		return this.world;
+	}
+
 }
