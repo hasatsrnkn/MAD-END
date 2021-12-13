@@ -40,7 +40,8 @@ public class Level1 implements Screen {
     
     
     public Level1( GameMain game ) {
-    	
+
+
         this.game = game;
         
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
@@ -125,7 +126,7 @@ public class Level1 implements Screen {
 
     @Override
     public void hide() {
-
+        bg.dispose();
     }
 
     @Override
