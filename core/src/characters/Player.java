@@ -24,8 +24,8 @@ public class Player extends Character {
     
 	public void handleMoveInput(float dt) {
 
-    	moveCharacter( 0 ,0 );
-      setMoving( false );
+		moveCharacter( 0 ,0 );
+		setMoving( false );
 
     	
         if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||

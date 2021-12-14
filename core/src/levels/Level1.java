@@ -38,6 +38,8 @@ public class Level1 implements Screen {
     private Viewport gameViewport;
     private Vector3 vector3;
     
+    Box2DDebugRenderer renderer; //test
+    OrthographicCamera cam;
     
     public Level1( GameMain game ) {
 
@@ -54,7 +56,7 @@ public class Level1 implements Screen {
         mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
         vector3 = new Vector3( 0, 0, 0);
-
+        
     }
 
     int i = 0;
@@ -91,7 +93,6 @@ public class Level1 implements Screen {
         vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
         mainCamera.unproject(vector3);
         
-       
         
         game.getBatch().begin(); //Begin for drawing
 
