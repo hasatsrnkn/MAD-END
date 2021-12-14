@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import characters.*;
+import throwables.Bullet;
+
+import java.util.ArrayList;
 
 /**
  * PlayerView Class
@@ -15,17 +18,28 @@ import characters.*;
 
 public class PlayerView extends CharacterView {
 	
-
+	private BulletView bulletViewer;
+	private Player player;
 
 	public PlayerView(String textureFileName, Player ch) {
-			
+
 		super(textureFileName, ch, "PlayerAnimation/PlayerAnimation.atlas");
+		player = ch;
 
 	}
 	public void drawPlayer(SpriteBatch spriteBatch) {
 
 		super.drawCharacter(spriteBatch);
 		//TODO additional player drawings?
+		ArrayList<Bullet> bulletsToRemove= new ArrayList<Bullet>();
+		for( Bullet bullet: getPlayer().getBullets() ) {
+			bulletViewer = new BulletView( "Throwables/Bullet.png", bullet );
+			bulletViewer.drawBullet( spriteBatch );
+			if( bullet.isRemove()) {
+				bulletsToRemove.add( bullet );
+			}
+		}
+		player.getBullets().removeAll( bulletsToRemove );
 	}
 
 
@@ -53,8 +67,8 @@ public class PlayerView extends CharacterView {
 		}
 
 	}
-		
 
-		
-
+	public Player getPlayer() {
+		return player;
+	}
 } //End
