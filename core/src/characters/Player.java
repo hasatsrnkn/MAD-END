@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 import throwables.Bullet;
-
-
 import java.util.ArrayList;
 
 /**

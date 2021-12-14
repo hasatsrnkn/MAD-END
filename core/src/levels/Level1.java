@@ -2,7 +2,6 @@ package levels;
 
 import characters.*;
 import characters.Character;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,7 +16,6 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import viewers.CharacterView;
 import viewers.PlayerView;
-
 
 /**
  * Level1 class

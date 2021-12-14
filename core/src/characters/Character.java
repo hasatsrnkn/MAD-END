@@ -2,8 +2,6 @@ package characters;
 
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
-
-
 /**
  * A class for characters
  * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
