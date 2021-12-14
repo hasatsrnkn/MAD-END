@@ -24,7 +24,7 @@ public class CharacterView extends Sprite{
 	private TextureRegion currentFrame;
 	private Sprite currentSprite;
 	private float elapsedTime;
-  private Box2DDebugRenderer bodyRenderer;
+  	private Box2DDebugRenderer bodyRenderer;
 
 	
 	public CharacterView(String textureFileName, Character ch, String atlasFileName) {
@@ -81,7 +81,7 @@ public class CharacterView extends Sprite{
 			currentSprite.setPosition( character.getXPosition() - getWidth() / 2f,
 					character.getYPosition() - getHeight() / 2f );
 
-			currentSprite.setRotation( (float) ((Player)this.getCharacter() ).getRotationDeg() );
+			currentSprite.setRotation( (this.getCharacter() ).getRotationDeg() );
 
 			currentSprite.draw( spriteBatch );
 		}
