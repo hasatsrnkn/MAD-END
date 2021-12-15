@@ -1,7 +1,9 @@
 package characters;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
+import viewers.CharacterView;
 
 
 /**
@@ -21,13 +23,10 @@ public class Character {
 	private float rotationDeg;
 	private boolean isMoving;
 
-    
-    
     public Character(World world, float initialX, float initialY) {
-
     	this.world = world;
-    	this.setHeight(10 /* just an initialization */ );
-    	this.setWidth(10 /* just an initialization */ );
+    	this.setHeight(300/2 /* just an initialization */ );
+    	this.setWidth(300/2 /* just an initialization */ );
     	
     	this.setPosition(initialX, initialY);
 

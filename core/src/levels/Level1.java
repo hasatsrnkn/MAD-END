@@ -1,8 +1,10 @@
 package levels;
 
+import Obstacle.Obstacle;
 import characters.*;
 import characters.Character;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,11 +14,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import viewers.CharacterView;
+import viewers.ObstacleView;
 import viewers.PlayerView;
 
 
@@ -37,21 +41,34 @@ public class Level1 implements Screen {
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
     private Vector3 vector3;
-    
-    
+    private Obstacle Rock;
+    private OrthographicCamera box2dCamera;
+    private Box2DDebugRenderer debugRenderer;
+    private ObstacleView obstacleView;
+    private OrthographicCamera staticCamera;
+
+
     public Level1( GameMain game ) {
 
 
         this.game = game;
         
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
-        
         world = new World( new Vector2(0 , 0), true );
+        Rock = new Obstacle(world , 500, 500 );
+        box2dCamera = new OrthographicCamera();
+        box2dCamera.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM );
+        box2dCamera.position.set(GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 0);
+        debugRenderer = new Box2DDebugRenderer();
+        obstacleView = new ObstacleView("Obstacles/Rock_Obstacles.png" , Rock );
         
-        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
+        player = new Player(  world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
+
+
         
         mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
+        staticCamera = new OrthographicCamera(Rock.getXPosition(), Rock.getYPosition());
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
         vector3 = new Vector3( 0, 0, 0);
 
@@ -65,14 +82,19 @@ public class Level1 implements Screen {
         ((Player)player).handleMouseInput( dt, vector3.x, vector3.y);
         
         player.updateCharacter();
+        Rock.updateObstacle();
+        staticCamera();
         moveCamera();
         mainCamera.update();
     }
-
+    public void staticCamera()
+    {
+        staticCamera.position.x = Rock.getXPosition();
+        staticCamera.position.y = Rock.getYPosition();
+    }
     public void moveCamera() {
         mainCamera.position.x = player.getXPosition();
         mainCamera.position.y = player.getYPosition();
-        
     }
 
     @Override
@@ -90,7 +112,7 @@ public class Level1 implements Screen {
 
         vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
         mainCamera.unproject(vector3);
-        
+        staticCamera.unproject(vector3);
        
         
         game.getBatch().begin(); //Begin for drawing
@@ -99,13 +121,17 @@ public class Level1 implements Screen {
       
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
         playerView.drawCharacterAnimation(game.getBatch());
+        obstacleView.drawObstacle(game.getBatch());
+
 
         game.getBatch().end(); //End for drawing
 
         game.getBatch().setProjectionMatrix( mainCamera.combined );
 
-        //playerView.drawBody(mainCamera); //debugrenderer does not work???
-        
+        playerView.drawBody(mainCamera); //debugrenderer does not work???
+        obstacleView.drawBody(staticCamera);
+
+        debugRenderer.render( world , box2dCamera.combined);
         world.step( delta, 6 ,2 );
     }
 
@@ -120,12 +146,14 @@ public class Level1 implements Screen {
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
 
     }
 
     @Override
-    public void hide() {
+    public void hide()
+    {
         bg.dispose();
     }
 
