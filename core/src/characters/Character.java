@@ -2,6 +2,7 @@ package characters;
 
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
+
 import helpers.GameObject;
 
 
@@ -52,7 +53,8 @@ public abstract class Character extends GameObject {
 
 	public void moveCharacter( float x, float y ) {
 		
-	    body.setLinearVelocity( x , y );
+		body.setLinearVelocity( x , y );
+
 		isMoving = true;
 		updateCharacter();
 

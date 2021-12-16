@@ -2,7 +2,6 @@ package levels;
 
 import characters.*;
 import characters.Character;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,7 +16,6 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import viewers.CharacterView;
 import viewers.PlayerView;
-
 
 /**
  * Level1 class
@@ -52,7 +49,8 @@ public class Level1 implements Screen {
         
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
-        
+
+
         mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
         vector3 = new Vector3( 0, 0, 0);
@@ -98,12 +96,11 @@ public class Level1 implements Screen {
 
         vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
         mainCamera.unproject(vector3);
-        
-        
+
         game.getBatch().begin(); //Begin for drawing
 
         game.getBatch().draw( bg, 0, 0);
-      
+
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
         playerView.drawCharacterAnimation(game.getBatch());
 
