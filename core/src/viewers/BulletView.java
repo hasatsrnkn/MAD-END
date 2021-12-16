@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import throwables.Bullet;
 
-import java.util.ArrayList;
-
+/**
+ * BulletView Class
+ * @author Mehmet Hasat Serinkan
+ * @date 15.12.2021
+ */
 public class BulletView extends Sprite {
 
     private Bullet bullet;

@@ -1,18 +1,13 @@
-/**
- * 
- */
 package throwables;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 
 /**
- * @author Mehmet Eren Balasar
- *
+ * Bullet Class
+ * @author Mehmet Hasat Serinkan
+ * @date 15.12.2021
  */
 
 public class Bullet  {
@@ -72,7 +67,8 @@ public class Bullet  {
 	}
 
 	public void updateBullet( ) {
-
+		
+		body.setTransform(body.getPosition().x, body.getPosition().y, (float)Math.toRadians(rotationDeg));
 		this.setPosition( body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
 
 		if( getYPosition() > 2000 || getYPosition() < 0 || getXPosition() > 3000 || getXPosition() < 0  ) {
