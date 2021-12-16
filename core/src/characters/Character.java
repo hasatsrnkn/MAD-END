@@ -62,9 +62,9 @@ public class Character {
 
 	public void moveCharacter( float x, float y ) {
 		
-	    body.setLinearVelocity( x , y );
-		  isMoving = true;
-		  updateCharacter();
+		body.setLinearVelocity( x , y );
+		isMoving = true;
+		updateCharacter();
 
 	}
 	
