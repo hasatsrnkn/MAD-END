@@ -23,8 +23,8 @@ public abstract class GameObject {
 	public GameObject(World world, float initialX, float initialY) {
 		
 		this.world = world;
-    	this.setHeight(10 /* just an initialization */ );
-    	this.setWidth(10 /* just an initialization */ );
+    	this.setHeight(100 /* just an initialization */ );
+    	this.setWidth(100 /* just an initialization */ );
     	this.setPosition(initialX, initialY);
 	}
 	
