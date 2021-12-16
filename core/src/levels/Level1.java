@@ -48,7 +48,7 @@ public class Level1 implements Screen {
         
         world = new World( new Vector2(0 , 0), true );
         
-        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
+        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 100, 100);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
 
 

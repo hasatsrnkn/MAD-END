@@ -27,10 +27,6 @@ public class CharacterView extends Sprite{
 		super(new Texture(textureFileName));
 		
 		this.character = ch;
-				
-		character.setHeight(getHeight());
-		character.setWidth(getWidth());
-
 
 		characterAtlas = new TextureAtlas( atlasFileName );
 

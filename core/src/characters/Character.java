@@ -17,9 +17,9 @@ public abstract class Character extends GameObject {
 	private float rotationDeg;
 	private boolean isMoving;
 
-    public Character(World world, float initialX, float initialY) {
+    public Character(World world, float initialX, float initialY, float height, float width) {
 
-    	super(world, initialX, initialY);
+    	super(world, initialX, initialY, height, width);
 
 		isMoving = false;
     	createBody();
@@ -45,7 +45,7 @@ public abstract class Character extends GameObject {
 
         Fixture fixture = body.createFixture( fixtureDef );
 
-
+		body.setFixedRotation(true);
         shape.dispose();
     
 	}
@@ -62,6 +62,7 @@ public abstract class Character extends GameObject {
 	
 	public void updateCharacter() {
 		
+		body.setTransform(body.getPosition().x, body.getPosition().y, (float)Math.toRadians(rotationDeg));
         this.setPosition( body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
     }
     

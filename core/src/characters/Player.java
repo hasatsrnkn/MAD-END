@@ -17,9 +17,9 @@ public class Player extends Character {
 
     private ArrayList<Bullet> bullets;
 
-    public Player(World w, float x, float y) {
+    public Player(World w, float x, float y, float height, float width) {
     	
-        super(w, x, y);
+        super(w, x, y, height, width);
         bullets = new ArrayList<Bullet>();
     }
 
@@ -30,8 +30,7 @@ public class Player extends Character {
     public void handleMoveInput(float dt) {
 
     	moveCharacter( 0 ,0 );
-      setMoving( false );
-
+    	setMoving( false );
 
     	
         if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
