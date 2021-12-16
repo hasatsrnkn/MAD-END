@@ -3,6 +3,8 @@ package characters;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 
+import helpers.GameObject;
+
 
 /**
  * A class for characters
@@ -10,28 +12,16 @@ import helpers.GameInfo;
  * @date 07.12.2021
  */
 
-public class Character {
+public abstract class Character extends GameObject {
     
-	private final World world;
-	private Body body;
-	private float xPosition;
-	private float yPosition;
-	private float height;
-	private float width;
 	private float rotationDeg;
 	private boolean isMoving;
 
-    
-    
-    public Character(World world, float initialX, float initialY) {
+    public Character(World world, float initialX, float initialY, float height, float width) {
 
-    	this.world = world;
-    	this.setHeight(10 /* just an initialization */ );
-    	this.setWidth(10 /* just an initialization */ );
-    	
-    	this.setPosition(initialX, initialY);
+    	super(world, initialX, initialY, height, width);
 
-		  isMoving = false;
+		isMoving = false;
     	createBody();
     	updateCharacter();
     }
@@ -55,7 +45,7 @@ public class Character {
 
         Fixture fixture = body.createFixture( fixtureDef );
 
-
+		body.setFixedRotation(true);
         shape.dispose();
     
 	}
@@ -64,6 +54,7 @@ public class Character {
 	public void moveCharacter( float x, float y ) {
 		
 		body.setLinearVelocity( x , y );
+
 		isMoving = true;
 		updateCharacter();
 
@@ -71,49 +62,10 @@ public class Character {
 	
 	public void updateCharacter() {
 		
+		body.setTransform(body.getPosition().x, body.getPosition().y, (float)Math.toRadians(rotationDeg));
         this.setPosition( body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
     }
     
-	public Body getBody() {
-		
-		return this.body;
-	}
-
-    public void setPosition(float x, float y) {
-		
-		this.xPosition = x;
-		this.yPosition = y;
-	}
-
-    public float getXPosition() {
-		
-		return this.xPosition;
-	}
-
-    public float getYPosition() {
-		
-		return this.yPosition;
-	}
-    
-    public void setHeight(float h) {
-    	
-    	this.height = h;
-    }
-    
-    public void setWidth(float w) {
-    	
-    	this.width = w;
-    }
-    
-    public float getHeight() {
-    	
-    	return this.height;
-    }
-    
-    public float getWidth() {
-    	
-    	return this.width;
-    }
 
 
 	public boolean isMoving() {
@@ -136,10 +88,5 @@ public class Character {
     	this.rotationDeg = degrees;
     }
 
-
-	public World getWorld() {
-
-		return this.world;
-	}
 
 }

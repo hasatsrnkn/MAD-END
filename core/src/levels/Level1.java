@@ -2,7 +2,6 @@ package levels;
 
 import characters.*;
 import characters.Character;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -17,7 +17,6 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import viewers.CharacterView;
 import viewers.PlayerView;
-
 
 /**
  * Level1 class
@@ -37,6 +36,8 @@ public class Level1 implements Screen {
     private Viewport gameViewport;
     private Vector3 vector3;
     
+    Box2DDebugRenderer bodyRenderer; //test
+    OrthographicCamera box2DCam;
     
     public Level1( GameMain game ) {
 
@@ -47,17 +48,21 @@ public class Level1 implements Screen {
         
         world = new World( new Vector2(0 , 0), true );
         
-        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
+        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 100, 100);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
 
 
         mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
         vector3 = new Vector3( 0, 0, 0);
-
+        
+        box2DCam = new OrthographicCamera();
+        box2DCam.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
+        box2DCam.position.set(GameInfo.WIDTH / 2, GameInfo.WIDTH / 2, 0);
+        bodyRenderer = new Box2DDebugRenderer();
+        
     }
 
-    int i = 0;
     
     public void update( float dt ) {
     	
@@ -66,12 +71,19 @@ public class Level1 implements Screen {
         
         player.updateCharacter();
         moveCamera();
-        mainCamera.update();
+
     }
 
     public void moveCamera() {
+    	
         mainCamera.position.x = player.getXPosition();
         mainCamera.position.y = player.getYPosition();
+        
+        box2DCam.position.x = player.getBody().getPosition().x;
+        box2DCam.position.y = player.getBody().getPosition().y;
+        
+        box2DCam.update();
+        mainCamera.update();
         
     }
 
@@ -90,9 +102,7 @@ public class Level1 implements Screen {
 
         vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
         mainCamera.unproject(vector3);
-        
 
-        
         game.getBatch().begin(); //Begin for drawing
 
         game.getBatch().draw( bg, 0, 0);
@@ -105,6 +115,9 @@ public class Level1 implements Screen {
         game.getBatch().setProjectionMatrix( mainCamera.combined );
 
         //playerView.drawBody(mainCamera); //debugrenderer does not work???
+        
+		
+		bodyRenderer.render(world, box2DCam.combined);
         
         world.step( delta, 6 ,2 );
     }
