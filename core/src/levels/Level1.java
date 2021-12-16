@@ -35,6 +35,8 @@ public class Level1 implements Screen {
     private Viewport gameViewport;
     private Vector3 vector3;
     
+    Box2DDebugRenderer bodyRenderer; //test
+    OrthographicCamera box2DCam;
     
     public Level1( GameMain game ) {
 
@@ -52,10 +54,14 @@ public class Level1 implements Screen {
         mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
         vector3 = new Vector3( 0, 0, 0);
-
+        
+        box2DCam = new OrthographicCamera();
+        box2DCam.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
+        box2DCam.position.set(GameInfo.WIDTH/2, GameInfo.HEIGHT/2, 0);
+        bodyRenderer = new Box2DDebugRenderer();
+        
     }
 
-    int i = 0;
     
     public void update( float dt ) {
     	
@@ -64,12 +70,14 @@ public class Level1 implements Screen {
         
         player.updateCharacter();
         moveCamera();
-        mainCamera.update();
+
     }
 
     public void moveCamera() {
+    	
         mainCamera.position.x = player.getXPosition();
         mainCamera.position.y = player.getYPosition();
+        mainCamera.update();
         
     }
 
@@ -88,9 +96,7 @@ public class Level1 implements Screen {
 
         vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
         mainCamera.unproject(vector3);
-        
 
-        
         game.getBatch().begin(); //Begin for drawing
 
         game.getBatch().draw( bg, 0, 0);
@@ -103,6 +109,9 @@ public class Level1 implements Screen {
         game.getBatch().setProjectionMatrix( mainCamera.combined );
 
         //playerView.drawBody(mainCamera); //debugrenderer does not work???
+        
+		
+		bodyRenderer.render(world, box2DCam.combined);
         
         world.step( delta, 6 ,2 );
     }
