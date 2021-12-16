@@ -20,11 +20,11 @@ public abstract class GameObject {
 	protected Body body;
 	
 	
-	public GameObject(World world, float initialX, float initialY) {
+	public GameObject(World world, float initialX, float initialY, float height, float width) {
 		
 		this.world = world;
-    	this.setHeight(10 /* just an initialization */ );
-    	this.setWidth(10 /* just an initialization */ );
+    	this.setHeight(height);
+    	this.setWidth(width);
     	this.setPosition(initialX, initialY);
 	}
 	

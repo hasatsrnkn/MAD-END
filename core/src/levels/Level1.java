@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -47,7 +48,7 @@ public class Level1 implements Screen {
         
         world = new World( new Vector2(0 , 0), true );
         
-        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f);
+        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 100, 100);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
 
 
@@ -57,7 +58,7 @@ public class Level1 implements Screen {
         
         box2DCam = new OrthographicCamera();
         box2DCam.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
-        box2DCam.position.set(GameInfo.WIDTH/2, GameInfo.HEIGHT/2, 0);
+        box2DCam.position.set(GameInfo.WIDTH / 2, GameInfo.WIDTH / 2, 0);
         bodyRenderer = new Box2DDebugRenderer();
         
     }
@@ -77,6 +78,11 @@ public class Level1 implements Screen {
     	
         mainCamera.position.x = player.getXPosition();
         mainCamera.position.y = player.getYPosition();
+        
+        box2DCam.position.x = player.getBody().getPosition().x;
+        box2DCam.position.y = player.getBody().getPosition().y;
+        
+        box2DCam.update();
         mainCamera.update();
         
     }
