@@ -18,5 +18,11 @@ public abstract class Enemy extends Character{
 		
 		super(world, initialX, initialY, height, width);
 	}
+	
+	
+	public void moveEnemy() {
+		
+		
+	}
 
 }
