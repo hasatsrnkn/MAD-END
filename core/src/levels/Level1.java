@@ -12,17 +12,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+
+import com.badlogic.gdx.physics.box2d.*;
+
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
+import obstacle.MapBoundaries;
+import obstacle.Obstacle;
 import viewers.CharacterView;
 import viewers.ObstacleView;
-import Obstacle.Walls;
+
+import viewers.GuardianView;
+
 import viewers.PlayerView;
+import viewers.WallView;
 
 
 /**
@@ -30,23 +35,39 @@ import viewers.PlayerView;
  * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
  * @date 07.12.2021
  */
-public class Level1 implements Screen {
+public class Level1 implements Screen, ContactListener {
 
     //Properties
     private GameMain game;
+
     private Texture bg;
     private Character player;
     private CharacterView characterView;
     private PlayerView playerView;
+    private MapBoundaries mapBoundaries;
+    private ObstacleView obstacleView;
+
     private World world;
+
+    
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
     private Vector3 vector3;
-    private Obstacle Rock;
-    private ObstacleView obstacleView;
-    private ObstacleView wallView;
-    private Walls wall;
 
+
+    private WallView mapBoundaryWallView1;
+    private WallView mapBoundaryWallView2;
+    private WallView mapBoundaryWallView3;
+    private WallView mapBoundaryWallView4;
+
+   
+    private Character guardian1;
+    private GuardianView guardian1View;
+    
+    //test
+    Box2DDebugRenderer bodyRenderer; 
+    OrthographicCamera box2DCam;
+    
 
     public Level1( GameMain game ) {
 
@@ -54,17 +75,24 @@ public class Level1 implements Screen {
         this.game = game;
         
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
-        world = new World( new Vector2(0 , 0), true );
-        Rock = new Obstacle(world  );
-        wall = new Walls(world);
-        obstacleView = new ObstacleView("Obstacles/Rock_Obstacles2.png" , Rock, (GameInfo.WIDTH / 2) + 200,
-                (GameInfo.HEIGHT / 2) + 200);
-        wallView = new ObstacleView("Obstacles/Wall/Wall1.png", wall, (GameInfo.WIDTH / 2) - 200,
-                (GameInfo.HEIGHT / 2) - 200);
 
-        
-        player = new Player(  world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 100, 100);
+
+        world = new World( new Vector2(0 , 0), true );
+        world.setContactListener( this );
+
+        mapBoundaries = new MapBoundaries(world, bg.getHeight(), bg.getWidth(), (bg.getHeight()) ,
+                (100), (100),(bg.getWidth() ));
+        obstacleView = new ObstacleView( "Obstacles/Level 1/Wall.png",new Obstacle( this.world, 200,200,100, 41) );
+
+        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
+
         playerView = new PlayerView( "Player/Player.png", (Player) player);
+        mapBoundaryWallView1 = new WallView( "Obstacles/Level 1/Wall1.png", mapBoundaries.getBoundaryWalls().get(0) );
+        mapBoundaryWallView2 = new WallView( "Obstacles/Level 1/Wall1.png", mapBoundaries.getBoundaryWalls().get(1) );
+        mapBoundaryWallView3 = new WallView( "Obstacles/Level 1/Wall2.png", mapBoundaries.getBoundaryWalls().get(2) );
+        mapBoundaryWallView4 = new WallView( "Obstacles/Level 1/Wall2.png", mapBoundaries.getBoundaryWalls().get(3) );
+        guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH);
+        guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "PlayerAnimation/PlayerAnimation.atlas");
 
 
         
@@ -80,7 +108,7 @@ public class Level1 implements Screen {
     	
         ((Player)player).handleMoveInput( dt );
         ((Player)player).handleMouseInput( dt, vector3.x, vector3.y);
-        
+        obstacleView.getObstacle().updateObstacle();
         player.updateCharacter();
 
         moveCamera();
@@ -114,11 +142,12 @@ public class Level1 implements Screen {
       
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
         playerView.drawCharacterAnimation(game.getBatch());
-        obstacleView.isEqualTo(obstacleView.getWidth(), obstacleView.getHeight(), (GameInfo.WIDTH / 2) + 200,
-                (GameInfo.HEIGHT / 2) + 200);
-        obstacleView.drawObstacle(game.getBatch(), ObstacleView.ObstaclePositionX, ObstacleView.ObstaclePositionY);
-        wallView.isEqualTo(wallView.getWidth(), wallView.getHeight(), (GameInfo.WIDTH / 2) - 200, (GameInfo.HEIGHT / 2) - 200);
-        wallView.drawObstacle(game.getBatch(), ObstacleView.ObstaclePositionX, ObstacleView.ObstaclePositionY);
+        obstacleView.drawObstacle(game.getBatch());
+        mapBoundaryWallView1.drawWallView(game.getBatch());
+        mapBoundaryWallView2.drawWallView(game.getBatch());
+        mapBoundaryWallView3.drawWallView(game.getBatch());
+        mapBoundaryWallView4.drawWallView(game.getBatch());
+
 
         game.getBatch().end(); //End for drawing
 
@@ -155,6 +184,52 @@ public class Level1 implements Screen {
     public void dispose() {
        
     	bg.dispose();
+        playerView.getBulletViewer().getTexture().dispose();
+        playerView.getTexture().dispose();
+        characterView.getTexture().dispose();
+        world.dispose();
+
+    }
+
+
+    @Override
+    public void beginContact(Contact contact) {
+        Fixture body1;
+        Fixture body2;
+
+        if (contact.getFixtureA().getUserData() == "Bullet" ) {
+            body1 = contact.getFixtureA();
+            body2 = contact.getFixtureB();
+        }
+        else {
+            body1 = contact.getFixtureB();
+            body2 = contact.getFixtureA();
+        }
+
+        if (body1.getUserData() == "Bullet" && body2.getUserData() == "Obstacle" ) {
+            playerView.getBulletViewer().getBullet().setRemove( true );
+
+        }
+
+        else if (body1.getUserData() == "Bullet" && body2.getUserData() == "Bullet" ) {
+            playerView.getBulletViewer().getBullet().setRemove( true );
+
+        }
+
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
 
     }
 }

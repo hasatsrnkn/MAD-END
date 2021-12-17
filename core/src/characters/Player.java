@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
+import helpers.BodyEditorLoader;
 import helpers.GameInfo;
 import throwables.Bullet;
 import java.util.ArrayList;
@@ -20,11 +21,7 @@ public class Player extends Character {
     public Player(World w, float x, float y, float height, float width) {
     	
         super(w, x, y, height, width);
-        bullets = new ArrayList<Bullet>();
-    }
-
-    public ArrayList<Bullet> getBullets() {
-        return bullets;
+        
     }
 
     public void handleMoveInput(float dt) {
@@ -70,17 +67,18 @@ public class Player extends Character {
 		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition()  , 
 				mouseX - this.getXPosition()   )));
 
-        if ( Gdx.input.isButtonJustPressed(Input.Buttons.LEFT ) ) {
-            bullets.add( new Bullet( this.getWorld(), this.getXPosition() + 15, this.getYPosition() + 15, this.getRotationDeg() ) );
-            float hip = ( float ) Math.sqrt( Math.pow( (mouseX - this.getXPosition() ) , 2 ) + Math.pow(( mouseY - this.getYPosition()), 2 ) );
 
-            for ( Bullet bullet: bullets) {
-                if( !bullet.isShot() ) {
-                    bullet.moveBullet((mouseX - this.getXPosition()) * GameInfo.BULLET_SPEED /
-                            hip, (mouseY - this.getYPosition()) * GameInfo.BULLET_SPEED / hip);
+        if ( Gdx.input.isButtonJustPressed(Input.Buttons.LEFT ) ) {
+
+            if( this.getShotTime() == 0) {
+                this.shoot( mouseX, mouseY );
+            }
+            else {
+                long time = System.currentTimeMillis();
+                if (time > getLastTimeShot() + 500) {
+                    this.shoot(mouseX, mouseY);
                 }
             }
-
 
 
         }

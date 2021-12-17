@@ -1,47 +1,33 @@
 package viewers;
 
-import Obstacle.Obstacle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import obstacle.Obstacle;
 
-/**
- * Obstacle View Class
- * @author Mehmet Berşan Özgür
- * @date 17.12.2021
- */
 public class ObstacleView extends Sprite {
 
-    private String textureFileName;
+
     private Obstacle obstacle;
-    public static float ObstacleWidth;
-    public static float ObstacleHeight;
-    public static float ObstaclePositionX;
-    public static float ObstaclePositionY;
+    public ObstacleView(String textureFileName, Obstacle obs ) {
+        super( new Texture( textureFileName ) );
+        this.obstacle = obs;
 
-    public ObstacleView(String textureFileName, Obstacle obstacle, float x, float y){
-        super(new Texture(textureFileName));
-        this.textureFileName = textureFileName;
-        this.setPosition(x , y);
+    }
+
+    public void drawObstacle(SpriteBatch spriteBatch) {
+        this.obstacle.updateObstacle();
+        this.setPosition(obstacle.getXPosition() - obstacle.getWidth() / 2f,
+                obstacle.getYPosition() - obstacle.getHeight() / 2f);
+        this.draw( spriteBatch );
+    }
+
+    public Obstacle getObstacle() {
+        return obstacle;
+    }
+
+    public void setObstacle(Obstacle obstacle) {
         this.obstacle = obstacle;
-        ObstacleWidth = this.getWidth();
-        ObstacleHeight = this.getHeight();
-        ObstaclePositionX = this.getX();
-        ObstaclePositionY = this.getY();
-    }
 
-    public void drawObstacle(SpriteBatch batch, float x, float y){
-            setPosition(x + getWidth() / 2, y );
-            obstacle.createBody();
-            this.draw(batch);
-    }
-
-
-    //You need to call this method every time before draw obstacles otherwise it will draw it in the same position with the last obstacle
-    public void isEqualTo(float ObstacleWidth, float ObstacleHeight, float ObstaclePositionX, float ObstaclePositionY){
-        this.ObstacleWidth = ObstacleWidth;
-        this.ObstacleHeight = ObstacleHeight;
-        this.ObstaclePositionX = ObstaclePositionX;
-        this.ObstaclePositionY = ObstaclePositionY;
     }
 }

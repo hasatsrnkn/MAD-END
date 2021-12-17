@@ -1,8 +1,10 @@
 package throwables;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
+import helpers.GameObject;
 
 /**
  * Bullet Class
@@ -10,23 +12,15 @@ import helpers.GameInfo;
  * @date 15.12.2021
  */
 
-public class Bullet  {
+public class Bullet extends GameObject {
 
-	private final World world;
-	private Body body;
-	private float xPosition;
-	private float yPosition;
-	private float height;
-	private float width;
 	private boolean remove;
 	private boolean shot;
 	private float rotationDeg;
+	private Fixture fixture;
 
-	public Bullet( World world,float initialX, float initialY, float rotationDeg) {
-		this.world = world;
-		this.setHeight(10 /* just an initialization */ );
-		this.setWidth(10 /* just an initialization */ );
-		this.setPosition(initialX, initialY);
+	public Bullet( World world, float initialX, float initialY, float height, float width, float rotationDeg) {
+		super(world, initialX, initialY, height, width);
 		remove = false;
 		shot = false;
 		this.rotationDeg = rotationDeg;
@@ -48,15 +42,16 @@ public class Bullet  {
 
 
 		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.density = 2f; //Mass of the body
+		fixtureDef.density = 1f; //Mass of the body
 		fixtureDef.friction = 1f; //To not slide on surfaces
 		fixtureDef.shape = shape;
 
-		Fixture fixture = body.createFixture( fixtureDef );
-
+		fixture = body.createFixture( fixtureDef );
+		fixture.setUserData( "Bullet" );
+		fixtureDef.filter.categoryBits = GameInfo.BULLET;
+		fixtureDef.filter.maskBits = GameInfo.OBSTACLE | GameInfo.CHARACTER;
 
 		shape.dispose();
-
 	}
 
 	public void moveBullet( float x, float y ) {
@@ -64,6 +59,7 @@ public class Bullet  {
 		body.setLinearVelocity( new Vector2( x , y) );
 		updateBullet();
 		this.setShot( true );
+
 	}
 
 	public void updateBullet( ) {
@@ -71,51 +67,6 @@ public class Bullet  {
 		body.setTransform(body.getPosition().x, body.getPosition().y, (float)Math.toRadians(rotationDeg));
 		this.setPosition( body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
 
-		if( getYPosition() > 2000 || getYPosition() < 0 || getXPosition() > 3000 || getXPosition() < 0  ) {
-			this.setRemove( true );
-		}
-
-	}
-
-	public Body getBody() {
-
-		return this.body;
-	}
-
-	public void setPosition(float x, float y) {
-
-		this.xPosition = x;
-		this.yPosition = y;
-	}
-
-	public float getXPosition() {
-
-		return this.xPosition;
-	}
-
-	public float getYPosition() {
-
-		return this.yPosition;
-	}
-
-	public void setHeight(float h) {
-
-		this.height = h;
-	}
-
-	public void setWidth(float w) {
-
-		this.width = w;
-	}
-
-	public float getHeight() {
-
-		return this.height;
-	}
-
-	public float getWidth() {
-
-		return this.width;
 	}
 
 	public float getRotationDeg() {
@@ -124,11 +75,6 @@ public class Bullet  {
 
 	public void setRotationDeg(float rotationDeg) {
 		this.rotationDeg = rotationDeg;
-	}
-
-	public World getWorld() {
-
-		return this.world;
 	}
 
 	public boolean isRemove() {
@@ -145,6 +91,10 @@ public class Bullet  {
 
 	public boolean isShot() {
 		return shot;
+	}
+
+	public Fixture getFixture() {
+		return fixture;
 	}
 
 
