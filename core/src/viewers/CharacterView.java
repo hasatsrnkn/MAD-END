@@ -77,14 +77,6 @@ public class CharacterView extends Sprite{
 			currentSprite.draw( spriteBatch );
 		}
 	}
-	
-	//for developing purposes!!!!!
-	public void drawBody(OrthographicCamera camera) {
-		
-		bodyRenderer = new Box2DDebugRenderer();
-		bodyRenderer.render(character.getWorld(), camera.combined);
-	}
-
 
 	public Character getCharacter() {
 		

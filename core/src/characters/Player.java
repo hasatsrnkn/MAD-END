@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
+import helpers.BodyEditorLoader;
 import helpers.GameInfo;
 import throwables.Bullet;
 import java.util.ArrayList;
@@ -71,7 +72,6 @@ public class Player extends Character {
 		
 		
         if ( Gdx.input.isButtonJustPressed(Input.Buttons.LEFT ) ) {
-        	
         	this.shoot(mouseX, mouseY);
         }
 

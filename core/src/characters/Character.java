@@ -43,7 +43,6 @@ public abstract class Character extends GameObject {
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox( (this.getWidth() / 2f) / GameInfo.PPM,(this.getHeight() / 2f) / GameInfo.PPM);
- 
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = 4f; //Mass of the body
