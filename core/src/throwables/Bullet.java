@@ -47,7 +47,7 @@ public class Bullet extends GameObject {
 
 		fixture = body.createFixture( fixtureDef );
 
-
+		body.setBullet(true); //??????
 		shape.dispose();
 	}
 

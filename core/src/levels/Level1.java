@@ -19,6 +19,7 @@ import obstacle.MapBoundaries;
 import obstacle.Obstacle;
 import viewers.CharacterView;
 import viewers.ObstacleView;
+import viewers.GuardianView;
 import viewers.PlayerView;
 import viewers.WallView;
 
@@ -31,18 +32,29 @@ public class Level1 implements Screen {
 
     //Properties
     private GameMain game;
+
     private Texture bg;
     private Character player;
     private CharacterView characterView;
     private PlayerView playerView;
     private MapBoundaries mapBoundaries;
     private ObstacleView obstacleView;
+
     private World world;
+    private Texture bg;
+    
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
     private Vector3 vector3;
     
-    Box2DDebugRenderer bodyRenderer; //test
+    private Character player;
+    private PlayerView playerView;
+   
+    private Character guardian1;
+    private GuardianView guardian1View;
+    
+    //test
+    Box2DDebugRenderer bodyRenderer; 
     OrthographicCamera box2DCam;
     
     public Level1( GameMain game ) {
@@ -54,11 +66,17 @@ public class Level1 implements Screen {
         
         world = new World( new Vector2(0 , 0), true );
         
-        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 100, 100);
+
         mapBoundaries = new MapBoundaries(player.getWorld(), bg.getHeight(), bg.getWidth(), (bg.getHeight()) ,
                 (100), (100),(bg.getWidth() ));
-        playerView = new PlayerView( "Player/Player.png", (Player) player);
         obstacleView = new ObstacleView( "Obstacles/Level 1/Wall.png",new Obstacle( this.world, 200,200,100, 41) );
+
+        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
+        playerView = new PlayerView( "Player/Player.png", (Player) player);
+        
+        guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH);
+        guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "PlayerAnimation/PlayerAnimation.atlas");
+
 
         mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
