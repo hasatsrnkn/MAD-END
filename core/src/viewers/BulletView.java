@@ -34,4 +34,11 @@ public class BulletView extends Sprite {
 
     }
 
+    public Bullet getBullet() {
+        return bullet;
+    }
+
+    public void setBullet(Bullet bullet) {
+        this.bullet = bullet;
+    }
 }
