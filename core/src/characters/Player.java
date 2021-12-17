@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
+import helpers.BodyEditorLoader;
 import helpers.GameInfo;
 import throwables.Bullet;
 import java.util.ArrayList;
@@ -71,7 +72,8 @@ public class Player extends Character {
 				mouseX - this.getXPosition()   )));
 
         if ( Gdx.input.isButtonJustPressed(Input.Buttons.LEFT ) ) {
-            bullets.add( new Bullet( this.getWorld(), this.getXPosition() + 15, this.getYPosition() + 15, this.getRotationDeg() ) );
+            bullets.add( new Bullet( this.getWorld(), this.getXPosition() + 0, this.getYPosition() + 0,
+                    10, 10, this.getRotationDeg() ) );
             float hip = ( float ) Math.sqrt( Math.pow( (mouseX - this.getXPosition() ) , 2 ) + Math.pow(( mouseY - this.getYPosition()), 2 ) );
 
             for ( Bullet bullet: bullets) {

@@ -32,7 +32,7 @@ public class PlayerView extends CharacterView {
 		//TODO additional player drawings?
 		ArrayList<Bullet> bulletsToRemove= new ArrayList<Bullet>();
 		for( Bullet bullet: getPlayer().getBullets() ) {
-			bulletViewer = new BulletView( "Throwables/Bullet.png", bullet );
+			bulletViewer = new BulletView( "Throwables/Bullet1.png", bullet );
 			bulletViewer.drawBullet( spriteBatch );
 			if( bullet.isRemove()) {
 				bulletsToRemove.add( bullet );
