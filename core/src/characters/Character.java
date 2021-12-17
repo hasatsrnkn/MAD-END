@@ -2,6 +2,7 @@ package characters;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.*;
@@ -22,22 +23,26 @@ public abstract class Character extends GameObject {
 	private float rotationDeg;
 	private boolean isMoving;
 	private ArrayList<Bullet> bullets;
+	private long lastTimeShot;
+	private int shotTime;
 
     public Character(World world, float initialX, float initialY, float height, float width) {
 
     	super(world, initialX, initialY, height, width);
 
-		isMoving = false;
+		this.isMoving = false;
     	createBody();
     	updateCharacter();
-    	bullets = new ArrayList<Bullet>();
+    	this.bullets = new ArrayList<Bullet>();
+		this.lastTimeShot = System.currentTimeMillis();
+		shotTime = 0;
     }
     
     
     public void createBody() {
 		
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set( this.getXPosition() / GameInfo.PPM, this.getYPosition() / GameInfo.PPM );
         body = world.createBody( bodyDef );
 
@@ -45,12 +50,14 @@ public abstract class Character extends GameObject {
         shape.setAsBox( (this.getWidth() / 2f) / GameInfo.PPM,(this.getHeight() / 2f) / GameInfo.PPM);
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.density = 4f; //Mass of the body
+        fixtureDef.density = 5000f; //Mass of the body
         fixtureDef.friction = 2f; //To not slide on surfaces
         fixtureDef.shape = shape;
 
         Fixture fixture = body.createFixture( fixtureDef );
-
+		fixture.setUserData( "Character" );
+		fixtureDef.filter.categoryBits = GameInfo.CHARACTER;
+		fixtureDef.filter.maskBits = GameInfo.OBSTACLE | GameInfo.BULLET;
 		body.setFixedRotation(true);
         shape.dispose();
     
@@ -68,7 +75,8 @@ public abstract class Character extends GameObject {
 	
 	public void shoot(float toShootX, float toShootY) {
 		
-		
+		setLastTimeShot( System.currentTimeMillis() );
+		this.shotTime = shotTime + 1;
 		float bulletInitialX = (float) ( Math.sqrt(Math.pow(60, 2) + Math.pow(20,2)) * 
 				Math.cos(Math.toRadians(this.getRotationDeg() -15)));
 		
@@ -125,4 +133,22 @@ public abstract class Character extends GameObject {
     }
 
 
-}
+	public long getLastTimeShot() {
+		return lastTimeShot;
+	}
+
+	public void setLastTimeShot(long lastTimeShot) {
+		this.lastTimeShot = lastTimeShot;
+	}
+
+	public int getShotTime() {
+		return shotTime;
+	}
+
+	public void setShotTime(int shotTime) {
+		this.shotTime = shotTime;
+	}
+
+
+} //End
+
