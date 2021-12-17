@@ -21,6 +21,7 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import viewers.CharacterView;
 import viewers.ObstacleView;
+import Obstacle.Walls;
 import viewers.PlayerView;
 
 
@@ -42,10 +43,9 @@ public class Level1 implements Screen {
     private Viewport gameViewport;
     private Vector3 vector3;
     private Obstacle Rock;
-    private OrthographicCamera box2dCamera;
-    private Box2DDebugRenderer debugRenderer;
     private ObstacleView obstacleView;
-    private OrthographicCamera staticCamera;
+    private ObstacleView wallView;
+    private Walls wall;
 
 
     public Level1( GameMain game ) {
@@ -56,8 +56,12 @@ public class Level1 implements Screen {
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
         world = new World( new Vector2(0 , 0), true );
         Rock = new Obstacle(world  );
+        wall = new Walls(world);
         obstacleView = new ObstacleView("Obstacles/Rock_Obstacles2.png" , Rock, (GameInfo.WIDTH / 2) + 200,
                 (GameInfo.HEIGHT / 2) + 200);
+        wallView = new ObstacleView("Obstacles/Wall/Wall1.png", wall, (GameInfo.WIDTH / 2) - 200,
+                (GameInfo.HEIGHT / 2) - 200);
+
         
         player = new Player(  world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 100, 100);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
@@ -110,8 +114,11 @@ public class Level1 implements Screen {
       
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
         playerView.drawCharacterAnimation(game.getBatch());
+        obstacleView.isEqualTo(obstacleView.getWidth(), obstacleView.getHeight(), (GameInfo.WIDTH / 2) + 200,
+                (GameInfo.HEIGHT / 2) + 200);
         obstacleView.drawObstacle(game.getBatch(), ObstacleView.ObstaclePositionX, ObstacleView.ObstaclePositionY);
-
+        wallView.isEqualTo(wallView.getWidth(), wallView.getHeight(), (GameInfo.WIDTH / 2) - 200, (GameInfo.HEIGHT / 2) - 200);
+        wallView.drawObstacle(game.getBatch(), ObstacleView.ObstaclePositionX, ObstacleView.ObstaclePositionY);
 
         game.getBatch().end(); //End for drawing
 

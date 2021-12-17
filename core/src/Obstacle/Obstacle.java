@@ -21,8 +21,8 @@ public class Obstacle{
         public void createBody(){
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set((ObstacleView.ObstaclePositionX + ObstacleView.ObstacleWidth ) / GameInfo.PPM,
-                    ( ObstacleView.ObstaclePositionY + ObstacleView.ObstacleHeight / 2 ) / GameInfo.PPM);
+            bodyDef.position.set((ObstacleView.ObstaclePositionX + ObstacleView.ObstacleWidth / 2) / GameInfo.PPM,
+                    ( ObstacleView.ObstaclePositionY + ObstacleView.ObstacleHeight / 2) / GameInfo.PPM);
 
             body = world.createBody(bodyDef);
 

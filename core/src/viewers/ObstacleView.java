@@ -21,6 +21,7 @@ public class ObstacleView extends Sprite {
 
     public ObstacleView(String textureFileName, Obstacle obstacle, float x, float y){
         super(new Texture(textureFileName));
+        this.textureFileName = textureFileName;
         this.setPosition(x , y);
         this.obstacle = obstacle;
         ObstacleWidth = this.getWidth();
@@ -33,5 +34,14 @@ public class ObstacleView extends Sprite {
             setPosition(x + getWidth() / 2, y );
             obstacle.createBody();
             this.draw(batch);
+    }
+
+
+    //You need to call this method every time before draw obstacles otherwise it will draw it in the same position with the last obstacle
+    public void isEqualTo(float ObstacleWidth, float ObstacleHeight, float ObstaclePositionX, float ObstaclePositionY){
+        this.ObstacleWidth = ObstacleWidth;
+        this.ObstacleHeight = ObstacleHeight;
+        this.ObstaclePositionX = ObstaclePositionX;
+        this.ObstaclePositionY = ObstaclePositionY;
     }
 }
