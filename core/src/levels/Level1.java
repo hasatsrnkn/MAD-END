@@ -15,8 +15,12 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
+import obstacle.MapBoundaries;
+import obstacle.Obstacle;
 import viewers.CharacterView;
+import viewers.ObstacleView;
 import viewers.PlayerView;
+import viewers.WallView;
 
 /**
  * Level1 class
@@ -31,6 +35,8 @@ public class Level1 implements Screen {
     private Character player;
     private CharacterView characterView;
     private PlayerView playerView;
+    private MapBoundaries mapBoundaries;
+    private ObstacleView obstacleView;
     private World world;
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
@@ -49,8 +55,10 @@ public class Level1 implements Screen {
         world = new World( new Vector2(0 , 0), true );
         
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, 100, 100);
+        mapBoundaries = new MapBoundaries(player.getWorld(), bg.getHeight(), bg.getWidth(), (bg.getHeight()) ,
+                (100), (100),(bg.getWidth() ));
         playerView = new PlayerView( "Player/Player.png", (Player) player);
-
+        obstacleView = new ObstacleView( "Obstacles/Level 1/Wall.png",new Obstacle( this.world, 200,200,100, 41) );
 
         mainCamera = new OrthographicCamera( GameInfo.WIDTH / 1.3f , GameInfo.HEIGHT / 1.3f );
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
@@ -68,7 +76,7 @@ public class Level1 implements Screen {
     	
         ((Player)player).handleMoveInput( dt );
         ((Player)player).handleMouseInput( dt, vector3.x, vector3.y);
-        
+        obstacleView.getObstacle().updateObstacle();
         player.updateCharacter();
         moveCamera();
 
@@ -109,7 +117,15 @@ public class Level1 implements Screen {
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
         playerView.drawCharacterAnimation(game.getBatch());
-
+        obstacleView.drawObstacle(game.getBatch());
+        for( int i = 0; i < 2; i = i + 1) {
+            WallView wallView = new WallView( "Obstacles/Level 1/Wall1.png", mapBoundaries.getBoundaryWalls().get(i) );
+            wallView.drawWallView(game.getBatch());
+        }
+        for( int i = 2; i < 4; i = i + 1) {
+            WallView wallView = new WallView( "Obstacles/Level 1/Wall2.png", mapBoundaries.getBoundaryWalls().get(i) );
+            wallView.drawWallView(game.getBatch());
+        }
         game.getBatch().end(); //End for drawing
 
         game.getBatch().setProjectionMatrix( mainCamera.combined );
@@ -146,6 +162,7 @@ public class Level1 implements Screen {
     public void dispose() {
        
     	bg.dispose();
-
     }
+
+
 }
