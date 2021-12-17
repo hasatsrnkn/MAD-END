@@ -35,6 +35,9 @@ public class Obstacle extends GameObject {
 
         Fixture fixture = body.createFixture( fixtureDef );
 
+        fixture.setUserData( "Obstacle" );
+        fixtureDef.filter.categoryBits = GameInfo.OBSTACLE;
+        fixtureDef.filter.maskBits = GameInfo.BULLET | GameInfo.CHARACTER;
 
         shape.dispose();
 

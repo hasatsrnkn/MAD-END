@@ -1,5 +1,6 @@
 package throwables;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
@@ -41,12 +42,14 @@ public class Bullet extends GameObject {
 
 
 		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.density = 2f; //Mass of the body
+		fixtureDef.density = 1f; //Mass of the body
 		fixtureDef.friction = 1f; //To not slide on surfaces
 		fixtureDef.shape = shape;
 
 		fixture = body.createFixture( fixtureDef );
-
+		fixture.setUserData( "Bullet" );
+		fixtureDef.filter.categoryBits = GameInfo.BULLET;
+		fixtureDef.filter.maskBits = GameInfo.OBSTACLE | GameInfo.CHARACTER;
 
 		shape.dispose();
 	}
@@ -63,11 +66,6 @@ public class Bullet extends GameObject {
 		
 		body.setTransform(body.getPosition().x, body.getPosition().y, (float)Math.toRadians(rotationDeg));
 		this.setPosition( body.getPosition().x * GameInfo.PPM, body.getPosition().y * GameInfo.PPM);
-
-		if( getYPosition() > 2000 || getYPosition() < 0 || getXPosition() > 3000 || getXPosition() < 0  ) {
-			this.setRemove( true );
-			body.destroyFixture( fixture );
-		}
 
 	}
 
@@ -93,6 +91,10 @@ public class Bullet extends GameObject {
 
 	public boolean isShot() {
 		return shot;
+	}
+
+	public Fixture getFixture() {
+		return fixture;
 	}
 
 
