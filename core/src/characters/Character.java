@@ -78,7 +78,8 @@ public abstract class Character extends GameObject {
 		
 		float hip = ( float ) Math.sqrt( Math.pow( (toShootX - this.getXPosition() ) , 2 ) + Math.pow(( toShootY - this.getYPosition()), 2 ) );
 		
-		bullets.add( new Bullet( this.getWorld(), this.getXPosition() + bulletInitialX, this.getYPosition() + bulletInitialY, this.getRotationDeg() ) );
+		bullets.add( new Bullet( this.getWorld(), this.getXPosition() + bulletInitialX, this.getYPosition() + bulletInitialY,
+				10f, 10f, this.getRotationDeg() ) );
 		
         for ( Bullet bullet: bullets) {
         	
