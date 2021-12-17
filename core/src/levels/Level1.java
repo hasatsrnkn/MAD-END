@@ -41,12 +41,14 @@ public class Level1 implements Screen {
     private ObstacleView obstacleView;
 
     private World world;
-
+    private Texture bg;
     
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
     private Vector3 vector3;
-
+    
+    private Character player;
+    private PlayerView playerView;
    
     private Character guardian1;
     private GuardianView guardian1View;
@@ -61,10 +63,11 @@ public class Level1 implements Screen {
         this.game = game;
         
         bg = new Texture( "Level Backgrounds/Level 1 Background.png" );
-
+        
         world = new World( new Vector2(0 , 0), true );
+        
 
-        mapBoundaries = new MapBoundaries(world, bg.getHeight(), bg.getWidth(), (bg.getHeight()) ,
+        mapBoundaries = new MapBoundaries(player.getWorld(), bg.getHeight(), bg.getWidth(), (bg.getHeight()) ,
                 (100), (100),(bg.getWidth() ));
         obstacleView = new ObstacleView( "Obstacles/Level 1/Wall.png",new Obstacle( this.world, 200,200,100, 41) );
 
