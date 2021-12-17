@@ -28,5 +28,6 @@ public class ObstacleView extends Sprite {
 
     public void setObstacle(Obstacle obstacle) {
         this.obstacle = obstacle;
+
     }
 }

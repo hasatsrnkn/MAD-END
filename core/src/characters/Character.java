@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
+import viewers.CharacterView;
 
 import helpers.GameObject;
 import throwables.Bullet;
@@ -26,11 +28,13 @@ public abstract class Character extends GameObject {
 	private long lastTimeShot;
 	private int shotTime;
 
-    public Character(World world, float initialX, float initialY, float height, float width) {
+   public Character(World world, float initialX, float initialY, float height, float width) {
 
     	super(world, initialX, initialY, height, width);
 
 		this.isMoving = false;
+
+
     	createBody();
     	updateCharacter();
     	this.bullets = new ArrayList<Bullet>();

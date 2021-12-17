@@ -20,7 +20,7 @@ public class CharacterView extends Sprite{
 	private Sprite currentSprite;
 	private float elapsedTime;
   	private Box2DDebugRenderer bodyRenderer;
-
+  
 	
 	public CharacterView(String textureFileName, Character ch, String atlasFileName) {
 		
