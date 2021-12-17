@@ -25,12 +25,14 @@ public class PlayerView extends CharacterView {
 		super(textureFileName, ch, "PlayerAnimation/PlayerAnimation.atlas");
 		player = ch;
 
+
 	}
 	public void drawPlayer(SpriteBatch spriteBatch) {
 
 		super.drawCharacter(spriteBatch);
 		//TODO additional player drawings?
 		ArrayList<Bullet> bulletsToRemove= new ArrayList<Bullet>();
+		
 		for( Bullet bullet: getPlayer().getBullets() ) {
 			bulletViewer = new BulletView( "Throwables/Bullet.png", bullet );
 			bulletViewer.drawBullet( spriteBatch );

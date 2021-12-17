@@ -45,8 +45,8 @@ public class CharacterView extends Sprite{
 
 		if ( !character.isMoving() ) {
 
-			this.setPosition(character.getXPosition() - character.getWidth() / 2f,
-					character.getYPosition() - character.getHeight() / 2f);
+			this.setPosition(character.getXPosition() - (character.getWidth() / 2f + 10) ,
+					character.getYPosition() - (character.getHeight() / 2f + 12));
 
 			this.draw( spriteBatch );
 		}

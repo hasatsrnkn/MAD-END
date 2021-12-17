@@ -54,7 +54,7 @@ public class Bullet  {
 
 		Fixture fixture = body.createFixture( fixtureDef );
 
-
+		body.setBullet(true); //??????
 		shape.dispose();
 
 	}
