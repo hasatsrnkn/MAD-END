@@ -42,7 +42,7 @@ public class Level implements Screen, ContactListener {
 
     //Properties
     protected GameMain game;
-
+    
     protected Texture bg;
     protected Character player;
 //    private CharacterView characterView;
@@ -56,6 +56,8 @@ public class Level implements Screen, ContactListener {
     protected Viewport gameViewport;
     protected Vector3 vector3;
 
+    private boolean isShooterLevel;
+    
     private WallView mapBoundaryWallView1;
     private WallView mapBoundaryWallView2;
     private WallView mapBoundaryWallView3;
@@ -78,8 +80,7 @@ public class Level implements Screen, ContactListener {
         mapBoundaries = new MapBoundaries(world, bg.getHeight(), bg.getWidth(), (bg.getHeight()) ,
                 (100), (100),(bg.getWidth() ));
 
-        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
-        playerView = new PlayerView( "Player/Player.png", (Player) player);
+
         mapBoundaryWallView1 = new WallView( "Obstacles/Level 1/Wall1.png", mapBoundaries.getBoundaryWalls().get(0) );
         mapBoundaryWallView2 = new WallView( "Obstacles/Level 1/Wall1.png", mapBoundaries.getBoundaryWalls().get(1) );
         mapBoundaryWallView3 = new WallView( "Obstacles/Level 1/Wall2.png", mapBoundaries.getBoundaryWalls().get(2) );
@@ -104,7 +105,6 @@ public class Level implements Screen, ContactListener {
     	
         ((Player)player).handleMoveInput( dt );
         ((Player)player).handleMouseInput( dt, vector3.x, vector3.y);
-        obstacleView.getObstacle().updateObstacle();
         player.updateCharacter();
         moveCamera();
 
@@ -195,32 +195,13 @@ public class Level implements Screen, ContactListener {
     }
 
 
-    @Override
-    public void beginContact(Contact contact) {
-        
-    	Fixture body1;
-        Fixture body2;
 
-        if (contact.getFixtureA().getUserData() == "Bullet" ) {
-            body1 = contact.getFixtureA();
-            body2 = contact.getFixtureB();
-        }
-        else {
-            body1 = contact.getFixtureB();
-            body2 = contact.getFixtureA();
-        }
-
-        if (body1.getUserData() == "Bullet" && body2.getUserData() == "Obstacle" ) {
-            playerView.getBulletViewer().getBullet().setRemove( true );
-
-        }
-
-        else if (body1.getUserData() == "Bullet" && body2.getUserData() == "Bullet" ) {
-            playerView.getBulletViewer().getBullet().setRemove( true );
-
-        }
-
-    }
+	@Override
+	public void beginContact(Contact contact) {
+		// TODO Auto-generated method stub
+		
+	}
+ 
 
     @Override
     public void endContact(Contact contact) {
@@ -236,6 +217,18 @@ public class Level implements Screen, ContactListener {
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
     }
+
+
+	public boolean isShooterLevel() {
+		return isShooterLevel;
+	}
+
+
+	public void setShooterLevel(boolean isShooterLevel) {
+		this.isShooterLevel = isShooterLevel;
+	}
+
+
 }
 
 	

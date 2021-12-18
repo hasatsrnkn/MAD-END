@@ -40,6 +40,9 @@ public class Level1 extends Level implements Screen, ContactListener {
         
         obstacleView = new ObstacleView( "Obstacles/Level 1/Wall.png",new Obstacle( this.world, 200,200,100, 41) );
 
+        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
+        playerView = new PlayerView( "Player/Player.png", (Player) player);
+        
         guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH);
         guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "PlayerAnimation/PlayerAnimation.atlas");
         
@@ -49,6 +52,7 @@ public class Level1 extends Level implements Screen, ContactListener {
     public void update( float dt ) {
     	
     	super.update(dt);
+        obstacleView.getObstacle().updateObstacle();
     }
 
     public void moveCamera() {
@@ -60,6 +64,18 @@ public class Level1 extends Level implements Screen, ContactListener {
     @Override
     public void show() {
 
+    }
+    
+    public void advanceToNextLevel() {
+    	
+    	//you can change this statement to how you want to advance to the next level
+    	//also it is currently advancing to level3
+    	if(player.getXPosition() >= 1800 && player.getYPosition() <= 100) {
+    		
+    		this.dispose();
+    		game.setScreen( new Level3( game,  "Level Backgrounds/Level 1 Background.png"  ) );
+    		 
+    	}
     }
 
     @Override
@@ -78,6 +94,8 @@ public class Level1 extends Level implements Screen, ContactListener {
         
         //tester
         super.renderBodies(delta);
+        
+        advanceToNextLevel();
     }
 
     @Override
@@ -104,6 +122,34 @@ public class Level1 extends Level implements Screen, ContactListener {
     public void dispose() {
        
     	super.dispose();
+    }
+    
+    @Override
+    public void beginContact(Contact contact) {
+        
+    	Fixture body1;
+        Fixture body2;
+
+        if (contact.getFixtureA().getUserData() == "Bullet" ) {
+            body1 = contact.getFixtureA();
+            body2 = contact.getFixtureB();
+            
+        }
+        else {
+            body1 = contact.getFixtureB();
+            body2 = contact.getFixtureA();
+        }
+
+        if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Obstacle") ) {
+            playerView.getBulletViewer().getBullet().setRemove( true );
+
+        }
+
+        else if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Bullet") ) {
+            playerView.getBulletViewer().getBullet().setRemove( true );
+
+        }
+
     }
 
 }
