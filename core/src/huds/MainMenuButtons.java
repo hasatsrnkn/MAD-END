@@ -91,7 +91,7 @@ public class MainMenuButtons {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen( new Level1( game ) );
+                game.setScreen( new Level1( game,  "Level Backgrounds/Level 1 Background.png"  ) );
             }
         });
 
