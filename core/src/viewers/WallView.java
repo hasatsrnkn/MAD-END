@@ -17,7 +17,8 @@ public class WallView extends ObstacleView {
 
     }
 
-    public void drawWallView( SpriteBatch spriteBatch) {
+    public void drawWall( SpriteBatch spriteBatch) {
+    	
         super.drawObstacle( spriteBatch );
     }
 
