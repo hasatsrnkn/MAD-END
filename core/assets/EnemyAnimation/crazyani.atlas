@@ -1,0 +1,75 @@
+
+crazyani.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+spr_fake_civilian_run
+  rotate: false
+  xy: 1, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 0
+spr_fake_civilian_run
+  rotate: false
+  xy: 1, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 5
+spr_fake_civilian_run
+  rotate: false
+  xy: 25, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 1
+spr_fake_civilian_run
+  rotate: false
+  xy: 49, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 2
+spr_fake_civilian_run
+  rotate: false
+  xy: 73, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 3
+spr_fake_civilian_run
+  rotate: false
+  xy: 97, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 4
+spr_fake_civilian_run
+  rotate: false
+  xy: 121, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 6
+spr_fake_civilian_run
+  rotate: false
+  xy: 121, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 9
+spr_fake_civilian_run
+  rotate: false
+  xy: 145, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 7
+spr_fake_civilian_run
+  rotate: false
+  xy: 169, 1
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 8

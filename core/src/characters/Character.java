@@ -31,7 +31,7 @@ public abstract class Character extends GameObject {
     	super(world, initialX, initialY, height, width);
 
 		this.isMoving = false;
-    	createBody();
+    	createBody(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1));
     	updateCharacter();
     	this.bullets = new ArrayList<Bullet>();
 		this.lastTimeShot = System.currentTimeMillis();
@@ -39,7 +39,7 @@ public abstract class Character extends GameObject {
     }
     
     
-    public void createBody() {
+    public void createBody(String fixtureName) {
 		
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -55,7 +55,7 @@ public abstract class Character extends GameObject {
         fixtureDef.shape = shape;
 
         Fixture fixture = body.createFixture( fixtureDef );
-		fixture.setUserData( "Character" );
+		fixture.setUserData( fixtureName );
 		fixtureDef.filter.categoryBits = GameInfo.CHARACTER;
 		fixtureDef.filter.maskBits = GameInfo.OBSTACLE | GameInfo.BULLET;
 		body.setFixedRotation(true);
@@ -93,8 +93,8 @@ public abstract class Character extends GameObject {
         	
         	if( !bullet.isShot() ) {
         		
-                    bullet.moveBullet((toShootX - this.getXPosition()) * GameInfo.BULLET_SPEED /
-                            hip, (toShootY - this.getYPosition()) * GameInfo.BULLET_SPEED / hip);
+                bullet.moveBullet((toShootX - this.getXPosition()) * GameInfo.BULLET_SPEED / hip, 
+                		(toShootY - this.getYPosition()) * GameInfo.BULLET_SPEED / hip);
                 }
             }
 	}
