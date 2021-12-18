@@ -61,18 +61,26 @@ public class Player extends Character {
 
     }
 
-    float bulletX;
-    float bulletY;
-    
+
 	public void handleMouseInput(float dt, float mouseX, float mouseY ) {
 
 		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition()  , 
 				mouseX - this.getXPosition()   )));
 
-		
-		
+
         if ( Gdx.input.isButtonJustPressed(Input.Buttons.LEFT ) ) {
-        	this.shoot(mouseX, mouseY);
+
+            if( this.getShotTime() == 0) {
+                this.shoot( mouseX, mouseY );
+            }
+            else {
+                long time = System.currentTimeMillis();
+                if (time > getLastTimeShot() + 500) {
+                    this.shoot(mouseX, mouseY);
+                }
+            }
+
+
         }
 
 		
