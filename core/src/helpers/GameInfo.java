@@ -10,6 +10,7 @@ public class GameInfo {
     public static final int WIDTH = 1920;
     public static final int HEIGHT = 1080;
     public static final int PPM = 100;
+    
     public static final float PLAYER_MOVESPEED = 2.3f;
     public static final float PLAYER_HEIGHT= 55f;
     public static final float PLAYER_WIDTH = 72f;
@@ -18,6 +19,10 @@ public class GameInfo {
     public static final float GUARDIAN_MOVESPEED = 2.1f;
     public static final float GUARDIAN_HEIGHT= 55f;
     public static final float GUARDIAN_WIDTH = 72f;
+    
+    public static final float CRAZY_MOVESPEED = 2.1f;
+    public static final float CRAZY_HEIGHT= 55f;
+    public static final float CRAZY_WIDTH = 72f;
 
     public static final short DEFAULT = 1;
     public static final short CHARACTER = 2;

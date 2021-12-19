@@ -1,11 +1,9 @@
 package viewers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import characters.Character;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 /**
  * Character View Class
  * @author Mehmet Eren Balasar/Mehmet Hasat Serinkan
@@ -19,7 +17,6 @@ public class CharacterView extends Sprite{
 	private TextureRegion currentFrame;
 	private Sprite currentSprite;
 	private float elapsedTime;
-  	private Box2DDebugRenderer bodyRenderer;
 
 	
 	public CharacterView(String textureFileName, Character ch, String atlasFileName) {
