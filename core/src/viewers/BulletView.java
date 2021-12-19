@@ -41,4 +41,9 @@ public class BulletView extends Sprite {
     public void setBullet(Bullet bullet) {
         this.bullet = bullet;
     }
+
+    public void setRotationOfBullet() {
+        this.setRotation( getBullet().getRotationDeg() );
+    }
+
 }

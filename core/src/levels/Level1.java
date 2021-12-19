@@ -2,8 +2,10 @@ package levels;
 
 import characters.*;
 import characters.Character;
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,11 +18,7 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import obstacle.MapBoundaries;
 import obstacle.Obstacle;
-import viewers.CharacterView;
-import viewers.ObstacleView;
-import viewers.GuardianView;
-import viewers.PlayerView;
-import viewers.WallView;
+import viewers.*;
 
 /**
  * Level1 class
@@ -32,27 +30,33 @@ public class Level1 extends Level implements Screen, ContactListener {
 	
     private Character guardian1;
     private GuardianView guardian1View;
+    private RockView rockView1;
+    private RockView rockView2;
     
     
     public Level1( GameMain game, String bgName ) {
 
     	super(game, bgName);
         
-        obstacleView = new ObstacleView( "Obstacles/Level 1/Wall.png",new Obstacle( this.world, 200,200,100, 41) );
-
+        rockView1 = new RockView( "Obstacles/Level 1/Rock1.png",new Obstacle( this.world, 200,200,100, 41) );
+        rockView2 = new RockView("Obstacles/Level 1/Transparent.png", new Obstacle( this.world, 400,750,170,170));
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
         guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH);
         guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "PlayerAnimation/PlayerAnimation.atlas");
-        
+        Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
+        player.setFootStepVoice( footstep );
+
     }
 
     
     public void update( float dt ) {
     	
     	super.update(dt);
-        obstacleView.getObstacle().updateObstacle();
+        rockView1.getObstacle().updateObstacle();
+        rockView2.getObstacle().updateObstacle();
+
     }
 
     public void moveCamera() {
@@ -85,13 +89,14 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
         playerView.drawCharacterAnimation(game.getBatch());
-        
+
         guardian1View.drawCharacter(game.getBatch());
         
-        obstacleView.drawObstacle(game.getBatch());
+        rockView1.drawObstacle(game.getBatch());
+        rockView2.drawObstacle(game.getBatch());
 
         game.getBatch().end(); //End for drawing
-        
+
         //tester
         super.renderBodies(delta);
         
@@ -122,6 +127,7 @@ public class Level1 extends Level implements Screen, ContactListener {
     public void dispose() {
        
     	super.dispose();
+        player.getFootStepVoice().dispose();
     }
     
     @Override
