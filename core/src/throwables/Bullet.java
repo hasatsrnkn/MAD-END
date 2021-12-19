@@ -69,6 +69,11 @@ public class Bullet extends GameObject {
 
 	}
 
+	public void destroyBullet() {
+		this.getBody().destroyFixture( this.getFixture() );
+		this.getWorld().destroyBody( this.getBody() );
+	}
+
 	public float getRotationDeg() {
 		return rotationDeg;
 	}

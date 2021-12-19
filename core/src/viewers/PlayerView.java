@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class PlayerView extends CharacterView {
 	
 	private BulletView bulletViewer;
-	private ArrayList<Bullet> bulletsToRemove;
 	private Player player;
 
 
@@ -28,26 +27,26 @@ public class PlayerView extends CharacterView {
 		player = ch;
 
 		//JUST FOR INITIALIZATION !é
-		bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( player.getWorld(), 10f,10f,10f,10,10)  );
+		bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( player.getWorld(), 10f,10f,
+				10f,10, player.getRotationDeg())  );
 		//JUST FOR INITIALIZATION İ
 
-		bulletsToRemove = new ArrayList<Bullet>();
+
 	}
 	public void drawPlayer(SpriteBatch spriteBatch) {
 
 		super.drawCharacter(spriteBatch);
 		//TODO additional player drawings?
+
+
 		for( Bullet bullet: getPlayer().getBullets() ) {
 			bulletViewer.setBullet( bullet );
+			bulletViewer.setRotationOfBullet();
 			bulletViewer.drawBullet( spriteBatch );
-			if( bullet.isRemove()) {
-				bulletsToRemove.add( bullet );
-				bullet.getBody().destroyFixture( bullet.getFixture() );
-				player.getWorld().destroyBody( bullet.getBody() );
-			}
 		}
-		player.getBullets().removeAll( bulletsToRemove );
-		bulletsToRemove.clear();
+
+		player.removeBullets();
+
 	}
 
 

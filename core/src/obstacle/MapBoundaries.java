@@ -1,12 +1,13 @@
 package obstacle;
 
 import com.badlogic.gdx.physics.box2d.World;
-
 import java.util.ArrayList;
 
-
-
-
+/**
+ * MapBoundaries class
+ * @author Mehmet Hasat Serinkan
+ * @date 19.12.2021
+ */
 public class MapBoundaries {
 
     private ArrayList<Wall> boundaryWalls;
