@@ -29,4 +29,7 @@ public class GameInfo {
     public static final short BULLET = 3;
     public static final short OBSTACLE = 4;
 
+    public static float GUNSHOT_VOLUME = 0.7f;
+    public static float FOOTSTEP_VOLUME = 0.5f;
+
 }

@@ -16,6 +16,7 @@ import helpers.GameInfo;
 import levels.Level1;
 import scenes.CreditsScreen;
 import scenes.MainMenu;
+import scenes.SettingsScreen;
 
 /**
  * Main Menu Buttons
@@ -102,6 +103,12 @@ public class MainMenuButtons {
             }
         });
 
+        settingsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen( new SettingsScreen( game ) );
+            }
+        });
 
         exitButton.addListener( new ChangeListener() {
 
