@@ -194,7 +194,7 @@ public class Level1 extends Level implements Screen, ContactListener {
             body2 = contact.getFixtureA();
         }
 
-        if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Obstacle") ) {
+        if (body1.getUserData().equals( "Bullet" ) && body2.getUserData().equals("Obstacle") ) {
             for ( Bullet bullet : getAllBullets() ) {
                 if( bullet != null ) {
                     if ( bullet.getBody().equals( body1.getBody() )) {
@@ -218,7 +218,14 @@ public class Level1 extends Level implements Screen, ContactListener {
         else if (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) {
             if( body2.getBody().equals( guardian1.getBody() )) {
                 guardian1.reduceHeathPoint();
+            }
 
+            for ( Bullet bullet : getAllBullets() ) {
+                if( bullet != null ) {
+                    if ( bullet.getBody().equals( body1.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+                }
             }
         }
 
