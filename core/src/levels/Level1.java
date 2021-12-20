@@ -2,6 +2,9 @@ package levels;
 
 import characters.*;
 import characters.Character;
+
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -19,6 +22,7 @@ import helpers.GameInfo;
 import obstacle.MapBoundaries;
 import obstacle.Obstacle;
 import obstacle.Rock;
+import throwables.Bullet;
 import viewers.*;
 
 /**
@@ -28,9 +32,10 @@ import viewers.*;
  */
 public class Level1 extends Level implements Screen, ContactListener {
 
-    private Character guardian1;
+    private Guardian guardian1;
     private GuardianView guardian1View;
     private Rock[] rocks;
+    private ArrayList<Bullet> bullets;
 
     public Level1( GameMain game, String bgName ) {
 
@@ -38,20 +43,25 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         rocks = new Rock[30];
         createRocks();
+        bullets = new ArrayList<Bullet>();
 
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
-        guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH);
-        guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "PlayerAnimation/PlayerAnimation.atlas");
+        guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "EnemyAnimation/terroristani.atlas");
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
         player.setFootStepVoice( footstep );
-
+        
     }
 
     
     public void update( float dt ) {
     	super.update(dt);
+    	guardian1.setPointer(player.getXPosition(), player.getYPosition());
+    	guardian1.moveGuardianToTarget();
+    	guardian1.updateCharacter();
+    	
     }
 
     public void moveCamera() {
@@ -116,13 +126,14 @@ public class Level1 extends Level implements Screen, ContactListener {
     	super.render(delta);
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
-        playerView.drawCharacterAnimation(game.getBatch());
 
         guardian1View.drawCharacter(game.getBatch());
 
 
         game.getBatch().end(); //End for drawing
 
+        
+        
         //tester
         super.renderBodies(delta);
         
@@ -161,7 +172,8 @@ public class Level1 extends Level implements Screen, ContactListener {
         
     	Fixture body1;
         Fixture body2;
-
+        
+        
         if (contact.getFixtureA().getUserData() == "Bullet" ) {
             body1 = contact.getFixtureA();
             body2 = contact.getFixtureB();
@@ -177,7 +189,7 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         }
 
-        else if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Bullet") ) {
+        else if (body1.getUserData().equals( "Bullet") || body2.getUserData().equals("Bullet") ) {
             playerView.getBulletViewer().getBullet().setRemove( true );
 
         }

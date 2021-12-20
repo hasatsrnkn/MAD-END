@@ -6,6 +6,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
 import helpers.GameInfo;
 
@@ -37,7 +38,6 @@ public abstract class Character extends GameObject {
 
 		this.isMoving = false;
     	createBody(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1));
-    	updateCharacter();
     	this.bullets = new ArrayList<Bullet>();
 		this.bulletsToRemove = new ArrayList<Bullet>();
 		this.lastTimeShot = System.currentTimeMillis();
@@ -81,7 +81,7 @@ public abstract class Character extends GameObject {
 
 	}
 	
-	public void shoot(float toShootX, float toShootY) {
+	public ArrayList<Bullet> shoot(float toShootX, float toShootY) {
 
 		gunShotVoice.play( GameInfo.GUNSHOT_VOLUME );
 		setLastTimeShot( System.currentTimeMillis() );
@@ -95,8 +95,9 @@ public abstract class Character extends GameObject {
 		
 		float hip = ( float ) Math.sqrt( Math.pow( (toShootX - this.getXPosition() ) , 2 ) + Math.pow(( toShootY - this.getYPosition()), 2 ) );
 		
-		bullets.add( new Bullet( this.getWorld(), this.getXPosition() + bulletInitialX, this.getYPosition() + bulletInitialY,
-				10f, 10f, this.getRotationDeg() ) );
+		Bullet newBullet = new Bullet( this.getWorld(), this.getXPosition() + bulletInitialX, this.getYPosition() + bulletInitialY,
+				10f, 10f, this.getRotationDeg() );
+		bullets.add( newBullet );
 		
         for ( Bullet bullet: bullets) {
         	
@@ -107,7 +108,7 @@ public abstract class Character extends GameObject {
                 }
             }
 
-
+        return bullets;
 	}
 	
 	public void updateCharacter() {
@@ -153,6 +154,12 @@ public abstract class Character extends GameObject {
     public void setRotationDeg(float degrees) {
     	
     	this.rotationDeg = degrees;
+    }
+    
+    public void setRotationDeg(float x, float y) {
+    	
+		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( y - this.getYPosition()  , 
+				x - this.getXPosition()   )));
     }
 
 
