@@ -46,7 +46,6 @@ public abstract class Character extends GameObject {
 		this.killedExecuted = false;
 
     	createBody();
-    	updateCharacter();
 
     	//createBody(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1));
     	this.bullets = new ArrayList<Bullet>();
