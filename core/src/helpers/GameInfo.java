@@ -22,7 +22,7 @@ public class GameInfo {
     
     public static final float CRAZY_MOVESPEED = 2.1f;
     public static final float CRAZY_HEIGHT= 55f;
-    public static final float CRAZY_WIDTH = 72f;
+    public static final float CRAZY_WIDTH = 45f;
 
     public static final short DEFAULT = 1;
     public static final short CHARACTER = 2;

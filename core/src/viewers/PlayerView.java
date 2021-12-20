@@ -35,17 +35,15 @@ public class PlayerView extends CharacterView {
 	}
 	public void drawPlayer(SpriteBatch spriteBatch) {
 
-		super.drawCharacter(spriteBatch);
+		super.drawCharacter(spriteBatch, 10f, 12f);
 		//TODO additional player drawings?
 
 
-
-
-
+		super.drawCharacterAnimation(spriteBatch, 15f, 1f);
 
 	}
 
-
+	//just in case, never used
 	public void drawPlayerAnimation(SpriteBatch spriteBatch) {
 		
 		this.getCharacter().updateCharacter();

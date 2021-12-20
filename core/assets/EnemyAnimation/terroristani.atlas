@@ -1,0 +1,61 @@
+
+terroristani.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+spr_terrorist_attack
+  rotate: false
+  xy: 1, 217
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: 0
+spr_terrorist_attack
+  rotate: false
+  xy: 1, 181
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: 1
+spr_terrorist_attack
+  rotate: false
+  xy: 1, 145
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: 2
+spr_terrorist_attack
+  rotate: false
+  xy: 1, 145
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: 6
+spr_terrorist_attack
+  rotate: false
+  xy: 1, 109
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: 3
+spr_terrorist_attack
+  rotate: false
+  xy: 1, 73
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: 4
+spr_terrorist_attack
+  rotate: false
+  xy: 1, 37
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: 5
+spr_terrorist_attack
+  rotate: false
+  xy: 1, 1
+  size: 46, 34
+  orig: 46, 34
+  offset: 0, 0
+  index: 7
