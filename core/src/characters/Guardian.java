@@ -24,7 +24,7 @@ public class Guardian extends Enemy {
 		
 		super(world, initialX, initialY, height, width);
 		
-		pointer = new Vector2();
+		pointer = new Vector2( );
 		proximityRadius = 100f;
 		targetCharacter = targetCh;
 	}
