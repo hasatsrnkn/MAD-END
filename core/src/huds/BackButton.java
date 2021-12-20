@@ -52,7 +52,7 @@ public class BackButton {
                 new Texture("Buttons/Main Menu/Back Button.png" ))));
 
 
-        backButton.setPosition( GameInfo.WIDTH / 2f - 1000, GameInfo.HEIGHT / 2f + 400);
+        backButton.setPosition( GameInfo.WIDTH / 2f - 975, GameInfo.HEIGHT / 2f + 350);
     }
 
     public void addListener() {
