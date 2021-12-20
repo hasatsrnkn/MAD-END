@@ -19,11 +19,12 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
-import obstacle.MapBoundaries;
-import obstacle.Obstacle;
+
 import obstacle.Rock;
 import throwables.Bullet;
 import viewers.*;
+
+import java.util.ArrayList;
 
 /**
  * Level1 class
@@ -32,16 +33,26 @@ import viewers.*;
  */
 public class Level1 extends Level implements Screen, ContactListener {
 
-    private Guardian guardian1;
+
+    private Character guardian1;
+    private Character guardian2;
+
     private GuardianView guardian1View;
+    private GuardianView guardian2View;
     private Rock[] rocks;
     private ArrayList<Bullet> bullets;
+
+    private ArrayList<Enemy> allEnemies;
 
     public Level1( GameMain game, String bgName ) {
 
     	super(game, bgName);
 
         rocks = new Rock[30];
+
+        allEnemies = new ArrayList<Enemy>();
+
+
         createRocks();
         bullets = new ArrayList<Bullet>();
 
@@ -50,18 +61,28 @@ public class Level1 extends Level implements Screen, ContactListener {
         
         guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "EnemyAnimation/terroristani.atlas");
+
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
         player.setFootStepVoice( footstep );
         
     }
 
-    
+
     public void update( float dt ) {
     	super.update(dt);
+
+
+        if(guardian1.isDead()) {
+            guardian1.kill();
+        }
+
+
+
     	guardian1.setPointer(player.getXPosition(), player.getYPosition());
     	guardian1.moveGuardianToTarget();
     	guardian1.updateCharacter();
     	
+
     }
 
     public void moveCamera() {
@@ -127,7 +148,11 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
-        guardian1View.drawCharacter(game.getBatch());
+        if(!guardian1.isDead()) {
+            guardian1View.drawCharacter(game.getBatch());
+        }
+
+        guardian2View.drawCharacter(game.getBatch());
 
 
         game.getBatch().end(); //End for drawing
@@ -184,14 +209,31 @@ public class Level1 extends Level implements Screen, ContactListener {
             body2 = contact.getFixtureA();
         }
 
-        if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Obstacle") ) {
-            playerView.getBulletViewer().getBullet().setRemove( true );
-
-        }
-
         else if (body1.getUserData().equals( "Bullet") || body2.getUserData().equals("Bullet") ) {
-            playerView.getBulletViewer().getBullet().setRemove( true );
+             for ( Bullet bullet : getAllBullets() ) {
+                if( bullet != null ) {
+                    if ( bullet.getBody().equals( body1.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+                   else if ( bullet.getBody().equals( body2.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+                }
+             }
+        }
+               
+        else if (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) {
+            if( body2.getBody().equals( guardian1.getBody() )) {
+                guardian1.reduceHeathPoint();
+            }
 
+            for ( Bullet bullet : getAllBullets() ) {
+                if( bullet != null ) {
+                    if ( bullet.getBody().equals( body1.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+                }
+            }
         }
 
     }

@@ -26,28 +26,39 @@ public abstract class Character extends GameObject {
 	private boolean isMoving;
 	private boolean footStepSoundPlaying;
 	private ArrayList<Bullet> bullets;
-	private ArrayList<Bullet> bulletsToRemove;
 	private long lastTimeShot;
 	private int shotTime;
 	private Sound gunShotVoice;
 	private Sound footStepVoice;
+	private int heathPoint;
+	private boolean isDead;
+	private boolean killedExecuted;
+	private Fixture fixture;
+	private FixtureDef fixtureDef;
 
     public Character(World world, float initialX, float initialY, float height, float width) {
 
     	super(world, initialX, initialY, height, width);
 
 		this.isMoving = false;
-    	createBody(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1));
+		this.isDead = false;
+		this.heathPoint = GameInfo.CHARACTER_HEALTH;
+		this.killedExecuted = false;
+
+    	createBody();
+    	updateCharacter();
+
+    	//createBody(this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1));
     	this.bullets = new ArrayList<Bullet>();
-		this.bulletsToRemove = new ArrayList<Bullet>();
 		this.lastTimeShot = System.currentTimeMillis();
 		shotTime = 0;
 		gunShotVoice = Gdx.audio.newSound( Gdx.files.internal( "Sounds/GunShotEffect.wav"));
 		footStepSoundPlaying = false;
+
     }
     
     
-    public void createBody(String fixtureName) {
+    public void createBody() {
 		
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -57,18 +68,17 @@ public abstract class Character extends GameObject {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox( (this.getWidth() / 2f) / GameInfo.PPM,(this.getHeight() / 2f) / GameInfo.PPM);
 
-        FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef = new FixtureDef();
         fixtureDef.density = 5000f; //Mass of the body
         fixtureDef.friction = 2f; //To not slide on surfaces
         fixtureDef.shape = shape;
 
-        Fixture fixture = body.createFixture( fixtureDef );
-		fixture.setUserData( fixtureName );
+        fixture = body.createFixture( fixtureDef );
+		fixture.setUserData( "Character" );
 		fixtureDef.filter.categoryBits = GameInfo.CHARACTER;
-		fixtureDef.filter.maskBits = GameInfo.OBSTACLE | GameInfo.BULLET;
+		fixtureDef.filter.maskBits = GameInfo.OBSTACLE | GameInfo.BULLET | GameInfo.CHARACTER;
 		body.setFixedRotation(true);
         shape.dispose();
-    
 	}
 
 
@@ -81,7 +91,9 @@ public abstract class Character extends GameObject {
 
 	}
 	
-	public ArrayList<Bullet> shoot(float toShootX, float toShootY) {
+
+	public Bullet shoot(float toShootX, float toShootY) {
+
 
 		gunShotVoice.play( GameInfo.GUNSHOT_VOLUME );
 		setLastTimeShot( System.currentTimeMillis() );
@@ -94,7 +106,7 @@ public abstract class Character extends GameObject {
 		
 		
 		float hip = ( float ) Math.sqrt( Math.pow( (toShootX - this.getXPosition() ) , 2 ) + Math.pow(( toShootY - this.getYPosition()), 2 ) );
-		
+
 		Bullet newBullet = new Bullet( this.getWorld(), this.getXPosition() + bulletInitialX, this.getYPosition() + bulletInitialY,
 				10f, 10f, this.getRotationDeg() );
 		bullets.add( newBullet );
@@ -108,7 +120,9 @@ public abstract class Character extends GameObject {
                 }
             }
 
-        return bullets;
+
+		return newBullet;
+
 	}
 	
 	public void updateCharacter() {
@@ -117,18 +131,7 @@ public abstract class Character extends GameObject {
         this.setPosition( (body.getPosition().x) * GameInfo.PPM, (body.getPosition().y) * GameInfo.PPM);
 
     }
-    
-	public void removeBullets() {
 
-		for (Bullet bullet : bullets) {
-			if (bullet.isRemove()) {
-				bulletsToRemove.add( bullet );
-				bullet.destroyBullet();
-			}
-		}
-		bullets.removeAll( bulletsToRemove );
-		bulletsToRemove.clear();
-	}
 
     public ArrayList<Bullet> getBullets() {
         return bullets;
@@ -175,9 +178,6 @@ public abstract class Character extends GameObject {
 		return shotTime;
 	}
 
-	public void setShotTime(int shotTime) {
-		this.shotTime = shotTime;
-	}
 
 	public void setFootStepVoice(Sound footStepVoice) {
 		this.footStepVoice = footStepVoice;
@@ -213,6 +213,57 @@ public abstract class Character extends GameObject {
 
 	public void setFootStepSoundPlaying(boolean footStepSoundPlaying) {
 		this.footStepSoundPlaying = footStepSoundPlaying;
+	}
+
+
+	public int getHeathPoint() {
+		return heathPoint;
+	}
+
+	public void setHeathPoint( int heathPoint) {
+		this.heathPoint = heathPoint;
+	}
+
+	public void reduceHeathPoint() {
+		heathPoint = heathPoint - 1;
+		if( heathPoint == 0) {
+			this.setDead( true );
+		}
+	}
+
+	public boolean isDead() {
+		return isDead;
+	}
+
+	public void setDead( boolean dead ) {
+		isDead = dead;
+	}
+
+	public void kill() {
+
+		if( !killedExecuted ) {
+			this.getBody().destroyFixture( this.getFixture() );
+			this.getWorld().destroyBody( this.getBody() );
+			killedExecuted = true;
+		}
+
+
+	}
+
+	public void setFixture(Fixture fixture) {
+		this.fixture = fixture;
+	}
+
+	public Fixture getFixture() {
+		return fixture;
+	}
+
+	public FixtureDef getFixtureDef() {
+		return fixtureDef;
+	}
+
+	public void setFixtureDef(FixtureDef fixtureDef) {
+		this.fixtureDef = fixtureDef;
 	}
 
 

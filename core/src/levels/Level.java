@@ -8,7 +8,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -28,11 +32,10 @@ import characters.Player;
 import helpers.GameInfo;
 import obstacle.MapBoundaries;
 import obstacle.Obstacle;
-import viewers.CharacterView;
-import viewers.GuardianView;
-import viewers.ObstacleView;
-import viewers.PlayerView;
-import viewers.WallView;
+import throwables.Bullet;
+import viewers.*;
+
+import java.util.ArrayList;
 
 /**
  * @author Mehmet Eren Balasar
@@ -58,11 +61,16 @@ public class Level implements Screen, ContactListener {
     protected Vector3 vector3;
 
     private boolean isShooterLevel;
-    
+
+    private ArrayList<Bullet> allBullets;
+    private ArrayList<Bullet> bulletsToRemove;
+
     private WallView mapBoundaryWallView1;
     private WallView mapBoundaryWallView2;
     private WallView mapBoundaryWallView3;
     private WallView mapBoundaryWallView4;
+
+    private BulletView bulletViewer;
     
     //tester
     private Box2DDebugRenderer bodyRenderer; 
@@ -92,7 +100,14 @@ public class Level implements Screen, ContactListener {
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
         vector3 = new Vector3( 0, 0, 0);
         
-        
+        allBullets = new ArrayList<Bullet>();
+        bulletsToRemove = new ArrayList<Bullet>();
+
+        //JUST FOR INITIALIZATION !é
+        bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( world, 10f,10f,
+                10f,10, 10f )  );
+        //JUST FOR INITIALIZATION İ
+
         //tester
         box2DCam = new OrthographicCamera();
         box2DCam.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
@@ -103,12 +118,35 @@ public class Level implements Screen, ContactListener {
 
     
     public void update( float dt ) {
-    	
+        allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
         ((Player)player).handleMoveInput( dt );
-        ((Player)player).handleMouseInput( dt, vector3.x, vector3.y);
         player.updateCharacter();
         moveCamera();
+        removeBullets();
 
+    }
+
+    public void drawAllBullets(SpriteBatch spriteBatch) {
+        for( Bullet bullet: allBullets ) {
+            if ( bullet != null ) {
+                bulletViewer.setBullet( bullet );
+                bulletViewer.setRotationOfBullet();
+                bulletViewer.drawBullet( spriteBatch );
+            }
+        }
+    }
+    public void removeBullets() {
+
+        for (Bullet bullet : allBullets) {
+            if( bullet != null ) {
+                if (bullet.isRemove()) {
+                    bulletsToRemove.add(bullet);
+                    bullet.destroyBullet();
+                }
+            }
+        }
+        allBullets.removeAll( bulletsToRemove );
+        bulletsToRemove.clear();
     }
 
     public void moveCamera() {
@@ -156,12 +194,17 @@ public class Level implements Screen, ContactListener {
         game.getBatch().begin();
         
         game.getBatch().draw( bg, 0, 0);
-        
+        drawAllBullets( game.getBatch() );
+
         mapBoundaryWallView1.drawWall(game.getBatch());
         mapBoundaryWallView2.drawWall(game.getBatch());
         mapBoundaryWallView3.drawWall(game.getBatch());
         mapBoundaryWallView4.drawWall(game.getBatch());
 
+    }
+
+    public ArrayList<Bullet> getAllBullets() {
+        return allBullets;
     }
 
     @Override

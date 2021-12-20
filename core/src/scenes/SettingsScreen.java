@@ -37,7 +37,6 @@ public class SettingsScreen implements Screen {
 
         bg = new Texture( "Backgrounds/Settings Screen.png" );
         buttons = new SettingsScreenButtons( game );
-        backButton = new BackButton( game );
     }
 
 
@@ -62,8 +61,6 @@ public class SettingsScreen implements Screen {
         game.getBatch().setProjectionMatrix( buttons.getStage().getCamera().combined);
         buttons.getStage().draw();
         buttons.getStage().act( delta );
-        backButton.getStage().draw();
-        backButton.getStage().act( delta );
 
 
     }
@@ -87,14 +84,13 @@ public class SettingsScreen implements Screen {
     public void hide() {
         bg.dispose();
         buttons.getStage().dispose();
-        backButton.getStage().dispose();
     }
 
     @Override
     public void dispose() {
         bg.dispose();
         buttons.getStage().dispose();
-        backButton.getStage().dispose();
+
     }
 
 
