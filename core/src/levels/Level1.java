@@ -35,7 +35,7 @@ public class Level1 extends Level implements Screen, ContactListener {
     private GuardianView guardian1View;
     private GuardianView guardian2View;
     private Rock[] rocks;
-    private ArrayList<Bullet> allBullets;
+
     private ArrayList<Enemy> allEnemies;
 
     public Level1( GameMain game, String bgName ) {
@@ -43,9 +43,8 @@ public class Level1 extends Level implements Screen, ContactListener {
     	super(game, bgName);
 
         rocks = new Rock[30];
-        allBullets = new ArrayList<Bullet>();
-        allEnemies = new ArrayList<Enemy>();
 
+        allEnemies = new ArrayList<Enemy>();
 
 
         createRocks();
@@ -62,12 +61,15 @@ public class Level1 extends Level implements Screen, ContactListener {
 
     }
 
-    
+
     public void update( float dt ) {
     	super.update(dt);
+
         if(guardian1.isDead()) {
             guardian1.kill();
         }
+
+
     }
 
     public void moveCamera() {
@@ -193,12 +195,24 @@ public class Level1 extends Level implements Screen, ContactListener {
         }
 
         if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Obstacle") ) {
-            playerView.getBulletViewer().getBullet().setRemove( true );
+            for ( Bullet bullet : getAllBullets() ) {
+                if( bullet != null ) {
+                    if ( bullet.getBody().equals( body1.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+                }
+            }
 
         }
 
         else if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Bullet") ) {
-            playerView.getBulletViewer().getBullet().setRemove( true );
+            for ( Bullet bullet : getAllBullets() ) {
+                if( bullet != null ) {
+                    if ( bullet.getBody().equals( body1.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+                }
+            }
 
         }
         else if (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) {

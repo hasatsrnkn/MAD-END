@@ -25,7 +25,6 @@ public abstract class Character extends GameObject {
 	private boolean isMoving;
 	private boolean footStepSoundPlaying;
 	private ArrayList<Bullet> bullets;
-	private ArrayList<Bullet> bulletsToRemove;
 	private long lastTimeShot;
 	private int shotTime;
 	private Sound gunShotVoice;
@@ -48,7 +47,6 @@ public abstract class Character extends GameObject {
     	createBody();
     	updateCharacter();
     	this.bullets = new ArrayList<Bullet>();
-		this.bulletsToRemove = new ArrayList<Bullet>();
 		this.lastTimeShot = System.currentTimeMillis();
 		shotTime = 0;
 		gunShotVoice = Gdx.audio.newSound( Gdx.files.internal( "Sounds/GunShotEffect.wav"));
@@ -126,18 +124,7 @@ public abstract class Character extends GameObject {
         this.setPosition( (body.getPosition().x) * GameInfo.PPM, (body.getPosition().y) * GameInfo.PPM);
 
     }
-    
-	public void removeBullets() {
 
-		for (Bullet bullet : bullets) {
-			if (bullet.isRemove()) {
-				bulletsToRemove.add( bullet );
-				bullet.destroyBullet();
-			}
-		}
-		bullets.removeAll( bulletsToRemove );
-		bulletsToRemove.clear();
-	}
 
     public ArrayList<Bullet> getBullets() {
         return bullets;

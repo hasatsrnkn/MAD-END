@@ -27,8 +27,8 @@ public class PlayerView extends CharacterView {
 		player = ch;
 
 		//JUST FOR INITIALIZATION !é
-		bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( player.getWorld(), 10f,10f,
-				10f,10, player.getRotationDeg())  );
+		//bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( player.getWorld(), 10f,10f,
+		//		10f,10, player.getRotationDeg())  );
 		//JUST FOR INITIALIZATION İ
 
 
@@ -39,13 +39,9 @@ public class PlayerView extends CharacterView {
 		//TODO additional player drawings?
 
 
-		for( Bullet bullet: getPlayer().getBullets() ) {
-			bulletViewer.setBullet( bullet );
-			bulletViewer.setRotationOfBullet();
-			bulletViewer.drawBullet( spriteBatch );
-		}
 
-		player.removeBullets();
+
+
 
 	}
 
