@@ -83,7 +83,7 @@ public abstract class Character extends GameObject {
 	
 	public void shoot(float toShootX, float toShootY) {
 
-		gunShotVoice.play();
+		gunShotVoice.play( GameInfo.GUNSHOT_VOLUME );
 		setLastTimeShot( System.currentTimeMillis() );
 		this.shotTime = shotTime + 1;
 		float bulletInitialX = (float) ( Math.sqrt(Math.pow(60, 2) + Math.pow(20,2)) * 
@@ -188,8 +188,8 @@ public abstract class Character extends GameObject {
 
 		if(this.isMoving()) {
 			if( footStepSoundPlaying ) {
-				footStepVoice.play();
-				footStepVoice.loop();
+				footStepVoice.play( GameInfo.FOOTSTEP_VOLUME );
+				footStepVoice.loop( GameInfo.FOOTSTEP_VOLUME );
 				footStepSoundPlaying = false;
 			}
 

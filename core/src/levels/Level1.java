@@ -18,6 +18,7 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import obstacle.MapBoundaries;
 import obstacle.Obstacle;
+import obstacle.Rock;
 import viewers.*;
 
 /**
@@ -27,19 +28,17 @@ import viewers.*;
  */
 public class Level1 extends Level implements Screen, ContactListener {
 
-	
     private Character guardian1;
     private GuardianView guardian1View;
-    private RockView rockView1;
-    private RockView rockView2;
-    
-    
+    private Rock[] rocks;
+
     public Level1( GameMain game, String bgName ) {
 
     	super(game, bgName);
-        
-        rockView1 = new RockView( "Obstacles/Level 1/Rock1.png",new Obstacle( this.world, 200,200,100, 41) );
-        rockView2 = new RockView("Obstacles/Level 1/Transparent.png", new Obstacle( this.world, 400,750,170,170));
+
+        rocks = new Rock[30];
+        createRocks();
+
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
@@ -52,17 +51,46 @@ public class Level1 extends Level implements Screen, ContactListener {
 
     
     public void update( float dt ) {
-    	
     	super.update(dt);
-        rockView1.getObstacle().updateObstacle();
-        rockView2.getObstacle().updateObstacle();
-
     }
 
     public void moveCamera() {
-        
         super.moveCamera();
-        
+    }
+
+    public void createRocks(){
+
+        rocks[0] = new Rock( world, 400,750, 170,170);
+        rocks[1] = new Rock( world, 920, 750, 40,40);
+        rocks[2] = new Rock( world, 1050, 780, 50,50);
+        rocks[3] = new Rock( world, 275, 1725, 80,80);
+        rocks[4] = new Rock( world, 850, 1425, 150,190);
+        rocks[5] = new Rock( world, 860, 1550, 50,70);
+        rocks[6] = new Rock( world, 1050, 220, 50,50);
+        rocks[7] = new Rock( world, 860, 260, 40,30);
+        rocks[8] = new Rock( world, 880, 160, 80,60);
+        rocks[9] = new Rock( world, 1800, 910, 60,60);
+        rocks[10] = new Rock( world, 1710, 915, 140,60);
+        rocks[11] = new Rock( world, 1820, 1510, 30,30);
+        rocks[12] = new Rock( world, 1900, 1510, 40,40);
+        rocks[13] = new Rock( world, 1850, 1410, 60,60);
+        rocks[14] = new Rock( world, 2460, 1670, 30,30);
+        rocks[15] = new Rock( world, 2600, 1690, 50,50);
+        rocks[16] = new Rock( world, 2700, 1410, 180,180);
+        rocks[17] = new Rock( world, 2835, 1400, 40,40);
+        rocks[18] = new Rock( world, 2805, 1300, 80,90);
+        rocks[19] = new Rock( world, 2385, 1140, 50,60);
+        rocks[20] = new Rock( world, 2665, 840, 160,185);
+        rocks[21] = new Rock( world, 2387, 250, 400,40);
+        rocks[22] = new Rock( world, 2450, 490, 40,40);
+        rocks[23] = new Rock( world, 2500, 520, 40,40);
+        rocks[24] = new Rock( world, 1665, 150, 200,420);
+        rocks[25] = new Rock( world, 1760, 350, 200,420);
+        rocks[26] = new Rock( world, 1760, 515, 120,150);
+        rocks[27] = new Rock( world, 1900, 615, 120,150);
+        rocks[28] = new Rock( world, 2080, 660, 170,160);
+        rocks[29] = new Rock( world, 2250, 700, 85,150);
+
     }
 
     @Override
@@ -91,9 +119,7 @@ public class Level1 extends Level implements Screen, ContactListener {
         playerView.drawCharacterAnimation(game.getBatch());
 
         guardian1View.drawCharacter(game.getBatch());
-        
-        rockView1.drawObstacle(game.getBatch());
-        rockView2.drawObstacle(game.getBatch());
+
 
         game.getBatch().end(); //End for drawing
 
