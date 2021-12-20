@@ -15,7 +15,6 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import levels.Level1;
 import scenes.CreditsScreen;
-import scenes.MainMenu;
 import scenes.SettingsScreen;
 
 /**

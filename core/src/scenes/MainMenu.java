@@ -87,7 +87,8 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-
+        bg.dispose();
+        buttons.getStage().dispose();
     }
 
 } //End of Main Menu

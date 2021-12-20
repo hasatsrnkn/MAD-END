@@ -14,9 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
-import levels.Level1;
-import scenes.CreditsScreen;
-import scenes.SettingsScreen;
+import scenes.MainMenu;
 
 /**
  * Buttons for Settings screen
@@ -36,6 +34,7 @@ public class SettingsScreenButtons {
     private ImageButton highButton;
     private ImageButton yesButton;
     private ImageButton noButton;
+    private ImageButton backButton;
     private Image difficultyTick;
     private Image soundTick;
     private Image fullscreenTick;
@@ -45,6 +44,7 @@ public class SettingsScreenButtons {
 
         gameViewport = new FitViewport(GameInfo.WIDTH, GameInfo.HEIGHT,
                 new OrthographicCamera());
+
         stage = new Stage( gameViewport, game.getBatch() );
 
         createAndPositionButtons();
@@ -62,6 +62,8 @@ public class SettingsScreenButtons {
         stage.addActor( difficultyTick);
         stage.addActor( soundTick );
         stage.addActor( fullscreenTick );
+        stage.addActor( backButton );
+
         addListener();
     }
 
@@ -90,14 +92,18 @@ public class SettingsScreenButtons {
         noButton = new ImageButton( new SpriteDrawable( new Sprite(
                 new Texture("Buttons/Settings Screen/No Button.png" ))));
 
+        backButton = new ImageButton( new SpriteDrawable( new Sprite(
+                new Texture("Buttons/Main Menu/Back Button.png" ))));
+
         difficultyTick = new Image( new SpriteDrawable( new Sprite(
-                new Texture("Buttons/Settings Screen/deneme.png" ))));
+                new Texture("Buttons/Settings Screen/Tick.png" ))));
 
         soundTick = new Image( new SpriteDrawable( new Sprite(
-                new Texture("Buttons/Settings Screen/deneme.png" ))));
+                new Texture("Buttons/Settings Screen/Tick.png" ))));
 
         fullscreenTick = new Image( new SpriteDrawable( new Sprite(
-                new Texture("Buttons/Settings Screen/deneme.png" ))));
+                new Texture("Buttons/Settings Screen/Tick.png" ))));
+
 
         easyButton.setPosition( 600, 567);
         mediumButton.setPosition(1050, 567);
@@ -109,17 +115,15 @@ public class SettingsScreenButtons {
 
         yesButton.setPosition(750,30);
         noButton.setPosition(1125,30);
+        backButton.setPosition( GameInfo.WIDTH / 2f - 975, GameInfo.HEIGHT / 2f + 350 );
 
-        difficultyTick.setPosition(1350,750);
-        soundTick.setPosition(900,800);
-        fullscreenTick.setPosition(900,400);
+        difficultyTick.setPosition(1290,635);
+        soundTick.setPosition(1290,370);
+        fullscreenTick.setPosition(1370,100);
 
     }
 
     public void addListener() {
-
-
-
 
         easyButton.addListener(new ChangeListener() {
             @Override
@@ -156,7 +160,7 @@ public class SettingsScreenButtons {
             }
         });
 
-        hardButton.addListener( new ChangeListener() {
+        highButton.addListener( new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -167,6 +171,8 @@ public class SettingsScreenButtons {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Gdx.graphics.setFullscreenMode( Gdx.graphics.getDisplayMode());
+                fullscreenTick.setX( noButton.getX() - 120 );
             }
         });
 
@@ -174,12 +180,23 @@ public class SettingsScreenButtons {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                fullscreenTick.setPosition(1370,100);
+                Gdx.graphics.setResizable( true );
+                Gdx.graphics.setWindowedMode( GameInfo.WIDTH, GameInfo.HEIGHT );
+
             }
         });
 
+        backButton.addListener( new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen( new MainMenu( game ) );
+            }
+        });
     }
 
     public Stage getStage() {
-        return stage;
+        return this.stage;
     }
 }

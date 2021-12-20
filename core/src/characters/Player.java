@@ -20,7 +20,11 @@ public class Player extends Character {
     public Player(World w, float x, float y, float height, float width) {
     	
         super(w, x, y, height, width);
-        
+
+        this.setHeathPoint( GameInfo.PLAYER_HEALTH );
+        this.getFixtureDef().filter.categoryBits = GameInfo.PLAYER;
+        this.getFixtureDef().filter.maskBits = GameInfo.BULLET | GameInfo.ENEMY | GameInfo.OBSTACLE;
+        this.getFixture().setUserData( "Player" );
     }
 
     public void handleMoveInput(float dt) {
@@ -62,27 +66,27 @@ public class Player extends Character {
     }
 
 
-	public void handleMouseInput(float dt, float mouseX, float mouseY ) {
+	public Bullet handleMouseInput(float dt, float mouseX, float mouseY ) {
 
 		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition()  , 
 				mouseX - this.getXPosition()   )));
 
-
+        Bullet newBullet = null;
         if ( Gdx.input.isButtonJustPressed(Input.Buttons.LEFT ) ) {
 
             if( this.getShotTime() == 0) {
-                this.shoot( mouseX, mouseY );
+                 newBullet = this.shoot( mouseX, mouseY );
             }
             else {
                 long time = System.currentTimeMillis();
                 if (time > getLastTimeShot() + 500) {
-                    this.shoot(mouseX, mouseY);
+                    newBullet =  this.shoot(mouseX, mouseY);
                 }
             }
 
 
         }
-
+        return newBullet;
 		
 
 		//TODO other mouse actions
