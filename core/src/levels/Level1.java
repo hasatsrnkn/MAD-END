@@ -73,9 +73,8 @@ public class Level1 extends Level implements Screen, ContactListener {
 
 
             if(guardian1.isDead()) {
-                guardian1.kill();
+                guardian1.killed();
             }
-
             guardian1.setPointer(player.getXPosition(), player.getYPosition());
             guardian1.moveGuardianToTarget();
             guardian1.updateCharacter();
@@ -154,6 +153,7 @@ public class Level1 extends Level implements Screen, ContactListener {
         game.getBatch().end(); //End for drawing
         //game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);
         getUiHud().getStage().draw();
+        getUiHud().getStage().act();
 
         
         //tester
@@ -215,6 +215,20 @@ public class Level1 extends Level implements Screen, ContactListener {
                 guardian1.reduceHeathPoint();
                 if( guardian1.isDead() ) {
                     getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+                }
+            }
+
+        }
+
+        if ( (body1.getUserData().equals("Player") && body2.getUserData().equals( "Enemy" )) ||
+                (body1.getUserData().equals("Enemy") && body2.getUserData().equals( "Player" ) )) {
+            if( body1.getBody().equals( player.getBody() ) || body2.getBody().equals( player.getBody() )) {
+                player.reduceHeathPoint();
+                getUiHud().setHealth( GameManager.getInstance().healthScore - 1);
+                if( player.isDead() ) {
+                    getUiHud().playerIsDead();
+
+
                 }
             }
 
