@@ -1,11 +1,19 @@
 package huds;
 
+import Cinematics.Cinematic1;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -13,7 +21,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
+import helpers.GameManager;
 import levels.Level1;
+import levels.Level2;
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import scenes.CreditsScreen;
 import scenes.SettingsScreen;
 
@@ -33,7 +44,9 @@ public class MainMenuButtons {
     private ImageButton creditsButton;
     private ImageButton exitButton;
 
-    public MainMenuButtons(GameMain game) {
+
+
+    public MainMenuButtons(GameMain game ) {
         this.game = game;
 
         gameViewport = new FitViewport(GameInfo.WIDTH, GameInfo.HEIGHT,
@@ -87,17 +100,32 @@ public class MainMenuButtons {
 
     public void addListener(){
 
-
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen( new Level1( game,  "Level Backgrounds/Level 1 Background.png"  ) );
+                GameManager.getInstance().gameStartedFromMainMenu = true;
+
+                RunnableAction run = new RunnableAction();
+                run.setRunnable(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        game.setScreen(new Level2(game, "Level Backgrounds/Level 2 Background.png"));
+                                    }
+                                });
+                SequenceAction sequenceAction = new SequenceAction();
+                sequenceAction.addAction( Actions.color(Color.BLACK));
+                sequenceAction.addAction(Actions.fadeOut( 1f ));
+                sequenceAction.addAction( run );
+
+                stage.addAction( sequenceAction );
+
             }
         });
 
         creditsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+
                 game.setScreen( new CreditsScreen( game ) );
             }
         });

@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 
+import helpers.GameManager;
+import huds.UIHud;
 import obstacle.Rock;
 import throwables.Bullet;
 import viewers.*;
@@ -88,27 +90,29 @@ public class Level1 extends Level implements Screen, ContactListener {
 
 
     public void update( float dt ) {
-    	
-    	super.update(dt);
 
-    	getAllBullets().add(guardian1.moveAndShoot(400, 900, 200, 900)); 
-    	guardian1.updateCharacter();
-    	
-    	getAllBullets().add(guardian2.moveAndShoot(967, 162, 967, 330));
-    	guardian2.updateCharacter();
-    	
-    	getAllBullets().add(guardian3.moveAndShoot(988, 1598, 1022, 1310));
-    	guardian3.updateCharacter();
-    	
-    	getAllBullets().add(guardian4.moveAndShoot(1896, 908, 1896, 1077));
-    	guardian4.updateCharacter();
-    	
-    	getAllBullets().add(guardian5.moveAndShoot(2755, 1564, 2529, 1564));
-    	guardian5.updateCharacter();
-    	
-    	getAllBullets().add(guardian6.moveAndShoot(2223, 594, 2402, 594));
-    	guardian6.updateCharacter();
-    	
+        if (!GameManager.getInstance().isPaused) {
+            super.update(dt);
+
+            getAllBullets().add(guardian1.moveAndShoot(400, 900, 200, 900)); 
+            guardian1.updateCharacter();
+
+            getAllBullets().add(guardian2.moveAndShoot(967, 162, 967, 330));
+            guardian2.updateCharacter();
+
+            getAllBullets().add(guardian3.moveAndShoot(988, 1598, 1022, 1310));
+            guardian3.updateCharacter();
+
+            getAllBullets().add(guardian4.moveAndShoot(1896, 908, 1896, 1077));
+            guardian4.updateCharacter();
+
+            getAllBullets().add(guardian5.moveAndShoot(2755, 1564, 2529, 1564));
+            guardian5.updateCharacter();
+
+            getAllBullets().add(guardian6.moveAndShoot(2223, 594, 2402, 594));
+            guardian6.updateCharacter();
+
+        }
     }
 
     public void moveCamera() {
@@ -162,7 +166,7 @@ public class Level1 extends Level implements Screen, ContactListener {
     	if(player.getXPosition() >= 1800 && player.getYPosition() <= 100) {
     		
     		this.dispose();
-    		game.setScreen( new Level3( game,  "Level Backgrounds/Level 1 Background.png"  ) );
+    		game.setScreen( new Level2( game,  "Level Backgrounds/Level 2 Background.png"  ) );
     		 
     	}
     }
@@ -174,14 +178,21 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
+
+
+        getUiHud().stopGame();
+
         guardian1View.drawCharacter(game.getBatch());
         guardian2View.drawCharacter(game.getBatch());
         guardian3View.drawCharacter(game.getBatch());
         guardian4View.drawCharacter(game.getBatch());
         guardian5View.drawCharacter(game.getBatch());
         guardian6View.drawCharacter(game.getBatch());
- 
+
         game.getBatch().end(); //End for drawing
+        game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);
+        getUiHud().getStage().draw();
+        getUiHud().getStage().act();
 
         
         //tester
@@ -241,6 +252,22 @@ public class Level1 extends Level implements Screen, ContactListener {
                 (body2.getUserData().equals("Bullet") && body1.getUserData().equals( "Enemy" ) )) {
             if( body2.getBody().equals( guardian1.getBody() ) || body1.getBody().equals( guardian1.getBody() )) {
                 guardian1.reduceHeathPoint();
+                if( guardian1.isDead() ) {
+                    getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+                }
+            }
+
+        }
+
+        if ( (body1.getUserData().equals("Player") && body2.getUserData().equals( "Enemy" )) ||
+                (body1.getUserData().equals("Enemy") && body2.getUserData().equals( "Player" ) )) {
+            if( body1.getBody().equals( player.getBody() ) || body2.getBody().equals( player.getBody() )) {
+                player.reduceHeathPoint();
+                getUiHud().setHealth( GameManager.getInstance().healthScore - 1);
+                if( player.isDead() ) {
+                    player.getFootStepVoice().stop();
+                    getUiHud().playerIsDead();
+                }
             }
 
         }

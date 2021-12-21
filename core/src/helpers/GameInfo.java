@@ -1,5 +1,10 @@
 package helpers;
 
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+
 /**
  * Necessary informations about the game.
  * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar
@@ -37,5 +42,9 @@ public class GameInfo {
 
     public static int CHARACTER_HEALTH = 3;
     public static int PLAYER_HEALTH = 5;
+
+    public static int DIFFICULT_TICK = 2;
+    public static int VOLUME_TICK= 2;
+    public static int FULLSCREEN_TICK = 2;
 
 }

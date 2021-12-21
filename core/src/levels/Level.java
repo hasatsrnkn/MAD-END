@@ -33,6 +33,8 @@ import characters.Character;
 import characters.Guardian;
 import characters.Player;
 import helpers.GameInfo;
+import helpers.GameManager;
+import huds.UIHud;
 import obstacle.MapBoundaries;
 import obstacle.Obstacle;
 import throwables.Bullet;
@@ -63,15 +65,17 @@ public class Level implements Screen, ContactListener {
     protected Viewport gameViewport;
     protected Vector3 vector3;
 
+    private UIHud uiHud;
+
     private boolean isShooterLevel;
 
     private ArrayList<Bullet> allBullets;
     private ArrayList<Bullet> bulletsToRemove;
 
-    private WallView mapBoundaryWallView1;
-    private WallView mapBoundaryWallView2;
-    private WallView mapBoundaryWallView3;
-    private WallView mapBoundaryWallView4;
+    protected WallView mapBoundaryWallView1;
+    protected WallView mapBoundaryWallView2;
+    protected WallView mapBoundaryWallView3;
+    protected WallView mapBoundaryWallView4;
 
     private BulletView bulletViewer;
     
@@ -107,6 +111,8 @@ public class Level implements Screen, ContactListener {
         allBullets = new ArrayList<Bullet>();
         bulletsToRemove = new ArrayList<Bullet>();
 
+        uiHud = new UIHud( this.game );
+        uiHud.getStage().act();
         //JUST FOR INITIALIZATION !é
         bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( world, 10f,10f,
                 10f,10, 10f )  );
@@ -122,14 +128,18 @@ public class Level implements Screen, ContactListener {
 
     
     public void update( float dt ) {
-    	
-        ((Player)player).handleMoveInput( dt );
-        allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
-        player.updateCharacter();
-        moveCamera();
-        removeBullets();
+        if( !GameManager.getInstance().isPaused ){
+            allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
+            ((Player)player).handleMoveInput( dt );
+            player.updateCharacter();
+            moveCamera();
+            removeBullets();
+
+        }
+
 
     }
+
 
     public void drawAllBullets(SpriteBatch spriteBatch) {
         for( Bullet bullet: allBullets ) {
@@ -189,7 +199,7 @@ public class Level implements Screen, ContactListener {
 
         world.step( delta, 6 ,2 );
         
-        Gdx.gl.glClearColor( 1, 0, 0, 1 );
+        Gdx.gl.glClearColor( 0, 0, 0, 1 );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
@@ -200,6 +210,15 @@ public class Level implements Screen, ContactListener {
         game.getBatch().begin();
         
         game.getBatch().draw( bg, 0, 0);
+        game.getBatch().draw( bg, -3000, 0);
+        game.getBatch().draw( bg, -3000, 1899);
+        game.getBatch().draw( bg, 0,  1899);
+        game.getBatch().draw( bg, 3000, 1899);
+        game.getBatch().draw( bg, 3000, 0);
+        game.getBatch().draw( bg, 0, -1899);
+        game.getBatch().draw( bg, -3000, -1899);
+        game.getBatch().draw( bg, 3000, -1899);
+
         drawAllBullets( game.getBatch() );
 
         mapBoundaryWallView1.drawWall(game.getBatch());
@@ -269,9 +288,9 @@ public class Level implements Screen, ContactListener {
        
     	bg.dispose();
     	bulletViewer.getTexture().dispose();
-        playerView.getTexture().dispose();
-//        characterView.getTexture().dispose();
-        world.dispose();
+
+      playerView.getTexture().dispose();
+      world.dispose();
 
     }
 
@@ -309,6 +328,20 @@ public class Level implements Screen, ContactListener {
 		this.isShooterLevel = isShooterLevel;
 	}
 
+    public UIHud getUiHud() {
+        return uiHud;
+    }
+
+    public void healthByDifficulty() {
+        if( GameInfo.DIFFICULT_TICK == 1) {
+            uiHud.setHealth( GameManager.getInstance().healthScore + 2 );
+        }
+
+        if( GameInfo.DIFFICULT_TICK == 2) {
+            uiHud.setHealth( GameManager.getInstance().healthScore + 1 );
+        }
+
+    }
 
 }
 
