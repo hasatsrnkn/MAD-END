@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
+import helpers.GameManager;
 import levels.Level1;
 import scenes.CreditsScreen;
 import scenes.SettingsScreen;
@@ -33,7 +34,8 @@ public class MainMenuButtons {
     private ImageButton creditsButton;
     private ImageButton exitButton;
 
-    public MainMenuButtons(GameMain game) {
+
+    public MainMenuButtons(GameMain game ) {
         this.game = game;
 
         gameViewport = new FitViewport(GameInfo.WIDTH, GameInfo.HEIGHT,
@@ -91,6 +93,7 @@ public class MainMenuButtons {
         startButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameManager.getInstance().gameStartedFromMainMenu = true;
                 game.setScreen( new Level1( game,  "Level Backgrounds/Level 1 Background.png"  ) );
             }
         });

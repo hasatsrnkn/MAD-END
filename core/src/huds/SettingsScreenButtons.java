@@ -1,5 +1,6 @@
 package huds;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,9 +39,16 @@ public class SettingsScreenButtons {
     private Image difficultyTick;
     private Image soundTick;
     private Image fullscreenTick;
+    private int difficultTickPoint;
+    private int volumeTickPoint;
+    private int fullscreenTickPoint;
 
-    public SettingsScreenButtons( GameMain game) {
+    public SettingsScreenButtons( GameMain game, int difficultTickPoint, int volumeTickPoint, int fullscreenTickPoint) {
         this.game = game;
+
+        this.difficultTickPoint = difficultTickPoint;
+        this.volumeTickPoint = volumeTickPoint;
+        this.fullscreenTickPoint = fullscreenTickPoint;
 
         gameViewport = new FitViewport(GameInfo.WIDTH, GameInfo.HEIGHT,
                 new OrthographicCamera());
@@ -117,9 +125,30 @@ public class SettingsScreenButtons {
         noButton.setPosition(1125,30);
         backButton.setPosition( GameInfo.WIDTH / 2f - 975, GameInfo.HEIGHT / 2f + 350 );
 
-        difficultyTick.setPosition(1290,635);
-        soundTick.setPosition(1290,370);
-        fullscreenTick.setPosition(1370,100);
+        if(difficultTickPoint == 1) {
+            difficultyTick.setPosition(850,635);
+        }
+        if( difficultTickPoint == 2) {
+            difficultyTick.setPosition(1300,635);
+        }
+        if( difficultTickPoint == 3) {
+            difficultyTick.setPosition(1750,635);
+        }
+        if(volumeTickPoint == 1) {
+            soundTick.setPosition(850,370);
+        }
+        if( volumeTickPoint == 2) {
+            soundTick.setPosition(1300,370);
+        }
+        if( volumeTickPoint == 3) {
+            soundTick.setPosition(1750,370);
+        }
+        if( fullscreenTickPoint == 1) {
+            fullscreenTick.setPosition(1000,100);
+        }
+        if ( fullscreenTickPoint == 2) {
+            fullscreenTick.setPosition(1370,100);
+        }
 
     }
 
@@ -128,6 +157,10 @@ public class SettingsScreenButtons {
         easyButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameInfo.DIFFICULT_TICK = 1;
+                difficultyTick.setPosition(850,635);
+                GameInfo.PLAYER_HEALTH = 7;
+                GameInfo.CHARACTER_HEALTH = 2;
 
             }
         });
@@ -135,14 +168,20 @@ public class SettingsScreenButtons {
         mediumButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                GameInfo.DIFFICULT_TICK = 2;
+                difficultyTick.setPosition(1300,635);
+                GameInfo.PLAYER_HEALTH = 5;
+                GameInfo.CHARACTER_HEALTH = 3;
             }
         });
 
         hardButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                GameInfo.DIFFICULT_TICK = 3;
+                difficultyTick.setPosition(1750,635);
+                GameInfo.PLAYER_HEALTH = 4;
+                GameInfo.CHARACTER_HEALTH = 4;
             }
         });
 
@@ -150,6 +189,10 @@ public class SettingsScreenButtons {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameInfo.VOLUME_TICK = 1;
+                soundTick.setPosition(850,370);
+                GameInfo.GUNSHOT_VOLUME = 0.5f;
+                GameInfo.FOOTSTEP_VOLUME = 0.3f;
             }
         });
 
@@ -157,6 +200,10 @@ public class SettingsScreenButtons {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameInfo.VOLUME_TICK = 2;
+                soundTick.setPosition(1300,370);
+                GameInfo.GUNSHOT_VOLUME = 0.7f;
+                GameInfo.FOOTSTEP_VOLUME = 0.5f;
             }
         });
 
@@ -164,6 +211,10 @@ public class SettingsScreenButtons {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameInfo.VOLUME_TICK = 3;
+                soundTick.setPosition(1750,370);
+                GameInfo.GUNSHOT_VOLUME = 0.9f;
+                GameInfo.FOOTSTEP_VOLUME = 0.7f;
             }
         });
 
@@ -171,8 +222,9 @@ public class SettingsScreenButtons {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameInfo.FULLSCREEN_TICK = 1;
+                fullscreenTick.setPosition(1000,100);
                 Gdx.graphics.setFullscreenMode( Gdx.graphics.getDisplayMode());
-                fullscreenTick.setX( noButton.getX() - 120 );
             }
         });
 
@@ -180,6 +232,7 @@ public class SettingsScreenButtons {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameInfo.FULLSCREEN_TICK = 2;
                 fullscreenTick.setPosition(1370,100);
                 Gdx.graphics.setResizable( true );
                 Gdx.graphics.setWindowedMode( GameInfo.WIDTH, GameInfo.HEIGHT );

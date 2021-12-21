@@ -24,7 +24,6 @@ public class SettingsScreen implements Screen {
     private Viewport gameViewport;
     private Texture bg;
     private SettingsScreenButtons buttons;
-    private BackButton backButton;
 
     public SettingsScreen( GameMain game ) {
         this.game = game;
@@ -36,7 +35,7 @@ public class SettingsScreen implements Screen {
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
 
         bg = new Texture( "Backgrounds/Settings Screen.png" );
-        buttons = new SettingsScreenButtons( game );
+        buttons = new SettingsScreenButtons( game, GameInfo.DIFFICULT_TICK, GameInfo.VOLUME_TICK, GameInfo.FULLSCREEN_TICK);
     }
 
 

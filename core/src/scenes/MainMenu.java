@@ -25,6 +25,7 @@ public class MainMenu implements Screen {
     private Texture bg;
     private MainMenuButtons buttons;
 
+
     public MainMenu( GameMain game) {
         this.game = game;
 
@@ -36,6 +37,7 @@ public class MainMenu implements Screen {
 
         bg = new Texture( "Backgrounds/Main Menu.png" );
         buttons = new MainMenuButtons( game );
+
 
     }
 

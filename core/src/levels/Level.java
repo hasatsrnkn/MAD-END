@@ -30,6 +30,8 @@ import characters.Character;
 import characters.Guardian;
 import characters.Player;
 import helpers.GameInfo;
+import helpers.GameManager;
+import huds.UIHud;
 import obstacle.MapBoundaries;
 import obstacle.Obstacle;
 import throwables.Bullet;
@@ -59,6 +61,8 @@ public class Level implements Screen, ContactListener {
     protected OrthographicCamera mainCamera;
     protected Viewport gameViewport;
     protected Vector3 vector3;
+
+    private UIHud uiHud;
 
     private boolean isShooterLevel;
 
@@ -103,6 +107,7 @@ public class Level implements Screen, ContactListener {
         allBullets = new ArrayList<Bullet>();
         bulletsToRemove = new ArrayList<Bullet>();
 
+        uiHud = new UIHud( this.game );
         //JUST FOR INITIALIZATION !é
         bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( world, 10f,10f,
                 10f,10, 10f )  );
@@ -118,13 +123,18 @@ public class Level implements Screen, ContactListener {
 
     
     public void update( float dt ) {
-        allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
-        ((Player)player).handleMoveInput( dt );
-        player.updateCharacter();
-        moveCamera();
-        removeBullets();
+
+        if( !GameManager.getInstance().isPaused ){
+            allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
+            ((Player)player).handleMoveInput( dt );
+            player.updateCharacter();
+            moveCamera();
+            removeBullets();
+
+        }
 
     }
+
 
     public void drawAllBullets(SpriteBatch spriteBatch) {
         for( Bullet bullet: allBullets ) {
@@ -272,6 +282,9 @@ public class Level implements Screen, ContactListener {
 		this.isShooterLevel = isShooterLevel;
 	}
 
+    public UIHud getUiHud() {
+        return uiHud;
+    }
 
 }
 

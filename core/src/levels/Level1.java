@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 
+import helpers.GameManager;
+import huds.UIHud;
 import obstacle.Rock;
 import throwables.Bullet;
 import viewers.*;
@@ -66,20 +68,18 @@ public class Level1 extends Level implements Screen, ContactListener {
 
 
     public void update( float dt ) {
-    	super.update(dt);
+        if (!GameManager.getInstance().isPaused) {
+            super.update(dt);
 
 
-        if(guardian1.isDead()) {
-            guardian1.kill();
+            if(guardian1.isDead()) {
+                guardian1.kill();
+            }
+
+            guardian1.setPointer(player.getXPosition(), player.getYPosition());
+            guardian1.moveGuardianToTarget();
+            guardian1.updateCharacter();
         }
-
-
-
-    	guardian1.setPointer(player.getXPosition(), player.getYPosition());
-    	guardian1.moveGuardianToTarget();
-    	guardian1.updateCharacter();
-    	
-
     }
 
     public void moveCamera() {
@@ -149,10 +149,12 @@ public class Level1 extends Level implements Screen, ContactListener {
             guardian1View.drawCharacter(game.getBatch());
         }
 
+        getUiHud().stopGame();
 
         game.getBatch().end(); //End for drawing
+        //game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);
+        getUiHud().getStage().draw();
 
-        
         
         //tester
         super.renderBodies(delta);
@@ -211,6 +213,9 @@ public class Level1 extends Level implements Screen, ContactListener {
                 (body2.getUserData().equals("Bullet") && body1.getUserData().equals( "Enemy" ) )) {
             if( body2.getBody().equals( guardian1.getBody() ) || body1.getBody().equals( guardian1.getBody() )) {
                 guardian1.reduceHeathPoint();
+                if( guardian1.isDead() ) {
+                    getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+                }
             }
 
         }
