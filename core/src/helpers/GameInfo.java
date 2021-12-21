@@ -1,5 +1,10 @@
 package helpers;
 
+import com.badlogic.gdx.Audio;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+
 /**
  * Necessary informations about the game.
  * @author Mehmet Hasat Serinkan, Mehmet Eren Balasar

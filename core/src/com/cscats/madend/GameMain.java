@@ -1,9 +1,12 @@
 package com.cscats.madend;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
+import helpers.GameInfo;
 import scenes.WelcomeScreen;
 
 public class GameMain extends Game {
