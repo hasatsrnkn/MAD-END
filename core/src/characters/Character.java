@@ -51,7 +51,7 @@ public abstract class Character extends GameObject {
     	this.bullets = new ArrayList<Bullet>();
 		this.lastTimeShot = System.currentTimeMillis();
 		shotTime = 0;
-		gunShotVoice = Gdx.audio.newSound( Gdx.files.internal( "Sounds/GunShotEffect.wav"));
+		gunShotVoice = Gdx.audio.newSound( Gdx.files.internal( "Sounds/snd_glock17.wav"));
 		footStepSoundPlaying = false;
 
     }
@@ -69,7 +69,8 @@ public abstract class Character extends GameObject {
 
 		fixtureDef = new FixtureDef();
         fixtureDef.density = 5000f; //Mass of the body
-        fixtureDef.friction = 2f; //To not slide on surfaces
+        fixtureDef.friction = 1f; //To not slide on surfaces
+        fixtureDef.restitution = 1f;
         fixtureDef.shape = shape;
 
         fixture = body.createFixture( fixtureDef );
@@ -85,10 +86,13 @@ public abstract class Character extends GameObject {
 		
 		body.setLinearVelocity( x , y );
 		
-		if(x == 0  && y == 0) {
+		if(x == 0 && y == 0) {
+			
 			isMoving = false;
 		}
+		
 		else {
+			
 			isMoving = true;
 		}
 		
@@ -224,15 +228,15 @@ public abstract class Character extends GameObject {
 	}
 
 
-	public int getHeathPoint() {
+	public int getHealthPoint() {
 		return heathPoint;
 	}
 
-	public void setHeathPoint( int heathPoint) {
+	public void setHealthPoint( int heathPoint) {
 		this.heathPoint = heathPoint;
 	}
 
-	public void reduceHeathPoint() {
+	public void reduceHealthPoint() {
 		heathPoint = heathPoint - 1;
 		if( heathPoint == 0) {
 			this.setDead( true );

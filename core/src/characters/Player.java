@@ -16,15 +16,17 @@ import java.util.ArrayList;
  */
 public class Player extends Character {
 
-
-    public Player(World w, float x, float y, float height, float width) {
+	private boolean inShooter;
+	
+    public Player(World w, float x, float y, float height, float width, boolean inShooter) {
     	
         super(w, x, y, height, width);
 
-        this.setHeathPoint( GameInfo.PLAYER_HEALTH );
+        this.setHealthPoint( GameInfo.PLAYER_HEALTH );
         this.getFixtureDef().filter.categoryBits = GameInfo.PLAYER;
         this.getFixtureDef().filter.maskBits = GameInfo.BULLET | GameInfo.ENEMY | GameInfo.OBSTACLE;
         this.getFixture().setUserData( "Player" );
+        this.inShooter = inShooter;
     }
 
     public void handleMoveInput(float dt) {
@@ -61,7 +63,7 @@ public class Player extends Character {
             }
 
         }
-
+        
         this.playFootStepSound();
     }
 
@@ -97,25 +99,34 @@ public class Player extends Character {
 		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( mouseY - this.getYPosition()  , 
 				mouseX - this.getXPosition()   )));
 
-        Bullet newBullet = null;
-        if ( Gdx.input.isButtonJustPressed(Input.Buttons.LEFT ) ) {
+		if(inShooter) {
+			
+	        Bullet newBullet = null;
+	        if ( Gdx.input.isButtonJustPressed(Input.Buttons.LEFT ) ) {
 
-            if( this.getShotTime() == 0) {
-                 newBullet = this.shoot( mouseX, mouseY );
+	            if( this.getShotTime() == 0) {
+	                 newBullet = this.shoot( mouseX, mouseY );
 
-            }
-            else {
-                long time = System.currentTimeMillis();
-                if (time > getLastTimeShot() + 300) {
-                    newBullet =  this.shoot(mouseX, mouseY);
+	            }
+	            else {
+	                long time = System.currentTimeMillis();
+	                if (time > getLastTimeShot() + 300) {
+	                    newBullet =  this.shoot(mouseX, mouseY);
 
-                }
-            }
+	                }
+	            }
 
 
-        }
-        return newBullet;
+	        }
+	        return newBullet;
+			
+		}
 		
+		else {
+			
+			return null;
+		}
+
 
 		//TODO other mouse actions
 	}

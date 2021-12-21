@@ -33,7 +33,7 @@ public class GuardianView extends EnemyView{
 
 		if(!guardian.isDead()) {
 			
-			super.drawCharacter(spriteBatch, 15f, -20f);
+			super.drawCharacter(spriteBatch, 0f, 0f);
 			super.drawCharacterAnimation(spriteBatch, 8f, 2f);
 		
 		}

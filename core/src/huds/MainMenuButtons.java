@@ -20,6 +20,8 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import helpers.GameManager;
 import levels.Level1;
+import levels.Level2;
+import levels.Level3;
 import levels.Level4;
 import scenes.CreditsScreen;
 import scenes.SettingsScreen;
