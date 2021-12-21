@@ -193,7 +193,7 @@ public class Level implements Screen, ContactListener {
 
         world.step( delta, 6 ,2 );
         
-        Gdx.gl.glClearColor( 1, 0, 0, 1 );
+        Gdx.gl.glClearColor( 0, 0, 0, 1 );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
