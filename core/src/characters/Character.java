@@ -227,7 +227,6 @@ public abstract class Character extends GameObject {
 		heathPoint = heathPoint - 1;
 		if( heathPoint == 0) {
 			this.setDead( true );
-			this.getFootStepVoice().stop();
 		}
 	}
 

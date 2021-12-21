@@ -69,10 +69,10 @@ public class Level implements Screen, ContactListener {
     private ArrayList<Bullet> allBullets;
     private ArrayList<Bullet> bulletsToRemove;
 
-    private WallView mapBoundaryWallView1;
-    private WallView mapBoundaryWallView2;
-    private WallView mapBoundaryWallView3;
-    private WallView mapBoundaryWallView4;
+    protected WallView mapBoundaryWallView1;
+    protected WallView mapBoundaryWallView2;
+    protected WallView mapBoundaryWallView3;
+    protected WallView mapBoundaryWallView4;
 
     private BulletView bulletViewer;
     
@@ -205,6 +205,15 @@ public class Level implements Screen, ContactListener {
         game.getBatch().begin();
         
         game.getBatch().draw( bg, 0, 0);
+        game.getBatch().draw( bg, -3000, 0);
+        game.getBatch().draw( bg, -3000, 1899);
+        game.getBatch().draw( bg, 0,  1899);
+        game.getBatch().draw( bg, 3000, 1899);
+        game.getBatch().draw( bg, 3000, 0);
+        game.getBatch().draw( bg, 0, -1899);
+        game.getBatch().draw( bg, -3000, -1899);
+        game.getBatch().draw( bg, 3000, -1899);
+
         drawAllBullets( game.getBatch() );
 
         mapBoundaryWallView1.drawWall(game.getBatch());
@@ -242,9 +251,7 @@ public class Level implements Screen, ContactListener {
     public void dispose() {
        
     	bg.dispose();
-        playerView.getBulletViewer().getTexture().dispose();
         playerView.getTexture().dispose();
-//        characterView.getTexture().dispose();
         world.dispose();
 
     }
@@ -285,6 +292,17 @@ public class Level implements Screen, ContactListener {
 
     public UIHud getUiHud() {
         return uiHud;
+    }
+
+    public void healthByDifficulty() {
+        if( GameInfo.DIFFICULT_TICK == 1) {
+            uiHud.setHealth( GameManager.getInstance().healthScore + 2 );
+        }
+
+        if( GameInfo.DIFFICULT_TICK == 2) {
+            uiHud.setHealth( GameManager.getInstance().healthScore + 1 );
+        }
+
     }
 
 }

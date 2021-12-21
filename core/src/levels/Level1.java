@@ -132,7 +132,7 @@ public class Level1 extends Level implements Screen, ContactListener {
     	if(player.getXPosition() >= 1800 && player.getYPosition() <= 100) {
     		
     		this.dispose();
-    		game.setScreen( new Level3( game,  "Level Backgrounds/Level 1 Background.png"  ) );
+    		game.setScreen( new Level2( game,  "Level Backgrounds/Level 2 Background.png"  ) );
     		 
     	}
     }
@@ -151,7 +151,7 @@ public class Level1 extends Level implements Screen, ContactListener {
         getUiHud().stopGame();
 
         game.getBatch().end(); //End for drawing
-        //game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);
+        game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);
         getUiHud().getStage().draw();
         getUiHud().getStage().act();
 
@@ -226,9 +226,8 @@ public class Level1 extends Level implements Screen, ContactListener {
                 player.reduceHeathPoint();
                 getUiHud().setHealth( GameManager.getInstance().healthScore - 1);
                 if( player.isDead() ) {
+                    player.getFootStepVoice().stop();
                     getUiHud().playerIsDead();
-
-
                 }
             }
 
