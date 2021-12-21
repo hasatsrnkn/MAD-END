@@ -26,7 +26,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
-import com.sun.org.apache.xerces.internal.xs.XSTerm;
 import helpers.GameInfo;
 import helpers.GameManager;
 import levels.Level1;
