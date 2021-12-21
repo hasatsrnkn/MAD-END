@@ -51,38 +51,47 @@ public class Level1 extends Level implements Screen, ContactListener {
     private Rock[] rocks;
 
     private ArrayList<Enemy> allEnemies;
+    private ArrayList<Enemy> enemiesToRemove;
 
     public Level1( GameMain game, String bgName ) {
 
     	super(game, bgName);
-
+    	this.setShooterLevel(true);
+    	
         rocks = new Rock[30];
 
         allEnemies = new ArrayList<Enemy>();
-
+        enemiesToRemove = new ArrayList<Enemy>(); 
+        
         createRocks();
         
-        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
+        player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH, this.isShooterLevel());
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
-        guardian1 = new Guardian(world, 400, 900, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian1 = new Guardian(world, 350, 900, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "EnemyAnimation/terroristani.atlas");
+        allEnemies.add(guardian1);
         
         guardian2 = new Guardian(world, 967, 162, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian2View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian2, "EnemyAnimation/terroristani.atlas");
+        allEnemies.add(guardian2);
         
         guardian3 = new Guardian(world, 988, 1598, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian3View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian3, "EnemyAnimation/terroristani.atlas");
+        allEnemies.add(guardian3);
         
         guardian4 = new Guardian(world, 1896, 908, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian4View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian4, "EnemyAnimation/terroristani.atlas");
+        allEnemies.add(guardian4);
         
         guardian5 = new Guardian(world, 2755, 1564, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian5View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian5, "EnemyAnimation/terroristani.atlas");
+        allEnemies.add(guardian5);
         
         guardian6 = new Guardian(world, 2223, 594, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian6View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian6, "EnemyAnimation/terroristani.atlas");
-
+        allEnemies.add(guardian6);
+        
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
         player.setFootStepVoice( footstep );
         
@@ -94,7 +103,7 @@ public class Level1 extends Level implements Screen, ContactListener {
         if (!GameManager.getInstance().isPaused) {
             super.update(dt);
 
-            getAllBullets().add(guardian1.moveAndShoot(400, 900, 200, 900)); 
+            getAllBullets().add(guardian1.moveAndShoot(350, 900, 600, 900)); 
             guardian1.updateCharacter();
 
             getAllBullets().add(guardian2.moveAndShoot(967, 162, 967, 330));
@@ -108,16 +117,36 @@ public class Level1 extends Level implements Screen, ContactListener {
 
             getAllBullets().add(guardian5.moveAndShoot(2755, 1564, 2529, 1564));
             guardian5.updateCharacter();
-
+            
             getAllBullets().add(guardian6.moveAndShoot(2223, 594, 2402, 594));
             guardian6.updateCharacter();
-
+            
+            removeEnemies();
         }
     }
 
     public void moveCamera() {
         super.moveCamera();
     }
+    
+    
+    public void removeEnemies() {
+
+        for (Enemy enemy : allEnemies) {
+        	
+            if( enemy != null ) {
+                if (enemy.isDead()) {
+                    enemiesToRemove.add(enemy);
+                    enemy.kill();
+                }
+            }
+        }
+        
+        allEnemies.removeAll( enemiesToRemove );
+        enemiesToRemove.clear();
+        
+    }    
+    
 
     public void createRocks(){
 
@@ -178,8 +207,6 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
-
-
         getUiHud().stopGame();
 
         guardian1View.drawCharacter(game.getBatch());
@@ -236,13 +263,18 @@ public class Level1 extends Level implements Screen, ContactListener {
 
 
         if (body1.getUserData().equals( "Bullet") || body2.getUserData().equals("Bullet") ) {
+        	
              for ( Bullet bullet : getAllBullets() ) {
+            	 
                 if( bullet != null ) {
+                	
                     if ( bullet.getBody().equals( body1.getBody() )) {
                         bullet.setRemove( true );
                     }
+                    
                    else if ( bullet.getBody().equals( body2.getBody() )) {
                         bullet.setRemove( true );
+                        
                     }
                 }
              }
@@ -250,20 +282,59 @@ public class Level1 extends Level implements Screen, ContactListener {
                
         if ( (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) ||
                 (body2.getUserData().equals("Bullet") && body1.getUserData().equals( "Enemy" ) )) {
-            if( body2.getBody().equals( guardian1.getBody() ) || body1.getBody().equals( guardian1.getBody() )) {
-                guardian1.reduceHeathPoint();
-                if( guardian1.isDead() ) {
-                    getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+
+            for ( Enemy enemy : allEnemies ) {
+
+                if( enemy != null ) {
+                	
+                    if ( enemy.getBody().equals( body1.getBody() )) {
+                    	
+                        enemy.reduceHealthPoint();
+
+                        if(enemy.isDead()) {
+                        	
+                            getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+                        }
+
+                    }
+                    else if ( enemy.getBody().equals( body2.getBody() )) {
+
+                       enemy.reduceHealthPoint();
+                       
+                       if(enemy.isDead()) {
+                       	
+                           getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+                       }
+                       
+                    }
+
                 }
-            }
+                
+             }
 
         }
 
         if ( (body1.getUserData().equals("Player") && body2.getUserData().equals( "Enemy" )) ||
                 (body1.getUserData().equals("Enemy") && body2.getUserData().equals( "Player" ) )) {
             if( body1.getBody().equals( player.getBody() ) || body2.getBody().equals( player.getBody() )) {
-                player.reduceHeathPoint();
+                player.reduceHealthPoint();
                 getUiHud().setHealth( GameManager.getInstance().healthScore - 1);
+                if( player.isDead() ) {
+                    player.getFootStepVoice().stop();
+                    getUiHud().playerIsDead();
+                }
+            }
+
+        }
+        
+        if ( (body1.getUserData().equals("Player") && body2.getUserData().equals( "Bullet" )) ||
+                (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Player" ) )) {
+        	
+            if( body1.getBody().equals( player.getBody() ) || body2.getBody().equals( player.getBody() )) {
+            	
+                player.reduceHealthPoint();
+                getUiHud().setHealth( GameManager.getInstance().healthScore - 1);
+                
                 if( player.isDead() ) {
                     player.getFootStepVoice().stop();
                     getUiHud().playerIsDead();

@@ -23,6 +23,7 @@ public class ObstacleView extends Sprite {
 
     public void drawObstacle(SpriteBatch spriteBatch) {
         this.obstacle.updateObstacle();
+        this.setSize(obstacle.getWidth(), obstacle.getHeight());
         this.setPosition(obstacle.getXPosition() - obstacle.getWidth() / 2f,
                 obstacle.getYPosition() - obstacle.getHeight() / 2f);
         this.draw( spriteBatch );

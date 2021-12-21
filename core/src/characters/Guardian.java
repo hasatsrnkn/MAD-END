@@ -28,7 +28,7 @@ public class Guardian extends Enemy {
 	private float alarmedRadius;
 	private int point = 1;
 	private float delaySeconds = 2;
-	private float shootDifficulity;
+	private float shootDifference;
 	
 	public Guardian(World world, float initialX, float initialY, float height, float width, Character targetCh) {
 		
@@ -36,8 +36,28 @@ public class Guardian extends Enemy {
 		
 		pointer = new Vector2( );
 		targetCharacter = targetCh;
-		proximityRadius = 200f;
-		alarmedRadius = 1000f;
+		
+		if(GameInfo.DIFFICULT_TICK == 1) {
+			
+			proximityRadius = 300f;
+			alarmedRadius = 600f;
+			shootDifference = 120f;
+		}
+		
+		else if(GameInfo.DIFFICULT_TICK == 2) {
+			
+			proximityRadius = 700f;
+			alarmedRadius = 1000f;
+			shootDifference = 60f;
+		}
+		 
+		else if(GameInfo.DIFFICULT_TICK == 1) {
+			
+			proximityRadius = 1000f;
+			alarmedRadius = 1500f;
+			shootDifference = 10f;
+		}
+		
 		firstArrived = false;
 		
 		
@@ -113,7 +133,7 @@ public class Guardian extends Enemy {
 						
 						if(!shot) {
 							
-							newBullet = shoot(pointer.x-shootDifficulity, pointer.y-shootDifficulity);
+							newBullet = shoot(pointer.x-shootDifference, pointer.y-shootDifference);
 							shot = true;
 						}
 

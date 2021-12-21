@@ -53,6 +53,7 @@ public class Level implements Screen, ContactListener {
     protected GameMain game;
     
     protected Texture bg;
+    protected Texture sideBg;
     protected Character player;
 //    private CharacterView characterView;
     protected PlayerView playerView;
@@ -90,12 +91,13 @@ public class Level implements Screen, ContactListener {
 
         this.game = game;
         this.bg = new Texture(bgName);
+        sideBg = bg;
         
         world = new World( new Vector2(0 , 0), true );
         world.setContactListener( this );
 
         mapBoundaries = new MapBoundaries(world, bg.getHeight(), bg.getWidth(), (bg.getHeight()) ,
-                (100), (100),(bg.getWidth() ));
+                (40), (40),(bg.getWidth() ));
 
 
         mapBoundaryWallView1 = new WallView( "Obstacles/Level 1/Wall1.png", mapBoundaries.getBoundaryWalls().get(0) );
@@ -129,6 +131,9 @@ public class Level implements Screen, ContactListener {
     
     public void update( float dt ) {
         if( !GameManager.getInstance().isPaused ){
+        	
+            world.step( dt, 6 ,2 );
+        	
             allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
             ((Player)player).handleMoveInput( dt );
             player.updateCharacter();
@@ -196,8 +201,6 @@ public class Level implements Screen, ContactListener {
     public void render(float delta) {
 
         update( delta );
-
-        world.step( delta, 6 ,2 );
         
         Gdx.gl.glClearColor( 0, 0, 0, 1 );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -209,15 +212,15 @@ public class Level implements Screen, ContactListener {
         	
         game.getBatch().begin();
         
-        game.getBatch().draw( bg, 0, 0);
-        game.getBatch().draw( bg, -3000, 0);
-        game.getBatch().draw( bg, -3000, 1899);
-        game.getBatch().draw( bg, 0,  1899);
-        game.getBatch().draw( bg, 3000, 1899);
-        game.getBatch().draw( bg, 3000, 0);
-        game.getBatch().draw( bg, 0, -1899);
-        game.getBatch().draw( bg, -3000, -1899);
-        game.getBatch().draw( bg, 3000, -1899);
+        game.getBatch().draw( sideBg, 0, 0);
+        game.getBatch().draw( sideBg, -3000, 0);
+        game.getBatch().draw( sideBg, -3000, 1899);
+        game.getBatch().draw( sideBg, 0,  1899);
+        game.getBatch().draw( sideBg, 3000, 1899);
+        game.getBatch().draw( sideBg, 3000, 0);
+        game.getBatch().draw( sideBg, 0, -1899);
+        game.getBatch().draw( sideBg, -3000, -1899);
+        game.getBatch().draw( sideBg, 3000, -1899);
 
         drawAllBullets( game.getBatch() );
 
