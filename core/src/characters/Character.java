@@ -85,8 +85,10 @@ public abstract class Character extends GameObject {
 		
 		body.setLinearVelocity( x , y );
 		
-		if(x != 0 && y != 0) {
-			
+		if(x == 0  && y == 0) {
+			isMoving = false;
+		}
+		else {
 			isMoving = true;
 		}
 		

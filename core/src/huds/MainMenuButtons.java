@@ -108,7 +108,7 @@ public class MainMenuButtons {
                 run.setRunnable(new Runnable() {
                                     @Override
                                     public void run() {
-                                        game.setScreen(new Level1(game, "Level Backgrounds/Level 1 Background.png"));
+                                        game.setScreen(new Level2(game, "Level Backgrounds/Level 2 Background.png"));
                                     }
                                 });
                 SequenceAction sequenceAction = new SequenceAction();
