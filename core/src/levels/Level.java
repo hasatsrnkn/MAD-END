@@ -5,6 +5,7 @@ package levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -75,6 +76,7 @@ public class Level implements Screen, ContactListener {
     //tester
     private Box2DDebugRenderer bodyRenderer; 
     private OrthographicCamera box2DCam;
+    private ArrayList<Vector2> pointsArray = new ArrayList<Vector2>();
     
 
     public Level( GameMain game, String bgName ) {
@@ -158,6 +160,7 @@ public class Level implements Screen, ContactListener {
         box2DCam.position.x = player.getBody().getPosition().x;
         box2DCam.position.y = player.getBody().getPosition().y;
         box2DCam.update();
+        savePoint();
         
         mainCamera.update();
         
@@ -202,6 +205,25 @@ public class Level implements Screen, ContactListener {
         mapBoundaryWallView4.drawWall(game.getBatch());
 
     }
+    
+    //tester
+    int i = 0;
+    public ArrayList<Vector2> savePoint() {
+    	
+    	if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+    		
+    		pointsArray.add(new Vector2(vector3.x, vector3.y));
+
+    			for(Vector2 vector : pointsArray) {
+    				
+        			System.out.print(vector + ", ");
+    			}
+
+    	}
+    	i++;
+    	return pointsArray;
+    }
+    
 
     public ArrayList<Bullet> getAllBullets() {
         return allBullets;

@@ -32,7 +32,6 @@ public class Player extends Character {
     	moveCharacter( 0 ,0 );
     	setMoving( false );
 
-
         if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
                 Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
 

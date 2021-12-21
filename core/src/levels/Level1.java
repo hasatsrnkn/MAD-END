@@ -56,7 +56,7 @@ public class Level1 extends Level implements Screen, ContactListener {
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
-        guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian1 = new Guardian(world, 400, 900, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "EnemyAnimation/terroristani.atlas");
 
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
@@ -66,20 +66,23 @@ public class Level1 extends Level implements Screen, ContactListener {
 
 
     public void update( float dt ) {
+    	
     	super.update(dt);
-
 
         if(guardian1.isDead()) {
             guardian1.kill();
         }
 
+    	//guardian1.fixedMovement2(400, 900, 200, 900, dt);
+        if(guardian1.moveGuardianTo(300, 900)) {
 
 
-    	guardian1.setPointer(player.getXPosition(), player.getYPosition());
-    	guardian1.moveGuardianToTarget();
+        	System.out.println("called , " + guardian1.getXPosition());
+        	guardian1.moveGuardianTo(400,900);
+        }
+
     	guardian1.updateCharacter();
     	
-
     }
 
     public void moveCamera() {
