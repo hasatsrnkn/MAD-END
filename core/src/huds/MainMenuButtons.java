@@ -1,5 +1,6 @@
 package huds;
 
+import Cinematics.Cinematic1;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -107,7 +108,7 @@ public class MainMenuButtons {
                 run.setRunnable(new Runnable() {
                                     @Override
                                     public void run() {
-                                        game.setScreen(new Level1(game, "Level Backgrounds/Level 1 Background.png"));
+                                        game.setScreen(new Cinematic1(game));
                                     }
                                 });
                 SequenceAction sequenceAction = new SequenceAction();
