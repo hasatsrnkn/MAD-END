@@ -292,8 +292,8 @@ public class Level implements Screen, ContactListener {
     	bg.dispose();
     	bulletViewer.getTexture().dispose();
 
-      playerView.getTexture().dispose();
-      world.dispose();
+        playerView.getTexture().dispose();
+        world.dispose();
 
     }
 

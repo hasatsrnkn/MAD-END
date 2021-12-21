@@ -49,7 +49,7 @@ public class Level2 extends Level implements Screen, ContactListener {
 
         super(game, bgName);
 
-        rocks = new Rock[ 30 ];
+        rocks = new Rock[ 20 ];
         healthByDifficulty();
         
         this.setShooterLevel(true);
@@ -120,8 +120,23 @@ public class Level2 extends Level implements Screen, ContactListener {
         rocks[1] = new Rock( world, 500, 800, 150, 250 );
         rocks[2] = new Rock( world, 200, 1450, 300, 300 );
         rocks[3] = new Rock( world, 300, 325, 100, 200 );
-        rocks[4] = new Rock( world, 600, 325, 200, 200 );
-
+        rocks[4] = new Rock( world, 450, 345, 160, 200 );
+        rocks[5] = new Rock( world, 1200, 315, 120, 1200 );
+        rocks[6] = new Rock( world, 1000, 455, 120, 900 );
+        rocks[7] = new Rock( world, 1000, 555, 100, 700 );
+        rocks[8] = new Rock( world, 700, 1300, 100, 200);
+        rocks[9] = new Rock( world, 1000, 1320, 200, 400);
+        rocks[10] = new Rock( world, 1000, 1460, 80, 300);
+        rocks[11] = new Rock( world, 1280, 1330, 120, 100);
+        rocks[12] = new Rock( world, 1360, 1710, 100, 600);
+        rocks[13] = new Rock( world, 1800, 1000, 80, 1800);
+        rocks[14] = new Rock( world, 2000, 1100, 80, 1300);
+        rocks[15] = new Rock( world, 2100, 1200, 100, 800);
+        rocks[16] = new Rock( world, 2100, 1300, 100, 600);
+        rocks[17] = new Rock( world, 2100, 1420, 150, 300);
+        rocks[18] = new Rock( world, 2500, 1700, 100, 500);
+        rocks[19] = new Rock( world, 1800, 750, 80, 500);
+        rocks[20] = new Rock( world, 2400, 420, 200, 500);
     }
 
     @Override
