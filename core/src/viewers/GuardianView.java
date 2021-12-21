@@ -31,11 +31,12 @@ public class GuardianView extends EnemyView{
 	
 	public void drawCharacter(SpriteBatch spriteBatch) {
 
-		super.drawCharacter(spriteBatch, 15f, -20f);
-		super.drawCharacterAnimation(spriteBatch, 8f, 2f);
-		super.getCharacter().updateCharacter();
-
-
+		if(!guardian.isDead()) {
+			
+			super.drawCharacter(spriteBatch, 15f, -20f);
+			super.drawCharacterAnimation(spriteBatch, 8f, 2f);
+		
+		}
 	}
 
 }

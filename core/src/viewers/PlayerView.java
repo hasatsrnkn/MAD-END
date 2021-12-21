@@ -45,8 +45,7 @@ public class PlayerView extends CharacterView {
 
 	//just in case, never used
 	public void drawPlayerAnimation(SpriteBatch spriteBatch) {
-		
-		this.getCharacter().updateCharacter();
+
 		if (this.getCharacter().isMoving()) {
 			
 
