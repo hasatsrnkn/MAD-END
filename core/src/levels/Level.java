@@ -5,6 +5,7 @@ package levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,6 +23,8 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.bullet.linearmath.btVector3;
+import com.badlogic.gdx.physics.bullet.linearmath.btVector4;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
@@ -66,19 +69,20 @@ public class Level implements Screen, ContactListener {
 
     private boolean isShooterLevel;
 
-    private ArrayList<Bullet> allBullets;
-    private ArrayList<Bullet> bulletsToRemove;
+    protected ArrayList<Bullet> allBullets;
+    protected ArrayList<Bullet> bulletsToRemove;
 
-    private WallView mapBoundaryWallView1;
-    private WallView mapBoundaryWallView2;
-    private WallView mapBoundaryWallView3;
-    private WallView mapBoundaryWallView4;
+    protected WallView mapBoundaryWallView1;
+    protected WallView mapBoundaryWallView2;
+    protected WallView mapBoundaryWallView3;
+    protected WallView mapBoundaryWallView4;
 
     private BulletView bulletViewer;
     
     //tester
     private Box2DDebugRenderer bodyRenderer; 
     private OrthographicCamera box2DCam;
+    private ArrayList<Vector2> pointsArray = new ArrayList<Vector2>();
     
 
     public Level( GameMain game, String bgName ) {
@@ -124,7 +128,6 @@ public class Level implements Screen, ContactListener {
 
     
     public void update( float dt ) {
-
         if( !GameManager.getInstance().isPaused ){
             allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
             ((Player)player).handleMoveInput( dt );
@@ -133,6 +136,7 @@ public class Level implements Screen, ContactListener {
             removeBullets();
 
         }
+
 
     }
 
@@ -169,6 +173,7 @@ public class Level implements Screen, ContactListener {
         box2DCam.position.x = player.getBody().getPosition().x;
         box2DCam.position.y = player.getBody().getPosition().y;
         box2DCam.update();
+        savePoint();
         
         mainCamera.update();
         
@@ -205,6 +210,15 @@ public class Level implements Screen, ContactListener {
         game.getBatch().begin();
         
         game.getBatch().draw( bg, 0, 0);
+        game.getBatch().draw( bg, -bg.getWidth(), 0);
+        game.getBatch().draw( bg, -bg.getWidth(), bg.getHeight());
+        game.getBatch().draw( bg, 0,  bg.getHeight());
+        game.getBatch().draw( bg, bg.getWidth(), bg.getHeight());
+        game.getBatch().draw( bg, bg.getWidth(), 0);
+        game.getBatch().draw( bg, 0, -bg.getHeight());
+        game.getBatch().draw( bg, -bg.getWidth(), -bg.getHeight());
+        game.getBatch().draw( bg, bg.getWidth(), -bg.getHeight());
+
         drawAllBullets( game.getBatch() );
 
         mapBoundaryWallView1.drawWall(game.getBatch());
@@ -213,6 +227,37 @@ public class Level implements Screen, ContactListener {
         mapBoundaryWallView4.drawWall(game.getBatch());
 
     }
+    
+    //tester
+
+    public ArrayList<Vector2> savePoint() {
+    	
+    	if(Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+    		
+    		pointsArray.add(new Vector2(player.getXPosition(), player.getYPosition()));
+
+    			for(Vector2 vector : pointsArray) {
+    				
+        			System.out.print(vector + ", ");
+    			}
+    			System.out.println();
+    			
+    	}
+    	
+    	else if(Gdx.input.isKeyJustPressed(Keys.C)) {
+    		
+    		pointsArray.add(new Vector2(vector3.x, vector3.y));
+
+			for(Vector2 vector : pointsArray) {
+				
+    			System.out.print(vector + ", ");
+			}
+			System.out.println();
+    	}
+
+    	return pointsArray;
+    }
+    
 
     public ArrayList<Bullet> getAllBullets() {
         return allBullets;
@@ -242,9 +287,9 @@ public class Level implements Screen, ContactListener {
     public void dispose() {
        
     	bg.dispose();
-        playerView.getBulletViewer().getTexture().dispose();
+    	bulletViewer.getTexture().dispose();
+
         playerView.getTexture().dispose();
-//        characterView.getTexture().dispose();
         world.dispose();
 
     }
@@ -285,6 +330,17 @@ public class Level implements Screen, ContactListener {
 
     public UIHud getUiHud() {
         return uiHud;
+    }
+
+    public void healthByDifficulty() {
+        if( GameInfo.DIFFICULT_TICK == 1) {
+            uiHud.setHealth( GameManager.getInstance().healthScore + 2 );
+        }
+
+        if( GameInfo.DIFFICULT_TICK == 2) {
+            uiHud.setHealth( GameManager.getInstance().healthScore + 1 );
+        }
+
     }
 
 }

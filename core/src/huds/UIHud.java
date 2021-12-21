@@ -1,7 +1,5 @@
 package huds;
 
-import Cinematics.Cinematic1;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -22,14 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
-import com.sun.org.apache.xerces.internal.xs.XSTerm;
 import helpers.GameInfo;
 import helpers.GameManager;
-import levels.Level1;
 import scenes.MainMenu;
 import scenes.PlayerDiedScreen;
 
@@ -190,9 +185,6 @@ public class UIHud {
 
         getStage().addAction( sequenceAction );
     }
-
-
-
 
 
 } //End

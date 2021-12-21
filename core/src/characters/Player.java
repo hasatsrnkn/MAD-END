@@ -32,7 +32,6 @@ public class Player extends Character {
     	moveCharacter( 0 ,0 );
     	setMoving( false );
 
-
         if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
                 Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.D) ) {
 
@@ -62,6 +61,33 @@ public class Player extends Character {
             }
 
         }
+
+        this.playFootStepSound();
+    }
+
+    public void handleMoveInputBossLevel(float dt) {
+
+        moveCharacter( 2.3f ,0 );
+        setMoving( false );
+
+        if( Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+
+
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+
+                moveCharacter(this.getBody().getLinearVelocity().x, GameInfo.PLAYER_MOVESPEED);
+
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+
+                moveCharacter(this.getBody().getLinearVelocity().x, -GameInfo.PLAYER_MOVESPEED);
+
+            }
+
+
+        }
+
         this.playFootStepSound();
     }
 
@@ -76,11 +102,13 @@ public class Player extends Character {
 
             if( this.getShotTime() == 0) {
                  newBullet = this.shoot( mouseX, mouseY );
+
             }
             else {
                 long time = System.currentTimeMillis();
-                if (time > getLastTimeShot() + 500) {
+                if (time > getLastTimeShot() + 300) {
                     newBullet =  this.shoot(mouseX, mouseY);
+
                 }
             }
 

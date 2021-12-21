@@ -1,32 +1,21 @@
 package levels;
 
+import Cinematics.Cinematic4;
 import characters.*;
-import characters.Character;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 
 import helpers.GameManager;
-import huds.UIHud;
 import obstacle.Rock;
 import throwables.Bullet;
 import viewers.*;
-
-import java.util.ArrayList;
 
 /**
  * Level1 class
@@ -37,8 +26,17 @@ public class Level1 extends Level implements Screen, ContactListener {
 
 
     private Guardian guardian1;
-
     private GuardianView guardian1View;
+    private Guardian guardian2;
+    private GuardianView guardian2View;
+    private Guardian guardian3;
+    private GuardianView guardian3View;
+    private Guardian guardian4;
+    private GuardianView guardian4View;
+    private Guardian guardian5;
+    private GuardianView guardian5View;
+    private Guardian guardian6;
+    private GuardianView guardian6View;
     private Rock[] rocks;
 
     private ArrayList<Enemy> allEnemies;
@@ -51,15 +49,28 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         allEnemies = new ArrayList<Enemy>();
 
-
         createRocks();
-
-
+        
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
-        guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian1 = new Guardian(world, 400, 900, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "EnemyAnimation/terroristani.atlas");
+        
+        guardian2 = new Guardian(world, 967, 162, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian2View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian2, "EnemyAnimation/terroristani.atlas");
+        
+        guardian3 = new Guardian(world, 988, 1598, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian3View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian3, "EnemyAnimation/terroristani.atlas");
+        
+        guardian4 = new Guardian(world, 1896, 908, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian4View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian4, "EnemyAnimation/terroristani.atlas");
+        
+        guardian5 = new Guardian(world, 2755, 1564, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian5View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian5, "EnemyAnimation/terroristani.atlas");
+        
+        guardian6 = new Guardian(world, 2223, 594, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian6View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian6, "EnemyAnimation/terroristani.atlas");
 
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
         player.setFootStepVoice( footstep );
@@ -68,16 +79,28 @@ public class Level1 extends Level implements Screen, ContactListener {
 
 
     public void update( float dt ) {
+
         if (!GameManager.getInstance().isPaused) {
             super.update(dt);
 
-
-            if(guardian1.isDead()) {
-                guardian1.killed();
-            }
-            guardian1.setPointer(player.getXPosition(), player.getYPosition());
-            guardian1.moveGuardianToTarget();
+            getAllBullets().add(guardian1.moveAndShoot(400, 900, 200, 900)); 
             guardian1.updateCharacter();
+
+            getAllBullets().add(guardian2.moveAndShoot(967, 162, 967, 330));
+            guardian2.updateCharacter();
+
+            getAllBullets().add(guardian3.moveAndShoot(988, 1598, 1022, 1310));
+            guardian3.updateCharacter();
+
+            getAllBullets().add(guardian4.moveAndShoot(1896, 908, 1896, 1077));
+            guardian4.updateCharacter();
+
+            getAllBullets().add(guardian5.moveAndShoot(2755, 1564, 2529, 1564));
+            guardian5.updateCharacter();
+
+            getAllBullets().add(guardian6.moveAndShoot(2223, 594, 2402, 594));
+            guardian6.updateCharacter();
+
         }
     }
 
@@ -126,14 +149,13 @@ public class Level1 extends Level implements Screen, ContactListener {
     }
     
     public void advanceToNextLevel() {
-    	
+
     	//you can change this statement to how you want to advance to the next level
     	//also it is currently advancing to level3
     	if(player.getXPosition() >= 1800 && player.getYPosition() <= 100) {
-    		
-    		this.dispose();
-    		game.setScreen( new Level3( game,  "Level Backgrounds/Level 1 Background.png"  ) );
-    		 
+
+            player.getFootStepVoice().stop();
+            game.setScreen( new Cinematic4( game ));
     	}
     }
 
@@ -144,14 +166,20 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
-        if(!guardian1.isDead()) {
-            guardian1View.drawCharacter(game.getBatch());
-        }
+
 
         getUiHud().stopGame();
+        if( !GameManager.getInstance().isPaused) {
+            guardian1View.drawCharacter(game.getBatch());
+            guardian2View.drawCharacter(game.getBatch());
+            guardian3View.drawCharacter(game.getBatch());
+            guardian4View.drawCharacter(game.getBatch());
+            guardian5View.drawCharacter(game.getBatch());
+            guardian6View.drawCharacter(game.getBatch());
+        }
 
         game.getBatch().end(); //End for drawing
-        //game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);
+        game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);
         getUiHud().getStage().draw();
         getUiHud().getStage().act();
 
@@ -226,9 +254,8 @@ public class Level1 extends Level implements Screen, ContactListener {
                 player.reduceHeathPoint();
                 getUiHud().setHealth( GameManager.getInstance().healthScore - 1);
                 if( player.isDead() ) {
+                    player.getFootStepVoice().stop();
                     getUiHud().playerIsDead();
-
-
                 }
             }
 

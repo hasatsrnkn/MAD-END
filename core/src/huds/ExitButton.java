@@ -1,6 +1,5 @@
 package huds;
 
-import Cinematics.Cinematic1;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,9 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import helpers.GameManager;
-import scenes.CreditsScreen;
 import scenes.MainMenu;
-import scenes.SettingsScreen;
 
 public class ExitButton {
     private GameMain game;

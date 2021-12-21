@@ -37,9 +37,8 @@ public class CharacterView extends Sprite{
 	
 
 	public void drawCharacter(SpriteBatch spriteBatch, float xAdjustment, float yAdjustment) {
-
+		
 		character.updateCharacter();
-
 		if ( !character.isMoving() ) {
 
 			this.setPosition(character.getXPosition() - (character.getWidth() / 2f + xAdjustment) ,
@@ -50,14 +49,12 @@ public class CharacterView extends Sprite{
 	
 		this.setRotation((float) this.getCharacter().getRotationDeg());
 
-
     }
 
 	/*
 	NEEDS TO BE UPDATED, THIS IS JUST FOR PLAYER ANIMATION ROTATION
 	 */
 	public void drawCharacterAnimation( SpriteBatch spriteBatch, float frames, float scale ) {
-		character.updateCharacter();
 
 		if (character.isMoving()) {
 

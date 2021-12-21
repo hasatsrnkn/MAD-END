@@ -82,12 +82,16 @@ public abstract class Character extends GameObject {
 
 
 	public void moveCharacter( float x, float y ) {
-
+		
 		body.setLinearVelocity( x , y );
-		isMoving = true;
-		updateCharacter();
-
-
+		
+		if(x == 0  && y == 0) {
+			isMoving = false;
+		}
+		else {
+			isMoving = true;
+		}
+		
 	}
 	
 
@@ -158,10 +162,15 @@ public abstract class Character extends GameObject {
     	this.rotationDeg = degrees;
     }
     
+    public float calculateRotationDeg(float x, float y) {
+    	
+    	return ((float)(MathUtils.radiansToDegrees *  Math.atan2 ( y - this.getYPosition()  , 
+				x - this.getXPosition()   )));
+    }
+    
     public void setRotationDeg(float x, float y) {
     	
-		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2 ( y - this.getYPosition()  , 
-				x - this.getXPosition()   )));
+		this.setRotationDeg(calculateRotationDeg(x, y));
     }
 
 
@@ -227,7 +236,6 @@ public abstract class Character extends GameObject {
 		heathPoint = heathPoint - 1;
 		if( heathPoint == 0) {
 			this.setDead( true );
-			this.getFootStepVoice().stop();
 		}
 	}
 
@@ -239,7 +247,7 @@ public abstract class Character extends GameObject {
 		isDead = dead;
 	}
 
-	public void killed() {
+	public void kill() {
 
 		if( !killedExecuted ) {
 			this.getBody().destroyFixture( this.getFixture() );
