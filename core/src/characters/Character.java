@@ -245,7 +245,7 @@ public abstract class Character extends GameObject {
 		isDead = dead;
 	}
 
-	public void killed() {
+	public void kill() {
 
 		if( !killedExecuted ) {
 			this.getBody().destroyFixture( this.getFixture() );

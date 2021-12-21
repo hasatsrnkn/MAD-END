@@ -24,7 +24,6 @@ import helpers.GameInfo;
 import helpers.GameManager;
 import levels.Level1;
 import levels.Level2;
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import scenes.CreditsScreen;
 import scenes.SettingsScreen;
 
@@ -109,7 +108,7 @@ public class MainMenuButtons {
                 run.setRunnable(new Runnable() {
                                     @Override
                                     public void run() {
-                                        game.setScreen(new Level2(game, "Level Backgrounds/Level 2 Background.png"));
+                                        game.setScreen(new Level1(game, "Level Backgrounds/Level 1 Background.png"));
                                     }
                                 });
                 SequenceAction sequenceAction = new SequenceAction();
