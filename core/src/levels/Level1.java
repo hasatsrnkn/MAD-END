@@ -1,32 +1,21 @@
 package levels;
 
+import Cinematics.Cinematic4;
 import characters.*;
-import characters.Character;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 
 import helpers.GameManager;
-import huds.UIHud;
 import obstacle.Rock;
 import throwables.Bullet;
 import viewers.*;
-
-import java.util.ArrayList;
 
 /**
  * Level1 class
@@ -189,14 +178,13 @@ public class Level1 extends Level implements Screen, ContactListener {
     }
     
     public void advanceToNextLevel() {
-    	
+
     	//you can change this statement to how you want to advance to the next level
     	//also it is currently advancing to level3
     	if(player.getXPosition() >= 1800 && player.getYPosition() <= 100) {
-    		
-    		this.dispose();
-    		game.setScreen( new Level2( game,  "Level Backgrounds/Level 2 Background.png"  ) );
-    		 
+
+            player.getFootStepVoice().stop();
+            game.setScreen( new Cinematic4( game ));
     	}
     }
 
@@ -208,13 +196,14 @@ public class Level1 extends Level implements Screen, ContactListener {
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
         getUiHud().stopGame();
-
-        guardian1View.drawCharacter(game.getBatch());
-        guardian2View.drawCharacter(game.getBatch());
-        guardian3View.drawCharacter(game.getBatch());
-        guardian4View.drawCharacter(game.getBatch());
-        guardian5View.drawCharacter(game.getBatch());
-        guardian6View.drawCharacter(game.getBatch());
+        if( !GameManager.getInstance().isPaused) {
+            guardian1View.drawCharacter(game.getBatch());
+            guardian2View.drawCharacter(game.getBatch());
+            guardian3View.drawCharacter(game.getBatch());
+            guardian4View.drawCharacter(game.getBatch());
+            guardian5View.drawCharacter(game.getBatch());
+            guardian6View.drawCharacter(game.getBatch());
+        }
 
         game.getBatch().end(); //End for drawing
         game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);

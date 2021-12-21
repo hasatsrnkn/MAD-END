@@ -1,6 +1,5 @@
 package Cinematics;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -10,17 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cscats.madend.GameMain;
-import levels.Level1;
+import levels.Level2;
+
+public class CinematicNextButton5 extends CinematicNextButton{
 
 
-/**
- * Cinematic Next Button1
- * @author Mehmet Hasat Serinkan
- * @date 21.12.2021
- */
-public class CinematicNextButton1 extends CinematicNextButton{
-
-    public CinematicNextButton1(GameMain game) {
+    public CinematicNextButton5(GameMain game) {
         super( game );
 
         stage = new Stage( gameViewport, game.getBatch() );
@@ -40,7 +34,7 @@ public class CinematicNextButton1 extends CinematicNextButton{
                 run.setRunnable(new Runnable() {
                     @Override
                     public void run() {
-                        game.setScreen(new Cinematic2( game ));
+                        game.setScreen(new Level2(game, "Level Backgrounds/Level 2 Background.png"));
                     }
                 });
                 SequenceAction sequenceAction = new SequenceAction();
@@ -59,4 +53,6 @@ public class CinematicNextButton1 extends CinematicNextButton{
         return stage;
     }
 
-} //End
+
+
+}
