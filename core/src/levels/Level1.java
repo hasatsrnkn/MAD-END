@@ -73,13 +73,12 @@ public class Level1 extends Level implements Screen, ContactListener {
             guardian1.kill();
         }
 
+        guardian1.fixedMovement();
+
     	//guardian1.fixedMovement2(400, 900, 200, 900, dt);
-        if(guardian1.moveGuardianTo(300, 900)) {
 
 
-        	System.out.println("called , " + guardian1.getXPosition());
-        	guardian1.moveGuardianTo(400,900);
-        }
+
 
     	guardian1.updateCharacter();
     	

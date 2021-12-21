@@ -16,7 +16,9 @@ public class Guardian extends Enemy {
 
 	private Vector2 pointer;
 	private Character targetCharacter;
+
 	private float distanceToTargetCh;
+	public boolean firstArrived;
 	float proximityRadius;
 	int point = 1;
 	
@@ -28,54 +30,69 @@ public class Guardian extends Enemy {
 		pointer = new Vector2( );
 		targetCharacter = targetCh;
 		proximityRadius = 800f;
-		
+		firstArrived = false;
 		distanceToTargetCh = (float) Math.sqrt(Math.pow(targetCharacter.getXPosition() - this.getXPosition(), 2) + 
 		Math.pow(targetCharacter.getYPosition() - this.getYPosition(), 2));
 	}
 	
 	public boolean moveGuardianTo(float targetX, float targetY) {
-		
+
 //		distanceToTargetCh = (float) Math.sqrt(Math.pow(targetCharacter.getXPosition() - this.getXPosition(), 2) + 
 //				Math.pow(targetCharacter.getYPosition() - this.getYPosition(), 2));
 //		
 //		System.out.println(distanceToTargetCh);
 		boolean arrived = false;
+		if( !arrived ) {
+			System.out.println( "girdi");
+			if ( Math.abs( this.getXPosition() - targetX ) <= 3  && Math.abs( this.getYPosition() - targetY ) <= 3)  {
+				System.out.println( "vardı + " + targetX + " , " + this.getXPosition() );
+				super.moveCharacter(0, 0);
+				arrived = true;
 
-		if((this.getXPosition() - targetX <= 3 && this.getYPosition() - targetY <= 3) && arrived == false) {
-			
-			System.out.println("called");
-			super.moveCharacter(0,0);
-			arrived = true;
+				if( !firstArrived ) {
+					setFirstArrived( true );
+				}
+				else {
+					setFirstArrived( false );
+				}
+			}
+			else {
+				if (this.getXPosition() > targetX) {
+					System.out.println("going to left");
+					super.moveCharacter(-GameInfo.GUARDIAN_MOVESPEED, this.getBody().getLinearVelocity().y);
+					arrived = false;
+				}
+				if (this.getXPosition() < targetX) {
+					System.out.println("going to right");
+					super.moveCharacter(GameInfo.GUARDIAN_MOVESPEED, this.getBody().getLinearVelocity().y);
+					arrived = false;
+				}
+				if (this.getYPosition() > targetY) {
+
+					super.moveCharacter(this.getBody().getLinearVelocity().x, -GameInfo.GUARDIAN_MOVESPEED);
+					arrived = false;
+				}
+
+				if (this.getYPosition() < targetY) {
+
+					super.moveCharacter(this.getBody().getLinearVelocity().x, GameInfo.GUARDIAN_MOVESPEED);
+					arrived = false;
+				}
+			}
+
 		}
-		
-		if(!arrived) {
-		
-			if(this.getXPosition() > targetX) {
-				
-				super.moveCharacter(-GameInfo.GUARDIAN_MOVESPEED, this.getBody().getLinearVelocity().y);
-				arrived = false;
-			}
-			
-			if(this.getXPosition() < targetX) {
-
-				super.moveCharacter(GameInfo.GUARDIAN_MOVESPEED, this.getBody().getLinearVelocity().y);
-				arrived = false;
-			}
-			
-			if(this.getYPosition() > targetY) {
-
-				super.moveCharacter(this.getBody().getLinearVelocity().x, -GameInfo.GUARDIAN_MOVESPEED);
-				arrived = false;
-			}
-			
-			if(this.getYPosition() < targetY) {
-
-				super.moveCharacter(this.getBody().getLinearVelocity().x, GameInfo.GUARDIAN_MOVESPEED);
-				arrived = false;
-			}		
-			
-		}	
 		return arrived;
+	}
+
+	public void fixedMovement() {
+
+		if( !firstArrived ) {
+			moveGuardianTo( 300, 900);
+		}
+		else {
+			moveGuardianTo(600, 900);
+		}
+
 	}
 	
 	
@@ -102,8 +119,16 @@ public class Guardian extends Enemy {
 		
 		}
 	}
-	
-	
+
+	public boolean isFirstArrived() {
+		return firstArrived;
+	}
+
+	public void setFirstArrived( boolean firstArrived) {
+		this.firstArrived = firstArrived;
+	}
+
+
 	public void fixedMovement(float firstX, float firstY, float shootPointX, float shootPointY, float delta) {
 		
 		if(!this.isDead()) {
@@ -148,6 +173,8 @@ public class Guardian extends Enemy {
 			
 		}	
 	}
+
+
 	
 	
 	public void fixedMovement2(float firstX, float firstY, float shootPointX, float shootPointY, float delta) {
