@@ -27,7 +27,7 @@ public class Level2 extends Level implements Screen, ContactListener {
 
         super(game, bgName);
 
-        rocks = new Rock[ 20 ];
+        rocks = new Rock[ 21 ];
         healthByDifficulty();
 
         createRocks();

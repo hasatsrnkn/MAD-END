@@ -1,17 +1,20 @@
 package Cinematics;
 
+
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.cscats.madend.GameMain;
 
-public class Cinematic1 extends Cinematic{
+
+public class Cinematic2 extends Cinematic implements Screen {
 
     //Properties
-    protected CinematicNextButton1 button;
+    protected CinematicNextButton2 button;
 
-    public Cinematic1(GameMain game ) {
+    public Cinematic2(GameMain game ) {
         super( game );
-        bg = new Texture( "Cinematics/Cinematic 1.png" );
-        button = new CinematicNextButton1( game );
+        bg = new Texture( "Cinematics/Cinematic 2.png" );
+        button = new CinematicNextButton2( game );
         button.getStage().act();
 
     }
@@ -60,6 +63,6 @@ public class Cinematic1 extends Cinematic{
     }
 
 
+} //End
 
 
-}

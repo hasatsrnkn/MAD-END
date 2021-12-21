@@ -69,8 +69,8 @@ public class Level implements Screen, ContactListener {
 
     private boolean isShooterLevel;
 
-    private ArrayList<Bullet> allBullets;
-    private ArrayList<Bullet> bulletsToRemove;
+    protected ArrayList<Bullet> allBullets;
+    protected ArrayList<Bullet> bulletsToRemove;
 
     protected WallView mapBoundaryWallView1;
     protected WallView mapBoundaryWallView2;
@@ -210,14 +210,14 @@ public class Level implements Screen, ContactListener {
         game.getBatch().begin();
         
         game.getBatch().draw( bg, 0, 0);
-        game.getBatch().draw( bg, -3000, 0);
-        game.getBatch().draw( bg, -3000, 1899);
-        game.getBatch().draw( bg, 0,  1899);
-        game.getBatch().draw( bg, 3000, 1899);
-        game.getBatch().draw( bg, 3000, 0);
-        game.getBatch().draw( bg, 0, -1899);
-        game.getBatch().draw( bg, -3000, -1899);
-        game.getBatch().draw( bg, 3000, -1899);
+        game.getBatch().draw( bg, -bg.getWidth(), 0);
+        game.getBatch().draw( bg, -bg.getWidth(), bg.getHeight());
+        game.getBatch().draw( bg, 0,  bg.getHeight());
+        game.getBatch().draw( bg, bg.getWidth(), bg.getHeight());
+        game.getBatch().draw( bg, bg.getWidth(), 0);
+        game.getBatch().draw( bg, 0, -bg.getHeight());
+        game.getBatch().draw( bg, -bg.getWidth(), -bg.getHeight());
+        game.getBatch().draw( bg, bg.getWidth(), -bg.getHeight());
 
         drawAllBullets( game.getBatch() );
 

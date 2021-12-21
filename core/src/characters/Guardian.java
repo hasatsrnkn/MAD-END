@@ -238,6 +238,10 @@ public class Guardian extends Enemy {
 		
 		pointer.set(x, y);
 	}
-	
+
+	public Character getTargetCharacter() {
+		return targetCharacter;
+	}
+
 
 }

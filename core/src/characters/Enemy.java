@@ -23,11 +23,5 @@ public abstract class Enemy extends Character{
 		this.getFixtureDef().filter.maskBits = GameInfo.BULLET | GameInfo.PLAYER | GameInfo.OBSTACLE;
 		this.getFixture().setUserData( "Enemy" );
 	}
-	
-	
-	public void moveEnemy() {
-		
-		
-	}
 
 }

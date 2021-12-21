@@ -2,13 +2,10 @@ package huds;
 
 import Cinematics.Cinematic1;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -23,7 +20,7 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import helpers.GameManager;
 import levels.Level1;
-import levels.Level2;
+import levels.Level4;
 import scenes.CreditsScreen;
 import scenes.SettingsScreen;
 
@@ -108,7 +105,7 @@ public class MainMenuButtons {
                 run.setRunnable(new Runnable() {
                                     @Override
                                     public void run() {
-                                        game.setScreen(new Level2(game, "Level Backgrounds/Level 2 Background.png"));
+                                        game.setScreen(new Cinematic1( game));
                                     }
                                 });
                 SequenceAction sequenceAction = new SequenceAction();

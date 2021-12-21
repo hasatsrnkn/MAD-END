@@ -3,15 +3,14 @@ package Cinematics;
 import com.badlogic.gdx.graphics.Texture;
 import com.cscats.madend.GameMain;
 
-public class Cinematic1 extends Cinematic{
-
+public class Cinematic3 extends Cinematic{
     //Properties
-    protected CinematicNextButton1 button;
+    protected CinematicNextButton3 button;
 
-    public Cinematic1(GameMain game ) {
+    public Cinematic3(GameMain game ) {
         super( game );
-        bg = new Texture( "Cinematics/Cinematic 1.png" );
-        button = new CinematicNextButton1( game );
+        bg = new Texture( "Cinematics/Cinematic 3.png" );
+        button = new CinematicNextButton3( game );
         button.getStage().act();
 
     }
@@ -58,8 +57,4 @@ public class Cinematic1 extends Cinematic{
         super.dispose();
         button.getStage().dispose();
     }
-
-
-
-
 }
