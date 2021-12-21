@@ -16,7 +16,7 @@ public class GameInfo {
     public static final float PLAYER_WIDTH = 72f;
     public static final float BULLET_SPEED = 30;
 
-    public static final float GUARDIAN_MOVESPEED = 2.1f;
+    public static final float GUARDIAN_MOVESPEED = 1.3f;
     public static final float GUARDIAN_HEIGHT= 55f;
     public static final float GUARDIAN_WIDTH = 72f;
     

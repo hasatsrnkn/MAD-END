@@ -75,11 +75,13 @@ public class Player extends Character {
 
             if( this.getShotTime() == 0) {
                  newBullet = this.shoot( mouseX, mouseY );
+
             }
             else {
                 long time = System.currentTimeMillis();
-                if (time > getLastTimeShot() + 500) {
+                if (time > getLastTimeShot() + 300) {
                     newBullet =  this.shoot(mouseX, mouseY);
+
                 }
             }
 

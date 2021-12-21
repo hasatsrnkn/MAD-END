@@ -3,10 +3,15 @@
  */
 package characters;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 import helpers.GameInfo;
+import throwables.Bullet;
 
 /**
  * @author Mehmet Eren Balasar
@@ -19,9 +24,11 @@ public class Guardian extends Enemy {
 
 	private float distanceToTargetCh;
 	public boolean firstArrived;
-	float proximityRadius;
-	int point = 1;
-	
+	private float proximityRadius;
+	private float alarmedRadius;
+	private int point = 1;
+	private float delaySeconds = 2;
+	private float shootDifficulity;
 	
 	public Guardian(World world, float initialX, float initialY, float height, float width, Character targetCh) {
 		
@@ -29,23 +36,22 @@ public class Guardian extends Enemy {
 		
 		pointer = new Vector2( );
 		targetCharacter = targetCh;
-		proximityRadius = 800f;
+		proximityRadius = 200f;
+		alarmedRadius = 1000f;
 		firstArrived = false;
+		
+		
 		distanceToTargetCh = (float) Math.sqrt(Math.pow(targetCharacter.getXPosition() - this.getXPosition(), 2) + 
 		Math.pow(targetCharacter.getYPosition() - this.getYPosition(), 2));
 	}
 	
 	public boolean moveGuardianTo(float targetX, float targetY) {
 
-//		distanceToTargetCh = (float) Math.sqrt(Math.pow(targetCharacter.getXPosition() - this.getXPosition(), 2) + 
-//				Math.pow(targetCharacter.getYPosition() - this.getYPosition(), 2));
-//		
-//		System.out.println(distanceToTargetCh);
 		boolean arrived = false;
 		if( !arrived ) {
-			System.out.println( "girdi");
+
 			if ( Math.abs( this.getXPosition() - targetX ) <= 3  && Math.abs( this.getYPosition() - targetY ) <= 3)  {
-				System.out.println( "vardı + " + targetX + " , " + this.getXPosition() );
+
 				super.moveCharacter(0, 0);
 				arrived = true;
 
@@ -58,12 +64,12 @@ public class Guardian extends Enemy {
 			}
 			else {
 				if (this.getXPosition() > targetX) {
-					System.out.println("going to left");
+
 					super.moveCharacter(-GameInfo.GUARDIAN_MOVESPEED, this.getBody().getLinearVelocity().y);
 					arrived = false;
 				}
 				if (this.getXPosition() < targetX) {
-					System.out.println("going to right");
+
 					super.moveCharacter(GameInfo.GUARDIAN_MOVESPEED, this.getBody().getLinearVelocity().y);
 					arrived = false;
 				}
@@ -84,38 +90,68 @@ public class Guardian extends Enemy {
 		return arrived;
 	}
 
-	public void fixedMovement() {
+	boolean shot = false;
+	public Bullet moveAndShoot(float firstX, float firstY, float shootPointX, float shootPointY) {
 
-		if( !firstArrived ) {
-			moveGuardianTo( 300, 900);
-		}
-		else {
-			moveGuardianTo(600, 900);
-		}
+        Bullet newBullet = null;
+		if(!this.isDead()) {
+			
+			distanceToTargetCh = (float) Math.sqrt(Math.pow(targetCharacter.getXPosition() - this.getXPosition(), 2) + 
+			Math.pow(targetCharacter.getYPosition() - this.getYPosition(), 2));
+			
 
+			if(distanceToTargetCh < proximityRadius) {
+				
+				proximityRadius = alarmedRadius;
+				
+		    	this.setPointer(targetCharacter.getXPosition(), targetCharacter.getYPosition());
+		    	
+
+					if( !firstArrived ) {
+						
+						moveGuardianTo( shootPointX, shootPointY);
+						
+						if(!shot) {
+							
+							newBullet = shoot(pointer.x-shootDifficulity, pointer.y-shootDifficulity);
+							shot = true;
+						}
+
+					}
+					
+					
+					else {
+						shot = false;
+						moveGuardianTo(firstX, firstY);
+					}
+		    	
+
+			}	
+			
+			else {
+				moveCharacter(0,0);
+			}
+		}
+		
+		return newBullet;
 	}
 	
 	
-	int i = 0;
+
 	public void updateCharacter() {
+    	
+        if(this.isDead()) {
+            this.kill();
+        }
 		
-		if(!this.isDead()) {
+        else if(!this.isDead()) {
 		
 			this.setPosition( (body.getPosition().x) * GameInfo.PPM, (body.getPosition().y) * GameInfo.PPM);
-			
-			if(this.getRotationDeg() > this.calculateRotationDeg(pointer.x, pointer.y))
 			this.setRotationDeg(pointer.x, pointer.y);
-			
 			
 			body.setTransform(body.getPosition().x, body.getPosition().y, 
 					(float)Math.toRadians(this.getRotationDeg()));
 			
-	        
-	//		if(i%900 == 0) {
-	//
-	//			this.shoot(pointer.x-20, pointer.y-20);
-	//		}
-	//		i++;
 		
 		}
 	}
@@ -138,38 +174,37 @@ public class Guardian extends Enemy {
 //			
 //			System.out.println( this.getXPosition() + " " + distanceToTargetCh);
 			
+			if(distanceToTargetCh < proximityRadius) {
+			
 		    	this.setPointer(targetCharacter.getXPosition(), targetCharacter.getYPosition());
-				
-				if(i % 180 == 0) {
-					
-					
+		    	
 					if(point == 1) {
 						
-						boolean boo = moveGuardianTo(shootPointX, shootPointY);
-						System.out.println( boo);
-						if(boo) {
+						if(moveGuardianTo(shootPointX, shootPointY)) {
 							
-							System.out.println( this.getXPosition() + "arrrrrrrived");
-							this.shoot(pointer.x-20, pointer.y-20);
-							point = 2;
+							Timer.schedule(new Task(){
+							    @Override
+							    public void run() {
+									shoot(pointer.x-20, pointer.y-20);
+									point = 2;
+							    }
+							}, delaySeconds);
+
 						}
 	
 					}
 					
 					else if (point == 2) {
-						
-						if(moveGuardianTo(firstX, firstY)) {
-							
+
 							System.out.println( this.getXPosition() + "moving to firstpos");
 							moveGuardianTo(firstX, firstY);
 							point = 1;
-						}
+						
 
 					}
-				}
 				
-	
-			i++;
+				
+			}	
 			
 		}	
 	}

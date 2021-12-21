@@ -35,8 +35,17 @@ public class Level1 extends Level implements Screen, ContactListener {
 
 
     private Guardian guardian1;
-
     private GuardianView guardian1View;
+    private Guardian guardian2;
+    private GuardianView guardian2View;
+    private Guardian guardian3;
+    private GuardianView guardian3View;
+    private Guardian guardian4;
+    private GuardianView guardian4View;
+    private Guardian guardian5;
+    private GuardianView guardian5View;
+    private Guardian guardian6;
+    private GuardianView guardian6View;
     private Rock[] rocks;
 
     private ArrayList<Enemy> allEnemies;
@@ -49,15 +58,28 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         allEnemies = new ArrayList<Enemy>();
 
-
         createRocks();
-
-
+        
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
         guardian1 = new Guardian(world, 400, 900, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
         guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "EnemyAnimation/terroristani.atlas");
+        
+        guardian2 = new Guardian(world, 967, 162, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian2View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian2, "EnemyAnimation/terroristani.atlas");
+        
+        guardian3 = new Guardian(world, 988, 1598, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian3View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian3, "EnemyAnimation/terroristani.atlas");
+        
+        guardian4 = new Guardian(world, 1896, 908, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian4View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian4, "EnemyAnimation/terroristani.atlas");
+        
+        guardian5 = new Guardian(world, 2755, 1564, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian5View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian5, "EnemyAnimation/terroristani.atlas");
+        
+        guardian6 = new Guardian(world, 2223, 594, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian6View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian6, "EnemyAnimation/terroristani.atlas");
 
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
         player.setFootStepVoice( footstep );
@@ -69,18 +91,23 @@ public class Level1 extends Level implements Screen, ContactListener {
     	
     	super.update(dt);
 
-        if(guardian1.isDead()) {
-            guardian1.kill();
-        }
-
-        guardian1.fixedMovement();
-
-    	//guardian1.fixedMovement2(400, 900, 200, 900, dt);
-
-
-
-
+    	getAllBullets().add(guardian1.moveAndShoot(400, 900, 200, 900)); 
     	guardian1.updateCharacter();
+    	
+    	getAllBullets().add(guardian2.moveAndShoot(967, 162, 967, 330));
+    	guardian2.updateCharacter();
+    	
+    	getAllBullets().add(guardian3.moveAndShoot(988, 1598, 1022, 1310));
+    	guardian3.updateCharacter();
+    	
+    	getAllBullets().add(guardian4.moveAndShoot(1896, 908, 1896, 1077));
+    	guardian4.updateCharacter();
+    	
+    	getAllBullets().add(guardian5.moveAndShoot(2755, 1564, 2529, 1564));
+    	guardian5.updateCharacter();
+    	
+    	getAllBullets().add(guardian6.moveAndShoot(2223, 594, 2402, 594));
+    	guardian6.updateCharacter();
     	
     }
 
@@ -147,14 +174,15 @@ public class Level1 extends Level implements Screen, ContactListener {
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
-        if(!guardian1.isDead()) {
-            guardian1View.drawCharacter(game.getBatch());
-        }
-
-
+        guardian1View.drawCharacter(game.getBatch());
+        guardian2View.drawCharacter(game.getBatch());
+        guardian3View.drawCharacter(game.getBatch());
+        guardian4View.drawCharacter(game.getBatch());
+        guardian5View.drawCharacter(game.getBatch());
+        guardian6View.drawCharacter(game.getBatch());
+ 
         game.getBatch().end(); //End for drawing
 
-        
         
         //tester
         super.renderBodies(delta);

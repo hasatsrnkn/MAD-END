@@ -23,6 +23,8 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.bullet.linearmath.btVector3;
+import com.badlogic.gdx.physics.bullet.linearmath.btVector4;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
@@ -120,8 +122,9 @@ public class Level implements Screen, ContactListener {
 
     
     public void update( float dt ) {
-        allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
+    	
         ((Player)player).handleMoveInput( dt );
+        allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
         player.updateCharacter();
         moveCamera();
         removeBullets();
@@ -207,20 +210,32 @@ public class Level implements Screen, ContactListener {
     }
     
     //tester
-    int i = 0;
+
     public ArrayList<Vector2> savePoint() {
     	
-    	if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+    	if(Gdx.input.isKeyJustPressed(Keys.SPACE)) {
     		
-    		pointsArray.add(new Vector2(vector3.x, vector3.y));
+    		pointsArray.add(new Vector2(player.getXPosition(), player.getYPosition()));
 
     			for(Vector2 vector : pointsArray) {
     				
         			System.out.print(vector + ", ");
     			}
-
+    			System.out.println();
+    			
     	}
-    	i++;
+    	
+    	else if(Gdx.input.isKeyJustPressed(Keys.C)) {
+    		
+    		pointsArray.add(new Vector2(vector3.x, vector3.y));
+
+			for(Vector2 vector : pointsArray) {
+				
+    			System.out.print(vector + ", ");
+			}
+			System.out.println();
+    	}
+
     	return pointsArray;
     }
     
@@ -253,7 +268,7 @@ public class Level implements Screen, ContactListener {
     public void dispose() {
        
     	bg.dispose();
-        playerView.getBulletViewer().getTexture().dispose();
+    	bulletViewer.getTexture().dispose();
         playerView.getTexture().dispose();
 //        characterView.getTexture().dispose();
         world.dispose();
