@@ -70,6 +70,7 @@ public abstract class Character extends GameObject {
 		fixtureDef = new FixtureDef();
         fixtureDef.density = 5000f; //Mass of the body
         fixtureDef.friction = 1f; //To not slide on surfaces
+        fixtureDef.restitution = 1f;
         fixtureDef.shape = shape;
 
         fixture = body.createFixture( fixtureDef );

@@ -19,7 +19,8 @@ public class Crazy extends Enemy {
 	private float xSpeed;
 	private float ySpeed;
 	private Random random;
-	private int randomDirection;
+	private int randomDirection1;
+	private int randomDirection2;
 	
 	public Crazy(World world, float initialX, float initialY, float height, float width) {
 		
@@ -30,10 +31,14 @@ public class Crazy extends Enemy {
 		xSpeed = GameInfo.CRAZY_MOVESPEED * (float)((random.nextInt(10) + 5.0)  / 5.0);
 		ySpeed = GameInfo.CRAZY_MOVESPEED * (float)((random.nextInt(10) + 5.0) / 5.0);
 		
-		randomDirection = random.nextInt(2);
+		randomDirection1 = random.nextInt(2);
 		
-		if(randomDirection == 0) {
+		if(randomDirection1 == 0) {
 			ySpeed = ySpeed * -1;
+		}
+		
+		if(randomDirection2 == 0) {
+			xSpeed = xSpeed * -1;
 		}
 
 	}
@@ -45,6 +50,12 @@ public class Crazy extends Enemy {
 	}
 	
 	
+	public void moveCrazy2() {
+	
+		this.moveCharacter(xSpeed / 1.7f , ySpeed / 1.7f);
+		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2(ySpeed, 0 )));
+	}
+	
 	public void changeDirection(boolean x, boolean y) {
 		
 		if (x) {
@@ -52,10 +63,36 @@ public class Crazy extends Enemy {
 			xSpeed = -1 * xSpeed;
 		}
 		
-		else if(y) {
+		if(y) {
 			
 			ySpeed = -1 * ySpeed;
 		}
+	}
+	
+	public void changeDirectionRandom() {
+		
+		int randomD = random.nextInt(4);
+		
+		if (randomD == 0) {
+			
+			changeDirection(true, false);
+		}
+		
+		else if (randomD == 1) {
+			
+			changeDirection(false, true);
+		}
+		
+		else if (randomD == 2) {
+			
+			changeDirection(true, true);
+		}
+		
+//		else if (randomD == 3) {
+//			
+//			changeDirection(false, false);
+//		}
+		
 	}
 
 	

@@ -151,8 +151,6 @@ public class Level3 extends Level {
 		
 		playerView.drawPlayer(game.getBatch());
 		
-        getUiHud().stopGame();
-		
 		crazy1View.drawCharacter(game.getBatch());
 		crazy2View.drawCharacter(game.getBatch());
 		crazy3View.drawCharacter(game.getBatch());
