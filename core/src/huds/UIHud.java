@@ -1,5 +1,6 @@
 package huds;
 
+import Cinematics.Cinematic1;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,6 +12,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -27,6 +31,7 @@ import helpers.GameInfo;
 import helpers.GameManager;
 import levels.Level1;
 import scenes.MainMenu;
+import scenes.PlayerDiedScreen;
 
 /**
  * UIHud class
@@ -41,6 +46,7 @@ public class UIHud {
     private Image healthImage;
     private Image scoreImage;
     private Image pausePanelImage;
+    private Image playerDied;
     private Label healthLabel;
     private Label scoreLabel;
     private ImageButton resumeButton;
@@ -163,9 +169,30 @@ public class UIHud {
         scoreLabel.setText( String.valueOf( GameManager.getInstance().score ) );
     }
 
-    public void incrementHealth( int health ) {
+    public void setHealth( int health ) {
         GameManager.getInstance().healthScore = health;
         healthLabel.setText( "x" + GameManager.getInstance().healthScore );
     }
+
+    public void playerIsDead() {
+        GameManager.getInstance().isPaused = true;
+        RunnableAction run = new RunnableAction();
+        run.setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                game.setScreen( new PlayerDiedScreen( game ));
+            }
+        });
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction( Actions.color(Color.BLACK));
+        sequenceAction.addAction(Actions.fadeOut( 1f ));
+        sequenceAction.addAction( run );
+
+        getStage().addAction( sequenceAction );
+    }
+
+
+
+
 
 } //End

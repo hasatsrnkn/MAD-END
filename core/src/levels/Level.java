@@ -108,6 +108,7 @@ public class Level implements Screen, ContactListener {
         bulletsToRemove = new ArrayList<Bullet>();
 
         uiHud = new UIHud( this.game );
+        uiHud.getStage().act();
         //JUST FOR INITIALIZATION !é
         bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( world, 10f,10f,
                 10f,10, 10f )  );
