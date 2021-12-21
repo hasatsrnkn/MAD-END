@@ -35,7 +35,7 @@ public class Level3 extends Level{
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
 		
-		crazy1 = new Crazy(world, GameInfo.WIDTH / 2f + 200, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
+		crazy1 = new Crazy(world, GameInfo.WIDTH / 2f + 200, GameInfo.HEIGHT / 2f, GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
 		crazy1View = new CrazyView("Enemies/Crazy.png", crazy1, "EnemyAnimation/crazyani.atlas");
 		Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
 		player.setFootStepVoice( footstep );
@@ -54,10 +54,9 @@ public class Level3 extends Level{
 		super.render(delta);
 		
 		playerView.drawPlayer(game.getBatch());
-		playerView.drawPlayerAnimation(game.getBatch());
 		
 		crazy1View.drawCharacter(game.getBatch());
-		crazy1View.drawCharacterAnimation(game.getBatch());
+
 		
 		game.getBatch().end();
 		

@@ -2,6 +2,9 @@ package levels;
 
 import characters.*;
 import characters.Character;
+
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -16,10 +19,14 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
-import obstacle.MapBoundaries;
-import obstacle.Obstacle;
+
+import helpers.GameManager;
+import huds.UIHud;
 import obstacle.Rock;
+import throwables.Bullet;
 import viewers.*;
+
+import java.util.ArrayList;
 
 /**
  * Level1 class
@@ -28,30 +35,51 @@ import viewers.*;
  */
 public class Level1 extends Level implements Screen, ContactListener {
 
-    private Character guardian1;
+
+    private Guardian guardian1;
+
     private GuardianView guardian1View;
     private Rock[] rocks;
+
+    private ArrayList<Enemy> allEnemies;
 
     public Level1( GameMain game, String bgName ) {
 
     	super(game, bgName);
 
         rocks = new Rock[30];
+
+        allEnemies = new ArrayList<Enemy>();
+
+
         createRocks();
+
 
         player = new Player(world, GameInfo.WIDTH / 2f, GameInfo.HEIGHT / 2f, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
         
-        guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH);
-        guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "PlayerAnimation/PlayerAnimation.atlas");
+        guardian1 = new Guardian(world, GameInfo.WIDTH / 2f + 120, GameInfo.HEIGHT / 2f, GameInfo.GUARDIAN_HEIGHT, GameInfo.GUARDIAN_WIDTH, player);
+        guardian1View = new GuardianView("Enemies/Guardian.png", (Guardian)guardian1, "EnemyAnimation/terroristani.atlas");
+
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level1FootStep.wav"));
         player.setFootStepVoice( footstep );
-
+        
     }
 
-    
+
     public void update( float dt ) {
-    	super.update(dt);
+        if (!GameManager.getInstance().isPaused) {
+            super.update(dt);
+
+
+            if(guardian1.isDead()) {
+                guardian1.kill();
+            }
+
+            guardian1.setPointer(player.getXPosition(), player.getYPosition());
+            guardian1.moveGuardianToTarget();
+            guardian1.updateCharacter();
+        }
     }
 
     public void moveCamera() {
@@ -116,13 +144,18 @@ public class Level1 extends Level implements Screen, ContactListener {
     	super.render(delta);
 
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
-        playerView.drawCharacterAnimation(game.getBatch());
 
-        guardian1View.drawCharacter(game.getBatch());
+        if(!guardian1.isDead()) {
+            guardian1View.drawCharacter(game.getBatch());
+        }
 
+        getUiHud().stopGame();
 
         game.getBatch().end(); //End for drawing
+        //game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);
+        getUiHud().getStage().draw();
 
+        
         //tester
         super.renderBodies(delta);
         
@@ -159,26 +192,31 @@ public class Level1 extends Level implements Screen, ContactListener {
     @Override
     public void beginContact(Contact contact) {
         
-    	Fixture body1;
-        Fixture body2;
+    	Fixture body1 = contact.getFixtureA();
+        Fixture body2 = contact.getFixtureB();
 
-        if (contact.getFixtureA().getUserData() == "Bullet" ) {
-            body1 = contact.getFixtureA();
-            body2 = contact.getFixtureB();
-            
+
+        if (body1.getUserData().equals( "Bullet") || body2.getUserData().equals("Bullet") ) {
+             for ( Bullet bullet : getAllBullets() ) {
+                if( bullet != null ) {
+                    if ( bullet.getBody().equals( body1.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+                   else if ( bullet.getBody().equals( body2.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+                }
+             }
         }
-        else {
-            body1 = contact.getFixtureB();
-            body2 = contact.getFixtureA();
-        }
-
-        if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Obstacle") ) {
-            playerView.getBulletViewer().getBullet().setRemove( true );
-
-        }
-
-        else if (body1.getUserData().equals( "Bullet") && body2.getUserData().equals("Bullet") ) {
-            playerView.getBulletViewer().getBullet().setRemove( true );
+               
+        if ( (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) ||
+                (body2.getUserData().equals("Bullet") && body1.getUserData().equals( "Enemy" ) )) {
+            if( body2.getBody().equals( guardian1.getBody() ) || body1.getBody().equals( guardian1.getBody() )) {
+                guardian1.reduceHeathPoint();
+                if( guardian1.isDead() ) {
+                    getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+                }
+            }
 
         }
 

@@ -36,14 +36,14 @@ public class CharacterView extends Sprite{
 	}
 	
 
-	public void drawCharacter(SpriteBatch spriteBatch) {
+	public void drawCharacter(SpriteBatch spriteBatch, float xAdjustment, float yAdjustment) {
 
 		character.updateCharacter();
 
 		if ( !character.isMoving() ) {
 
-			this.setPosition(character.getXPosition() - (character.getWidth() / 2f + 10) ,
-					character.getYPosition() - (character.getHeight() / 2f + 12));
+			this.setPosition(character.getXPosition() - (character.getWidth() / 2f + xAdjustment) ,
+					character.getYPosition() - (character.getHeight() / 2f + yAdjustment));
 
 			this.draw( spriteBatch );
 		}
@@ -56,15 +56,16 @@ public class CharacterView extends Sprite{
 	/*
 	NEEDS TO BE UPDATED, THIS IS JUST FOR PLAYER ANIMATION ROTATION
 	 */
-	public void drawCharacterAnimation( SpriteBatch spriteBatch ) {
+	public void drawCharacterAnimation( SpriteBatch spriteBatch, float frames, float scale ) {
 		character.updateCharacter();
 
 		if (character.isMoving()) {
 
 			elapsedTime = elapsedTime + Gdx.graphics.getDeltaTime();
-			animation = new Animation(1f / 15f, characterAtlas.getRegions());
+			animation = new Animation(1f / frames, characterAtlas.getRegions());
 			currentFrame = (TextureRegion) animation.getKeyFrame( elapsedTime, true);
 			currentSprite = new Sprite( currentFrame );
+			currentSprite.setScale(scale);
 
 			currentSprite.setPosition( character.getXPosition() - getWidth() / 2f,
 					character.getYPosition() - getHeight() / 2f );
