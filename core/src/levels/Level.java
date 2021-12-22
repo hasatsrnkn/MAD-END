@@ -80,11 +80,6 @@ public class Level implements Screen, ContactListener {
 
     private BulletView bulletViewer;
     
-    //tester
-    private Box2DDebugRenderer bodyRenderer; 
-    private OrthographicCamera box2DCam;
-    private ArrayList<Vector2> pointsArray = new ArrayList<Vector2>();
-    
 
     public Level( GameMain game, String bgName ) {
 
