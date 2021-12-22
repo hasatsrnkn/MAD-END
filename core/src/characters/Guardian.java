@@ -51,7 +51,7 @@ public class Guardian extends Enemy {
 			shootDifference = 60f;
 		}
 		 
-		else if(GameInfo.DIFFICULT_TICK == 1) {
+		else if(GameInfo.DIFFICULT_TICK == 3) {
 			
 			proximityRadius = 1000f;
 			alarmedRadius = 1500f;

@@ -24,6 +24,7 @@ import characters.Player;
 import helpers.GameInfo;
 import helpers.GameManager;
 import helpers.GifDecoder;
+import huds.Puzzle;
 import viewers.CrazyView;
 import viewers.PlayerView;
 
@@ -221,7 +222,7 @@ public class Level3 extends Level {
         	
         	if(collisionCount == 0) {
         		
-        		System.out.println("first puzzle");
+        		Puzzle puzzle = new Puzzle();
         	}
         	
         	else if (collisionCount == 1) {
