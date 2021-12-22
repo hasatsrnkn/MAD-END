@@ -211,9 +211,6 @@ public class Level1 extends Level implements Screen, ContactListener {
         getUiHud().getStage().act();
 
         
-        //tester
-        super.renderBodies(delta);
-        
         advanceToNextLevel();
     }
 

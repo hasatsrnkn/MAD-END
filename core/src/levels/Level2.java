@@ -34,20 +34,11 @@ import viewers.WallView;
 public class Level2 extends Level implements Screen, ContactListener {
 
     private Rock[] rocks;
-    
+
     private Crazy crazy1;
-	private CrazyView crazy1View;
-	private Crazy crazy2;
-	private CrazyView crazy2View;
-	private Crazy crazy3;
-	private CrazyView crazy3View;
-	private Crazy crazy4;
-	private CrazyView crazy4View;
-	private Crazy crazy5;
-	private CrazyView crazy5View;
-	private Crazy crazy6;
-	private CrazyView crazy6View;
-	
+    private CrazyView crazy1View;
+
+
     private ArrayList<Enemy> allEnemies;
     private ArrayList<Enemy> enemiesToRemove;
 
@@ -58,12 +49,12 @@ public class Level2 extends Level implements Screen, ContactListener {
         rocks = new Rock[ 30 ];
 
         healthByDifficulty();
-        
+
         this.setShooterLevel(true);
         createRocks();
-        
+
         allEnemies = new ArrayList<Enemy>();
-        enemiesToRemove = new ArrayList<Enemy>(); 
+        enemiesToRemove = new ArrayList<Enemy>();
 
         mapBoundaryWallView1 = new WallView( "Obstacles/Level 2/Wall1.png", mapBoundaries.getBoundaryWalls().get(0) );
         mapBoundaryWallView2 = new WallView( "Obstacles/Level 2/Wall1.png", mapBoundaries.getBoundaryWalls().get(1) );
@@ -73,38 +64,12 @@ public class Level2 extends Level implements Screen, ContactListener {
 
         player = new Player(world, 300, 200, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH, this.isShooterLevel());
         playerView = new PlayerView( "Player/Player.png", (Player) player);
-        
-        
-		crazy1 = new Crazy(world, 809, 797, 
-				GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
-		crazy1View = new CrazyView("Enemies/Crazy.png", crazy1, "EnemyAnimation/crazyani.atlas");
-		allEnemies.add(crazy1);
-		
-		crazy2 = new Crazy(world, 450, 1093, 
-				GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
-		crazy2View = new CrazyView("Enemies/Crazy.png", crazy2, "EnemyAnimation/crazyani.atlas");
-		allEnemies.add(crazy2);
-		
-		crazy3 = new Crazy(world, 734, 1667, 
-				GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
-		crazy3View = new CrazyView("Enemies/Crazy.png", crazy3, "EnemyAnimation/crazyani.atlas");
-		allEnemies.add(crazy3);
-		
-		crazy4 = new Crazy(world, 1599, 1426, 
-				GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
-		crazy4View = new CrazyView("Enemies/Crazy.png", crazy4, "EnemyAnimation/crazyani.atlas");
-		allEnemies.add(crazy4);
-		
-		crazy5 = new Crazy(world, 2694, 1347, 
-				GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
-		crazy5View = new CrazyView("Enemies/Crazy.png", crazy5, "EnemyAnimation/crazyani.atlas");
-		allEnemies.add(crazy5);
-		
-		crazy6 = new Crazy(world, 2499, 707, 
-				GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
-		crazy6View = new CrazyView("Enemies/Crazy.png", crazy6, "EnemyAnimation/crazyani.atlas");
-		allEnemies.add(crazy6);
-        
+
+
+        crazy1 = new Crazy(world, 2894, 1347,
+                GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
+        crazy1View = new CrazyView("Enemies/Crazy.png", crazy1, "EnemyAnimation/crazyani.atlas");
+        allEnemies.add(crazy1);
 
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level2FootStep.wav"));
         player.setFootStepVoice( footstep );
@@ -112,17 +77,12 @@ public class Level2 extends Level implements Screen, ContactListener {
     }
 
     public void update( float dt ) {
-    	
+
         if (!GameManager.getInstance().isPaused) {
             super.update(dt);
-            
-			crazy1.moveCrazy2();
-			crazy2.moveCrazy2();
-			crazy3.moveCrazy2();
-			crazy4.moveCrazy2();
-			crazy5.moveCrazy2();
-			crazy6.moveCrazy2();
-			
+
+            crazy1.moveCrazy2();
+
             removeEnemies();
         }
     }
@@ -154,12 +114,12 @@ public class Level2 extends Level implements Screen, ContactListener {
         rocks[19] = new Rock( world, 1800, 750, 80, 500);
         rocks[20] = new Rock( world, 2400, 420, 200, 500);
     }
-    
-    
+
+
     public void removeEnemies() {
 
         for (Enemy enemy : allEnemies) {
-        	
+
             if( enemy != null ) {
                 if (enemy.isDead()) {
                     enemiesToRemove.add(enemy);
@@ -167,12 +127,12 @@ public class Level2 extends Level implements Screen, ContactListener {
                 }
             }
         }
-        
+
         allEnemies.removeAll( enemiesToRemove );
         enemiesToRemove.clear();
         allEnemies.trimToSize();
-    }  
-    
+    }
+
 
     @Override
     public void show() {
@@ -188,22 +148,14 @@ public class Level2 extends Level implements Screen, ContactListener {
 
         getUiHud().stopGame();
 
-		crazy1View.drawCharacter(game.getBatch());
-		crazy2View.drawCharacter(game.getBatch());
-		crazy3View.drawCharacter(game.getBatch());
-		crazy4View.drawCharacter(game.getBatch());
-		crazy5View.drawCharacter(game.getBatch());
-		crazy6View.drawCharacter(game.getBatch());
-        
+        crazy1View.drawCharacter(game.getBatch());
+
 
         game.getBatch().end(); //End for drawing
         game.getBatch().setProjectionMatrix(getUiHud().getStage().getCamera().combined);
         getUiHud().getStage().draw();
         getUiHud().getStage().act();
 
-
-        //tester
-        super.renderBodies(delta);
         advanceToNextLevel();
     }
 
@@ -247,8 +199,8 @@ public class Level2 extends Level implements Screen, ContactListener {
 
 
     public void beginContact(Contact contact) {
-    	
-		Fixture body1 = contact.getFixtureA();
+
+        Fixture body1 = contact.getFixtureA();
         Fixture body2 = contact.getFixtureB();
 
         if (body1.getUserData().equals( "Bullet") || body2.getUserData().equals("Bullet") ) {
@@ -274,56 +226,56 @@ public class Level2 extends Level implements Screen, ContactListener {
             for ( Enemy enemy : allEnemies ) {
 
                 if( enemy != null ) {
-                	
+
                     if ( enemy.getBody().equals( body1.getBody() )) {
-                    	
+
                         ((Crazy)enemy).changeDirectionRandom();
                     }
-                    
+
                     else if ( enemy.getBody().equals( body2.getBody() )) {
 
-                    	((Crazy)enemy).changeDirectionRandom();
+                        ((Crazy)enemy).changeDirectionRandom();
                     }
 
                 }
-                
-             }
 
-        }
-              
-        if ( (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) ||
-               (body2.getUserData().equals("Bullet") && body1.getUserData().equals( "Enemy" ) )) {
-
-           for ( Enemy enemy : allEnemies ) {
-
-               if( enemy != null ) {
-               	
-                   if ( enemy.getBody().equals( body1.getBody() )) {
-                   	
-                       enemy.reduceHealthPoint();
-
-                       if(enemy.isDead()) {
-                       	
-                           getUiHud().incrementScore( GameManager.getInstance().score + 100 );
-                       }
-
-                   }
-                   else if ( enemy.getBody().equals( body2.getBody() )) {
-
-                      enemy.reduceHealthPoint();
-                      
-                      if(enemy.isDead()) {
-                      	
-                          getUiHud().incrementScore( GameManager.getInstance().score + 100 );
-                      }
-                      
-                   }
-
-               }
-               
             }
 
-       }
+        }
+
+        if ( (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) ||
+                (body2.getUserData().equals("Bullet") && body1.getUserData().equals( "Enemy" ) )) {
+
+            for ( Enemy enemy : allEnemies ) {
+
+                if( enemy != null ) {
+
+                    if ( enemy.getBody().equals( body1.getBody() )) {
+
+                        enemy.reduceHealthPoint();
+
+                        if(enemy.isDead()) {
+
+                            getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+                        }
+
+                    }
+                    else if ( enemy.getBody().equals( body2.getBody() )) {
+
+                        enemy.reduceHealthPoint();
+
+                        if(enemy.isDead()) {
+
+                            getUiHud().incrementScore( GameManager.getInstance().score + 100 );
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
     }
 
 

@@ -92,7 +92,6 @@ public class Level4 extends Level implements Screen, ContactListener {
         world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
 
         //tester
-        super.renderBodies(delta);
         advanceToNextLevel();
     }
 

@@ -52,7 +52,7 @@ public class Crazy extends Enemy {
 	
 	public void moveCrazy2() {
 	
-		this.moveCharacter(xSpeed / 1.7f , ySpeed / 1.7f);
+		this.moveCharacter(xSpeed *1.2f , ySpeed *1.2f);
 		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2(ySpeed, 0 )));
 	}
 	
