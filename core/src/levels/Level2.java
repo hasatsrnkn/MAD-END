@@ -37,16 +37,7 @@ public class Level2 extends Level implements Screen, ContactListener {
 
     private Crazy crazy1;
     private CrazyView crazy1View;
-    private Crazy crazy2;
-    private CrazyView crazy2View;
-    private Crazy crazy3;
-    private CrazyView crazy3View;
-    private Crazy crazy4;
-    private CrazyView crazy4View;
-    private Crazy crazy5;
-    private CrazyView crazy5View;
-    private Crazy crazy6;
-    private CrazyView crazy6View;
+
 
     private ArrayList<Enemy> allEnemies;
     private ArrayList<Enemy> enemiesToRemove;
@@ -79,9 +70,6 @@ public class Level2 extends Level implements Screen, ContactListener {
                 GameInfo.CRAZY_HEIGHT, GameInfo.CRAZY_WIDTH);
         crazy1View = new CrazyView("Enemies/Crazy.png", crazy1, "EnemyAnimation/crazyani.atlas");
         allEnemies.add(crazy1);
-
-
-
 
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level2FootStep.wav"));
         player.setFootStepVoice( footstep );
