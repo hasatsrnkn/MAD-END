@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
+import helpers.GameManager;
 import scenes.MainMenu;
 
 /**
@@ -193,6 +194,7 @@ public class SettingsScreenButtons {
                 soundTick.setPosition(850,370);
                 GameInfo.GUNSHOT_VOLUME = 0.5f;
                 GameInfo.FOOTSTEP_VOLUME = 0.3f;
+                GameManager.getInstance().mainMenuMusic.setVolume( 0.5f );
             }
         });
 
@@ -204,6 +206,7 @@ public class SettingsScreenButtons {
                 soundTick.setPosition(1300,370);
                 GameInfo.GUNSHOT_VOLUME = 0.7f;
                 GameInfo.FOOTSTEP_VOLUME = 0.5f;
+                GameManager.getInstance().mainMenuMusic.setVolume( 1.0f );
             }
         });
 
@@ -215,6 +218,7 @@ public class SettingsScreenButtons {
                 soundTick.setPosition(1750,370);
                 GameInfo.GUNSHOT_VOLUME = 0.9f;
                 GameInfo.FOOTSTEP_VOLUME = 0.7f;
+                GameManager.getInstance().mainMenuMusic.setVolume( 1.5f );
             }
         });
 

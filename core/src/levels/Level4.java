@@ -1,5 +1,7 @@
 package levels;
 
+import Cinematics.Cinematic10;
+import Cinematics.Cinematic8;
 import characters.Boss;
 import characters.Guardian;
 import characters.Player;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -28,7 +31,7 @@ import viewers.WallView;
  * @author Mehmet Hasat Serinkan
  * @date 21.12.2021
  */
-public class Level4 extends Level implements Screen {
+public class Level4 extends Level implements Screen, ContactListener {
 
     private Boss boss;
     private BossView bossView;
@@ -43,7 +46,7 @@ public class Level4 extends Level implements Screen {
         mapBoundaryWallView4 = new WallView( "Obstacles/Level 1/Wall2.png", mapBoundaries.getBoundaryWalls().get(3) );
 
 
-        player = new Player(world, 300, 900, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH);
+        player = new Player(world, 300, 900, GameInfo.PLAYER_HEIGHT, GameInfo.PLAYER_WIDTH, false);
         playerView = new PlayerView( "Player/Player.png", (Player) player);
 
         Sound footstep = Gdx.audio.newSound( Gdx.files.internal( "Sounds/Level2FootStep.wav"));
@@ -77,10 +80,7 @@ public class Level4 extends Level implements Screen {
     @Override
     public void render(float delta) {
 
-
-
-        super.render(delta);
-
+        super.render( delta );
         playerView.drawPlayer(game.getBatch()); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
         getUiHud().stopGame();
@@ -89,11 +89,11 @@ public class Level4 extends Level implements Screen {
         game.getBatch().setProjectionMatrix(getUiHud().getStage().getCamera().combined);
         getUiHud().getStage().draw();
         getUiHud().getStage().act();
-
+        world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
 
         //tester
         super.renderBodies(delta);
-
+        advanceToNextLevel();
     }
 
     @Override
@@ -122,51 +122,18 @@ public class Level4 extends Level implements Screen {
         player.getFootStepVoice().dispose();
     }
 
-    @Override
-    public void beginContact(Contact contact) {
+    public void advanceToNextLevel() {
 
-        Fixture body1 = contact.getFixtureA();
-        Fixture body2 = contact.getFixtureB();
-
-
-        if (body1.getUserData().equals( "Bullet") || body2.getUserData().equals("Bullet") ) {
-            for ( Bullet bullet : getAllBullets() ) {
-                if( bullet != null ) {
-                    if ( bullet.getBody().equals( body1.getBody() )) {
-                        bullet.setRemove( true );
-                    }
-                    else if ( bullet.getBody().equals( body2.getBody() )) {
-                        bullet.setRemove( true );
-                    }
-                }
-            }
-        }
-
-        if ( (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) ||
-                (body2.getUserData().equals("Bullet") && body1.getUserData().equals( "Enemy" ) )) {
-            if( body2.getBody().equals( boss.getBody() ) || body1.getBody().equals( boss.getBody() )) {
-                boss.reduceHeathPoint();
-                if( boss.isDead() ) {
-                    getUiHud().incrementScore( GameManager.getInstance().score + 1000 );
-                }
-            }
+        //you can change this statement to how you want to advance to the next level
+        //also it is currently advancing to level3
+        if(boss.getXPosition() >= 2900) {
+            GameManager.getInstance().checkForNewHighScore();
+            player.getFootStepVoice().stop();
+            game.setScreen( new Cinematic10( game ));
 
         }
-
-        if ( (body1.getUserData().equals("Player") && body2.getUserData().equals( "Enemy" )) ||
-                (body1.getUserData().equals("Enemy") && body2.getUserData().equals( "Player" ) )) {
-            if( body1.getBody().equals( player.getBody() ) || body2.getBody().equals( player.getBody() )) {
-                player.reduceHeathPoint();
-                getUiHud().setHealth( GameManager.getInstance().healthScore - 1);
-                if( player.isDead() ) {
-                    player.getFootStepVoice().stop();
-                    getUiHud().playerIsDead();
-                }
-            }
-
-        }
-
     }
+
 
 
 

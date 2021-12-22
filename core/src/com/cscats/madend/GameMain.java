@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
+import helpers.GameData;
 import helpers.GameInfo;
+import helpers.GameManager;
 import scenes.WelcomeScreen;
 
 public class GameMain extends Game {
@@ -14,6 +16,7 @@ public class GameMain extends Game {
 	
 	@Override
 	public void create () {
+		GameManager.getInstance().initializeGameData();
 		batch = new SpriteBatch();
 		setScreen( new WelcomeScreen( this ) );
 	}

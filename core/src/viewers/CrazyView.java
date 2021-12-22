@@ -20,13 +20,18 @@ public class CrazyView extends CharacterView {
 	public CrazyView(String textureFileName, Character ch, String atlasFileName) {
 		
 		super(textureFileName, ch, atlasFileName);
+		this.setScale(2f);
 
 	}
 	
 	public void drawCharacter(SpriteBatch spriteBatch) {
 		
-		super.drawCharacter(spriteBatch, 0f, 0f);
-		super.drawCharacterAnimation(spriteBatch, 10f, 2f);
+		if(!getCharacter().isDead()) {
+			
+			super.drawCharacter(spriteBatch, 0f, 0f);
+			super.drawCharacterAnimation(spriteBatch, 10f, 2f);
+		}
+
 	}
 	
 	

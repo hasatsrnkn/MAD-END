@@ -170,6 +170,7 @@ public class UIHud {
     }
 
     public void playerIsDead() {
+        GameManager.getInstance().checkForNewHighScore();
         GameManager.getInstance().isPaused = true;
         RunnableAction run = new RunnableAction();
         run.setRunnable(new Runnable() {
