@@ -196,14 +196,14 @@ public class Level1 extends Level implements Screen, ContactListener {
         playerView.drawPlayer( game.getBatch() ); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
         getUiHud().stopGame();
-        if( !GameManager.getInstance().isPaused) {
-            guardian1View.drawCharacter(game.getBatch());
-            guardian2View.drawCharacter(game.getBatch());
-            guardian3View.drawCharacter(game.getBatch());
-            guardian4View.drawCharacter(game.getBatch());
-            guardian5View.drawCharacter(game.getBatch());
-            guardian6View.drawCharacter(game.getBatch());
-        }
+
+        guardian1View.drawCharacter(game.getBatch());
+        guardian2View.drawCharacter(game.getBatch());
+        guardian3View.drawCharacter(game.getBatch());
+        guardian4View.drawCharacter(game.getBatch());
+        guardian5View.drawCharacter(game.getBatch());
+        guardian6View.drawCharacter(game.getBatch());
+
 
         game.getBatch().end(); //End for drawing
         game.getBatch().setProjectionMatrix( getUiHud().getStage().getCamera().combined);

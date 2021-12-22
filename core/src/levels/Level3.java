@@ -5,6 +5,8 @@ package levels;
 
 import java.util.ArrayList;
 
+import Cinematics.Cinematic4;
+import Cinematics.Cinematic8;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -169,11 +171,22 @@ public class Level3 extends Level {
         getUiHud().getStage().draw();
         getUiHud().getStage().act();
 
-
+		advanceToNextLevel();
 		super.renderBodies(delta);
 	}
-	
-	
+
+	public void advanceToNextLevel() {
+
+		//you can change this statement to how you want to advance to the next level
+		//also it is currently advancing to level3
+		if(player.getXPosition() >= 1800 && player.getYPosition() <= 100) {
+
+			player.getFootStepVoice().stop();
+			game.setScreen( new Cinematic8( game ));
+		}
+	}
+
+
 	@Override
 	public void beginContact(Contact contact) {
 		

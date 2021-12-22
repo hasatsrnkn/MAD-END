@@ -1,5 +1,7 @@
 package levels;
 
+import Cinematics.Cinematic4;
+import Cinematics.Cinematic6;
 import characters.Crazy;
 import characters.Enemy;
 import characters.Guardian;
@@ -17,6 +19,7 @@ import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import helpers.GameManager;
 import obstacle.Rock;
+import scenes.MainMenu;
 import throwables.Bullet;
 import viewers.CrazyView;
 import viewers.GuardianView;
@@ -167,7 +170,7 @@ public class Level2 extends Level implements Screen, ContactListener {
         
         allEnemies.removeAll( enemiesToRemove );
         enemiesToRemove.clear();
-        
+        allEnemies.trimToSize();
     }  
     
 
@@ -183,6 +186,8 @@ public class Level2 extends Level implements Screen, ContactListener {
 
         playerView.drawPlayer(game.getBatch()); //drawPlayer may be changed to drawCharacter  ******!!!!!!
 
+        getUiHud().stopGame();
+
 		crazy1View.drawCharacter(game.getBatch());
 		crazy2View.drawCharacter(game.getBatch());
 		crazy3View.drawCharacter(game.getBatch());
@@ -190,7 +195,6 @@ public class Level2 extends Level implements Screen, ContactListener {
 		crazy5View.drawCharacter(game.getBatch());
 		crazy6View.drawCharacter(game.getBatch());
         
-        getUiHud().stopGame();
 
         game.getBatch().end(); //End for drawing
         game.getBatch().setProjectionMatrix(getUiHud().getStage().getCamera().combined);
@@ -200,7 +204,7 @@ public class Level2 extends Level implements Screen, ContactListener {
 
         //tester
         super.renderBodies(delta);
-
+        advanceToNextLevel();
     }
 
     @Override
@@ -229,11 +233,41 @@ public class Level2 extends Level implements Screen, ContactListener {
         super.dispose();
         player.getFootStepVoice().dispose();
     }
-    
+
+
+    public void advanceToNextLevel() {
+
+        //you can change this statement to how you want to advance to the next level
+        //also it is currently advancing to level3
+        if( allEnemies.size() == 0) {
+            player.getFootStepVoice().stop();
+            game.setScreen( new Cinematic6( game ));
+        }
+    }
+
+
     public void beginContact(Contact contact) {
     	
 		Fixture body1 = contact.getFixtureA();
         Fixture body2 = contact.getFixtureB();
+
+        if (body1.getUserData().equals( "Bullet") || body2.getUserData().equals("Bullet") ) {
+
+            for ( Bullet bullet : getAllBullets() ) {
+
+                if( bullet != null ) {
+
+                    if ( bullet.getBody().equals( body1.getBody() )) {
+                        bullet.setRemove( true );
+                    }
+
+                    else if ( bullet.getBody().equals( body2.getBody() )) {
+                        bullet.setRemove( true );
+
+                    }
+                }
+            }
+        }
 
         if ( (body1.getUserData().equals("Enemy") || body2.getUserData().equals( "Enemy" )) ) {
 
@@ -256,24 +290,6 @@ public class Level2 extends Level implements Screen, ContactListener {
              }
 
         }
-        
-        if (body1.getUserData().equals( "Bullet") || body2.getUserData().equals("Bullet") ) {
-        	
-            for ( Bullet bullet : getAllBullets() ) {
-           	 
-               if( bullet != null ) {
-               	
-                   if ( bullet.getBody().equals( body1.getBody() )) {
-                       bullet.setRemove( true );
-                   }
-                   
-                  else if ( bullet.getBody().equals( body2.getBody() )) {
-                       bullet.setRemove( true );
-                       
-                   }
-               }
-            }
-       }
               
         if ( (body1.getUserData().equals("Bullet") && body2.getUserData().equals( "Enemy" )) ||
                (body2.getUserData().equals("Bullet") && body1.getUserData().equals( "Enemy" ) )) {

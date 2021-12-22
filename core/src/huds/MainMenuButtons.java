@@ -1,5 +1,6 @@
 package huds;
 
+import Cinematics.Cinematic;
 import Cinematics.Cinematic1;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -19,11 +20,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import helpers.GameManager;
-import levels.Level1;
-import levels.Level2;
-import levels.Level3;
-import levels.Level4;
 import scenes.CreditsScreen;
+import scenes.LeaderboardScreen;
 import scenes.SettingsScreen;
 
 /**
@@ -36,7 +34,6 @@ public class MainMenuButtons {
     private Stage stage;
     private Viewport gameViewport;
     private ImageButton startButton;
-    private ImageButton loadButton;
     private ImageButton leaderboardButton;
     private ImageButton settingsButton;
     private ImageButton creditsButton;
@@ -58,22 +55,19 @@ public class MainMenuButtons {
         Gdx.input.setInputProcessor( stage );
 
         stage.addActor( startButton );
-        stage.addActor( loadButton );
         stage.addActor( leaderboardButton );
         stage.addActor( settingsButton );
         stage.addActor( creditsButton );
         stage.addActor( exitButton );
 
         addListener();
+        GameManager.getInstance().playMusic();
     }
 
     public void createAndPositionButtons() {
     	
         startButton = new ImageButton( new SpriteDrawable( new Sprite(
                 new Texture("Buttons/Main Menu/Start Game Button.png" ))));
-
-        loadButton = new ImageButton( new SpriteDrawable( new Sprite(
-                new Texture("Buttons/Main Menu/Load Game Button.png" ))));
 
         leaderboardButton = new ImageButton( new SpriteDrawable( new Sprite(
                 new Texture("Buttons/Main Menu/Leaderboard Button.png" ))));
@@ -87,11 +81,10 @@ public class MainMenuButtons {
         exitButton = new ImageButton( new SpriteDrawable( new Sprite(
                 new Texture("Buttons/Main Menu/Exit Button.png" ))));
 
-        startButton.setPosition( 0 , 900);
-        loadButton.setPosition( 0 , 720);
-        leaderboardButton.setPosition( 0, 540);
-        settingsButton.setPosition( 0, 360);
-        creditsButton.setPosition( 0, 175);
+        startButton.setPosition( 0 , 800);
+        leaderboardButton.setPosition( 0, 600);
+        settingsButton.setPosition( 0, 400);
+        creditsButton.setPosition( 0, 170);
         exitButton.setPosition( 0, 0);
 
     }
@@ -116,7 +109,7 @@ public class MainMenuButtons {
                 sequenceAction.addAction( run );
 
                 stage.addAction( sequenceAction );
-
+                GameManager.getInstance().stopMusic();
             }
         });
 
@@ -132,6 +125,13 @@ public class MainMenuButtons {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen( new SettingsScreen( game ) );
+            }
+        });
+
+        leaderboardButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen( new LeaderboardScreen( game ) );
             }
         });
 

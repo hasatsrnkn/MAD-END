@@ -10,18 +10,17 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import huds.BackButton;
-import huds.WelcomeScreenButtons;
+import huds.LeaderboardScreenButtons;
 
-public class CreditsScreen implements Screen {
+public class LeaderboardScreen implements Screen {
 
-    //Properties
     private GameMain game;
     private OrthographicCamera mainCamera;
     private Viewport gameViewport;
     private Texture bg;
-    private BackButton button;
+    private LeaderboardScreenButtons buttons;
 
-    public CreditsScreen( GameMain game ) {
+    public LeaderboardScreen( GameMain game ) {
         this.game = game;
 
         mainCamera = new OrthographicCamera();
@@ -30,13 +29,10 @@ public class CreditsScreen implements Screen {
 
         gameViewport = new StretchViewport( GameInfo.WIDTH, GameInfo.HEIGHT, mainCamera);
 
-        bg = new Texture( "Backgrounds/Credits.png" );
-        button = new BackButton( game );
+        bg = new Texture( "Backgrounds/Leaderboard.png" );
+        buttons = new LeaderboardScreenButtons( game );
 
     }
-
-
-
     @Override
     public void show() {
 
@@ -53,8 +49,8 @@ public class CreditsScreen implements Screen {
 
         game.getBatch().end(); //End for drawing
 
-        game.getBatch().setProjectionMatrix( button.getStage().getCamera().combined);
-        button.getStage().draw();
+        game.getBatch().setProjectionMatrix( buttons.getStage().getCamera().combined);
+        buttons.getStage().draw();
     }
 
     @Override
@@ -75,12 +71,12 @@ public class CreditsScreen implements Screen {
     @Override
     public void hide() {
         bg.dispose();
-        button.getStage().dispose();
+        buttons.getStage().dispose();
     }
 
     @Override
     public void dispose() {
         bg.dispose();
-        button.getStage().dispose();
+        buttons.getStage().dispose();
     }
 }
