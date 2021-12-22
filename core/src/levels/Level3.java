@@ -172,7 +172,7 @@ public class Level3 extends Level {
         getUiHud().getStage().act();
 
 		advanceToNextLevel();
-		super.renderBodies(delta);
+
 	}
 
 	public void advanceToNextLevel() {

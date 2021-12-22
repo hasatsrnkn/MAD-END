@@ -119,12 +119,6 @@ public class Level implements Screen, ContactListener {
         bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( world, 10f,10f,
                 10f,10, 10f )  );
         //JUST FOR INITIALIZATION İ
-
-        //tester
-        box2DCam = new OrthographicCamera();
-        box2DCam.setToOrtho(false, GameInfo.WIDTH / GameInfo.PPM, GameInfo.HEIGHT / GameInfo.PPM);
-        box2DCam.position.set(GameInfo.WIDTH / 2, GameInfo.WIDTH / 2, 0);
-        bodyRenderer = new Box2DDebugRenderer();
         
     }
 
@@ -174,12 +168,6 @@ public class Level implements Screen, ContactListener {
         mainCamera.position.x = player.getXPosition();
         mainCamera.position.y = player.getYPosition();
         
-        //test
-        box2DCam.position.x = player.getBody().getPosition().x;
-        box2DCam.position.y = player.getBody().getPosition().y;
-        box2DCam.update();
-        savePoint();
-        
         mainCamera.update();
         
     }
@@ -187,11 +175,6 @@ public class Level implements Screen, ContactListener {
     @Override
     public void show() {
 
-    }
-    
-    public void renderBodies(float delta) {
-        
-		bodyRenderer.render(world, box2DCam.combined);
     }
 
     @Override
@@ -229,37 +212,6 @@ public class Level implements Screen, ContactListener {
         mapBoundaryWallView4.drawWall(game.getBatch());
 
     }
-    
-    //tester
-
-    public ArrayList<Vector2> savePoint() {
-    	
-    	if(Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-    		
-    		pointsArray.add(new Vector2(player.getXPosition(), player.getYPosition()));
-
-    			for(Vector2 vector : pointsArray) {
-    				
-        			System.out.print(vector + ", ");
-    			}
-    			System.out.println();
-    			
-    	}
-    	
-    	else if(Gdx.input.isKeyJustPressed(Keys.C)) {
-    		
-    		pointsArray.add(new Vector2(vector3.x, vector3.y));
-
-			for(Vector2 vector : pointsArray) {
-				
-    			System.out.print(vector + ", ");
-			}
-			System.out.println();
-    	}
-
-    	return pointsArray;
-    }
-    
 
     public ArrayList<Bullet> getAllBullets() {
         return allBullets;
