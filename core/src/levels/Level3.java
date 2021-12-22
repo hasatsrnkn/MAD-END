@@ -225,48 +225,13 @@ public class Level3 extends Level {
                 (body2.getUserData().equals("Enemy") && body1.getUserData().equals( "Player" ) )) {
         	
         	if(collisionCount == 0) {
-        		GameManager.getInstance().isPaused = true;
+
         		Puzzle puzzle = new Puzzle();
-        		if(puzzle.gameOver() == true) {
-        			
-        			GameManager.getInstance().isPaused = false;
-        		}
         		
-        		collisionCount++;
-        		
+            	collisionCount++;
         	}
-        	
-        	else if (collisionCount == 1) {
-        		
-           		GameManager.getInstance().isPaused = true;
-           		
-        		CupGame cupGame = new CupGame();
-        		
-                JFrame frame = new JFrame();
-                frame.getContentPane().add(cupGame);
-                frame.setVisible(true);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        		
-                System.out.println(cupGame.isGameOver());
-        		if(cupGame.isGameOver()) {
-        			
-        			GameManager.getInstance().isPaused = false;
 
-        		}
-        		
-        		else {
-        			
-        			
-        		}
 
-        	}
-        	
-        	else {
-        		System.out.println("devam");
-        	}
-        	collisionCount++;
         }
         
         

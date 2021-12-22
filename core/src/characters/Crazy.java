@@ -21,6 +21,7 @@ public class Crazy extends Enemy {
 	private Random random;
 	private int randomDirection1;
 	private int randomDirection2;
+	private float speedMultiplier;
 	
 	public Crazy(World world, float initialX, float initialY, float height, float width) {
 		
@@ -40,6 +41,22 @@ public class Crazy extends Enemy {
 		if(randomDirection2 == 0) {
 			xSpeed = xSpeed * -1;
 		}
+		
+		if(GameInfo.DIFFICULT_TICK == 1) {
+			
+			speedMultiplier = 0.5f;
+		}
+		
+		else if(GameInfo.DIFFICULT_TICK == 2) {
+			
+			speedMultiplier = 1f;
+		}
+		 
+		else if(GameInfo.DIFFICULT_TICK == 3) {
+			
+			speedMultiplier = 1.4f;
+		}
+		
 
 	}
 	
@@ -52,7 +69,7 @@ public class Crazy extends Enemy {
 	
 	public void moveCrazy2() {
 	
-		this.moveCharacter(xSpeed *1.2f , ySpeed *1.2f);
+		this.moveCharacter(xSpeed * speedMultiplier , ySpeed * speedMultiplier);
 		this.setRotationDeg((float)(MathUtils.radiansToDegrees *  Math.atan2(ySpeed, 0 )));
 	}
 	
