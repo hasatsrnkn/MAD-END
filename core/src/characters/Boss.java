@@ -15,7 +15,7 @@ public class Boss extends Enemy {
     }
 
     public void moveBoss() {
-        moveCharacter( 2.3f, 0);
+        moveCharacter( 2.0f, 0);
     }
 
 }
