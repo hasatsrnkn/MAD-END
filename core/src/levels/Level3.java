@@ -5,6 +5,9 @@ package levels;
 
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import Cinematics.Cinematic4;
 import Cinematics.Cinematic8;
 import com.badlogic.gdx.Gdx;
@@ -24,6 +27,7 @@ import characters.Player;
 import helpers.GameInfo;
 import helpers.GameManager;
 import helpers.GifDecoder;
+import huds.CupGame;
 import huds.Puzzle;
 import viewers.CrazyView;
 import viewers.PlayerView;
@@ -221,15 +225,47 @@ public class Level3 extends Level {
                 (body2.getUserData().equals("Enemy") && body1.getUserData().equals( "Player" ) )) {
         	
         	if(collisionCount == 0) {
-        		
+        		GameManager.getInstance().isPaused = true;
         		Puzzle puzzle = new Puzzle();
+        		if(puzzle.gameOver() == true) {
+        			
+        			GameManager.getInstance().isPaused = false;
+        		}
+        		
+        		collisionCount++;
+        		
         	}
         	
         	else if (collisionCount == 1) {
         		
-        		System.out.println("second puzzle");
+           		GameManager.getInstance().isPaused = true;
+           		
+        		CupGame cupGame = new CupGame();
+        		
+                JFrame frame = new JFrame();
+                frame.getContentPane().add(cupGame);
+                frame.setVisible(true);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        		
+                System.out.println(cupGame.isGameOver());
+        		if(cupGame.isGameOver()) {
+        			
+        			GameManager.getInstance().isPaused = false;
+
+        		}
+        		
+        		else {
+        			
+        			
+        		}
+
         	}
         	
+        	else {
+        		System.out.println("devam");
+        	}
         	collisionCount++;
         }
         

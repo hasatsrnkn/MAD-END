@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.cscats.madend.GameMain;
 import helpers.GameInfo;
 import helpers.GameManager;
+import levels.Level3;
 import scenes.CreditsScreen;
 import scenes.LeaderboardScreen;
 import scenes.SettingsScreen;
@@ -100,7 +101,7 @@ public class MainMenuButtons {
                 run.setRunnable(new Runnable() {
                                     @Override
                                     public void run() {
-                                        game.setScreen(new Cinematic1( game));
+                                        game.setScreen(new Level3(game, "Level Backgrounds/Level 3 Background.png"));
                                     }
                                 });
                 SequenceAction sequenceAction = new SequenceAction();

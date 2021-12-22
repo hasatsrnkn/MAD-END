@@ -109,6 +109,7 @@ public class Puzzle extends JFrame implements MouseListener {
         if(e.getSource()==b0){
             switchIcons(b0,empty);
             empty = b0;
+
         }
         if(e.getSource()==b1){
             switchIcons(b1,empty);
