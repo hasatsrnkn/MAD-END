@@ -9,6 +9,7 @@ CS-102 Project GroupJ-CSCATS
 <br><br>
 To execute program, select main class configuration as DesktopLauncher. Also, select assets as MADEND/core/assets. <br>
 To have new highscores, delete bin file. Therefore, it will create a new .json file. <br> 
+We created 2 same puzzle folders in different locations because the program reads the files from the path and this execution of reading depends on your OS. 
 
-<br> 
+<br> <br>
 HAVE FUN!!
