@@ -182,8 +182,6 @@ public class Level3 extends Level {
 
 	public void advanceToNextLevel() {
 
-		//you can change this statement to how you want to advance to the next level
-		//also it is currently advancing to level3
 		if(player.getXPosition() >= 1800 && player.getYPosition() <= 100) {
 
 			player.getFootStepVoice().stop();
@@ -233,43 +231,7 @@ public class Level3 extends Level {
 
 
         }
-        
-        
-        
-        
-//        
-//        
-//
-//        if (body1.getUserData().equals("Enemy") && body2.getUserData().equals("Player") ) {
-//            System.out.println("Puzzle interface should be implemented here.");
-//
-//        }
-//        
-//        else if (body2.getUserData().equals("Enemy") && body1.getUserData().equals("Player") ) {
-//            System.out.println("Puzzle interface should be implemented here.");
-//
-//        }
-//        
-//        if (body1.getUserData().equals("Enemy") && body2.getUserData().equals("Obstacle") ) {
-//        	
-//        	((Crazy) crazy1).changeDirection(false, true);
-//        }
-//        
-//        else if (body2.getUserData().equals("Enemy") && body1.getUserData().equals("Obstacle") ) {
-//
-//        	((Crazy) crazy1).changeDirection(false, true);
-//        }
-//        
-//        if (body1.getUserData().equals("Enemy") && body2.getUserData().equals("Enemy") ) {
-//        	
-//        	((Crazy) crazy1).changeDirection(false, true);
-//        }
-//        
-//        else if (body2.getUserData().equals("Enemy") && body1.getUserData().equals("Enemy") ) {
-//
-//        	((Crazy) crazy1).changeDirection(false, true);
-//        }
-//		
+
 	}
 	
 

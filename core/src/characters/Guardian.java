@@ -191,8 +191,6 @@ public class Guardian extends Enemy {
 	
 			distanceToTargetCh = (float) Math.sqrt(Math.pow(targetCharacter.getXPosition() - this.getXPosition(), 2) + 
 			Math.pow(targetCharacter.getYPosition() - this.getYPosition(), 2));
-//			
-//			System.out.println( this.getXPosition() + " " + distanceToTargetCh);
 			
 			if(distanceToTargetCh < proximityRadius) {
 			

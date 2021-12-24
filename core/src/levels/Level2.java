@@ -189,8 +189,6 @@ public class Level2 extends Level implements Screen, ContactListener {
 
     public void advanceToNextLevel() {
 
-        //you can change this statement to how you want to advance to the next level
-        //also it is currently advancing to level3
         if( allEnemies.size() == 0) {
             player.getFootStepVoice().stop();
             game.setScreen( new Cinematic6( game ));

@@ -104,14 +104,8 @@ public class Crazy extends Enemy {
 			
 			changeDirection(true, true);
 		}
-		
-//		else if (randomD == 3) {
-//			
-//			changeDirection(false, false);
-//		}
+
 		
 	}
 
-	
-	
 }

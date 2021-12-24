@@ -179,8 +179,6 @@ public class Level1 extends Level implements Screen, ContactListener {
     
     public void advanceToNextLevel() {
 
-    	//you can change this statement to how you want to advance to the next level
-    	//also it is currently advancing to level3
     	if(player.getXPosition() >= 1800 && player.getYPosition() <= 100) {
 
             player.getFootStepVoice().stop();

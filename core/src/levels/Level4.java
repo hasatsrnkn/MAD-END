@@ -91,7 +91,6 @@ public class Level4 extends Level implements Screen, ContactListener {
         getUiHud().getStage().act();
         world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
 
-        //tester
         advanceToNextLevel();
     }
 
@@ -123,8 +122,6 @@ public class Level4 extends Level implements Screen, ContactListener {
 
     public void advanceToNextLevel() {
 
-        //you can change this statement to how you want to advance to the next level
-        //also it is currently advancing to level3
         if(boss.getXPosition() >= 2900) {
             GameManager.getInstance().checkForNewHighScore();
             player.getFootStepVoice().stop();

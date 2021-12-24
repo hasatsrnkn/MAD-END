@@ -55,10 +55,8 @@ public class Level implements Screen, ContactListener {
     protected Texture bg;
     protected Texture sideBg;
     protected Character player;
-//    private CharacterView characterView;
     protected PlayerView playerView;
     protected MapBoundaries mapBoundaries;
-    protected ObstacleView obstacleView;
 
     protected World world;
 
@@ -79,10 +77,8 @@ public class Level implements Screen, ContactListener {
     protected WallView mapBoundaryWallView4;
 
     private BulletView bulletViewer;
-    
 
     public Level( GameMain game, String bgName ) {
-
 
         this.game = game;
         this.bg = new Texture(bgName);
@@ -110,6 +106,7 @@ public class Level implements Screen, ContactListener {
 
         uiHud = new UIHud( this.game );
         uiHud.getStage().act();
+
         //JUST FOR INITIALIZATION !é
         bulletViewer = new BulletView( "Throwables/Bullet1.png", new Bullet( world, 10f,10f,
                 10f,10, 10f )  );
@@ -120,9 +117,8 @@ public class Level implements Screen, ContactListener {
     
     public void update( float dt ) {
         if( !GameManager.getInstance().isPaused ){
-        	
+
             world.step( dt, 6 ,2 );
-        	
             allBullets.add(((Player)player).handleMouseInput( dt, vector3.x, vector3.y));
             ((Player)player).handleMoveInput( dt );
             player.updateCharacter();
@@ -134,7 +130,6 @@ public class Level implements Screen, ContactListener {
 
     }
 
-
     public void drawAllBullets(SpriteBatch spriteBatch) {
         for( Bullet bullet: allBullets ) {
             if ( bullet != null ) {
@@ -144,6 +139,7 @@ public class Level implements Screen, ContactListener {
             }
         }
     }
+
     public void removeBullets() {
 
         for (Bullet bullet : allBullets) {
@@ -230,6 +226,10 @@ public class Level implements Screen, ContactListener {
     @Override
     public void hide() {
         bg.dispose();
+        bulletViewer.getTexture().dispose();
+
+        playerView.getTexture().dispose();
+        world.dispose();
     }
 
     @Override

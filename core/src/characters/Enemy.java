@@ -24,4 +24,8 @@ public abstract class Enemy extends Character{
 		this.getFixture().setUserData( "Enemy" );
 	}
 
+	public void setFixtureData() {
+		this.getFixture().setUserData( "Enemy" );
+	}
+
 }
